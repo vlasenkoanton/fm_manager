@@ -1,4 +1,4 @@
-package com.avlasenko.sb.fmmanager;
+package com.avlasenko.sb.fmmanager.model;
 
 import java.time.LocalDate;
 
@@ -117,8 +117,21 @@ public class Person {
 		this.work = work;
 	}
 
-	
-	
-	
 
+	@Override
+	public String toString() {
+		return "Person{" +
+				"address=" + address +
+				", document=" + document +
+				", work=" + work +
+				", firstName='" + firstName + '\'' +
+				", lastName='" + lastName + '\'' +
+				", middleName='" + middleName + '\'' +
+				", dateBirth=" + dateBirth +
+				", placeBirth='" + placeBirth + '\'' +
+				", resident=" + resident +
+				", citizenship=" + citizenship +
+				", identNumber=" + identNumber +
+				'}';
+	}
 }

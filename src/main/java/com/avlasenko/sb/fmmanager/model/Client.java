@@ -1,20 +1,18 @@
-package com.avlasenko.sb.fmmanager;
+package com.avlasenko.sb.fmmanager.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.ElementCollection;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
-public class Client extends Person {
+public class Client extends Person implements BaseEntity {
 	@Embedded
 	private Contact contact;
+
+	@OneToMany
+	@JoinColumn(name = "client_id", referencedColumnName = "id")
+	private List<Document> documents;
 
 	@OneToOne
 	private Employee employee;
@@ -26,6 +24,7 @@ public class Client extends Person {
 	private List<Related> relateds;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	private String independActivity;
@@ -107,7 +106,9 @@ public class Client extends Person {
 	public void setPep(boolean pep) {
 		this.pep = pep;
 	}
-	
-	
 
+	@Override
+	public String toString() {
+		return super.toString();
+	}
 }

@@ -1,14 +1,17 @@
-package com.avlasenko.sb.fmmanager;
+package com.avlasenko.sb.fmmanager.model;
 
 import java.time.LocalDate;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
-public class Document {
+public class Document implements BaseEntity {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+
+    @Column(name = "client_id")
+    private int clientId;
 	
 	private String name;
 	private String series;

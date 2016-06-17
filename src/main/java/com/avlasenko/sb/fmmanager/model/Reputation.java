@@ -1,4 +1,4 @@
-package com.avlasenko.sb.fmmanager;
+package com.avlasenko.sb.fmmanager.model;
 
 /**
  * @author A. Vlasenko

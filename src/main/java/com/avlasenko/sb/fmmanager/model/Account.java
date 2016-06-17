@@ -1,4 +1,4 @@
-package com.avlasenko.sb.fmmanager;
+package com.avlasenko.sb.fmmanager.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -59,7 +59,5 @@ public class Account {
         	owner.getAccounts().add(this);
         }
 	}
-	
-	
 
 }

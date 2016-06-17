@@ -1,4 +1,4 @@
-package com.avlasenko.sb.fmmanager;
+package com.avlasenko.sb.fmmanager.model;
 
 import java.time.LocalDate;
 import java.util.HashMap;
