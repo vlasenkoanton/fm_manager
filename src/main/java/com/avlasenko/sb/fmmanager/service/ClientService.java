@@ -1,7 +1,7 @@
 package com.avlasenko.sb.fmmanager.service;
 
+import com.avlasenko.sb.fmmanager.model.Address;
 import com.avlasenko.sb.fmmanager.model.Client;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
@@ -12,9 +12,13 @@ public interface ClientService {
 
     Client save(Client client);
 
+    Client saveWithRelations(Client client);
+
     void delete(int id);
 
     Client getById(int id);
 
     Collection<Client> getAll();
+
+    Client setAddress(int id, Address address);
 }

@@ -26,13 +26,12 @@ public class GenericJpaRepository<T extends BaseEntity> implements GenericBaseRe
 
     @Override
     public T save(T entity) {
-        entityManager.persist(entity);
-        return entity;
-    }
-
-    @Override
-    public T update(T entity) {
-        return entityManager.merge(entity);
+        if (entity.isNew()) {
+            entityManager.persist(entity);
+            return entity;
+        } else {
+            return entityManager.merge(entity);
+        }
     }
 
     @Override

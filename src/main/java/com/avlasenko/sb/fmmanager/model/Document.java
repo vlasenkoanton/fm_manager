@@ -5,13 +5,10 @@ import java.time.LocalDate;
 import javax.persistence.*;
 
 @Entity
-public class Document implements BaseEntity {
+public class Document {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-
-    @Column(name = "client_id")
-    private int clientId;
 	
 	private String name;
 	private String series;

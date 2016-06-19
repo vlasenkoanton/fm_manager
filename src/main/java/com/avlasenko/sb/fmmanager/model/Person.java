@@ -2,17 +2,14 @@ package com.avlasenko.sb.fmmanager.model;
 
 import java.time.LocalDate;
 
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
 
 @MappedSuperclass
-public class Person {
-	@OneToOne
-	private Address address;
-	@OneToOne
-	private Document document;
-	@OneToOne
-	private Work work;
+public class Person extends BaseEntity {
+	private int identNumber;
 
 	private String firstName;
 	private String lastName;
@@ -24,7 +21,14 @@ public class Person {
 	private boolean resident;
 	private int citizenship;
 
-	private int identNumber;	
+	@OneToOne
+	private Address address;
+
+	@OneToOne
+	private Document document;
+	@OneToOne
+	private Work work;
+
 
 	public Person() {
 	}

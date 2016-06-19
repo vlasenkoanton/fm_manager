@@ -1,8 +1,9 @@
 package com.avlasenko.sb.fmmanager.service;
 
+import com.avlasenko.sb.fmmanager.model.Address;
 import com.avlasenko.sb.fmmanager.model.Client;
 import com.avlasenko.sb.fmmanager.repository.ClientJpaRepository;
-import com.avlasenko.sb.fmmanager.repository.DocumentJpaRepository;
+import com.avlasenko.sb.fmmanager.repository.address.AddressJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,21 +17,28 @@ import java.util.Collection;
 public class ClientServiceImpl implements ClientService {
 
     private ClientJpaRepository clientJpaRepository;
-    private DocumentJpaRepository documentJpaRepository;
+    private AddressJpaRepository addressJpaRepository;
 
     @Autowired
-    public ClientServiceImpl(ClientJpaRepository clientJpaRepository, DocumentJpaRepository documentJpaRepository) {
+    public ClientServiceImpl(ClientJpaRepository clientJpaRepository, AddressJpaRepository addressJpaRepository) {
         this.clientJpaRepository = clientJpaRepository;
-        this.documentJpaRepository = documentJpaRepository;
+        this.addressJpaRepository = addressJpaRepository;
     }
 
     @Override
     @Transactional
     public Client save(Client client) {
-        if (client.getId() != 0) {
-            return clientJpaRepository.update(client);
-        }
         return clientJpaRepository.save(client);
+    }
+
+    @Override
+    public Client saveWithRelations(Client client) {
+        int id = client.getId();
+        Client fromDB = getById(id);
+        Address address = fromDB.getAddress();
+
+        client.setAddress(address);
+        return client;
     }
 
     @Override
@@ -51,5 +59,13 @@ public class ClientServiceImpl implements ClientService {
         return clientJpaRepository.getAll();
     }
 
+    @Override
+    @Transactional
+    public Client setAddress(int id, Address address) {
+        addressJpaRepository.save(address);
+        Client client = clientJpaRepository.get(id);
+        client.setAddress(address);
+        return clientJpaRepository.save(client);
+    }
 
 }

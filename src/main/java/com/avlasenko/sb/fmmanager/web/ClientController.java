@@ -5,10 +5,7 @@ import com.avlasenko.sb.fmmanager.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,29 +25,41 @@ public class ClientController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String clients(@RequestParam(required = false) String action,
-                          @RequestParam(required = false) Integer id,
-                          Model model) {
-        if (action == null) {
+    public String clientList(Model model) {
             List<Client> clients = new ArrayList<>(clientService.getAll());
             model.addAttribute("clients", clients);
             return "clients";
-        } else if (action.equals("add")) {
-            model.addAttribute("client", new Client());
-            return "clientAdd";
-        } else if (action.equals("edit")) {
-            model.addAttribute("client", clientService.getById(id));
-            return "clientAdd";
-        } else if (action.equals("delete")) {
+    }
+
+    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    public String editClient(@PathVariable Integer id,
+                             @RequestParam(required = false) String action,
+                             Model model) {
+        if (action != null && action.equals("delete")) {
             clientService.delete(id);
             return "redirect:/clients";
         }
-        return null;
+        Client client = clientService.getById(id);
+        model.addAttribute("client", client);
+        return "clientEditForm";
     }
 
-    @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public String addClient(@ModelAttribute Client client) {
-        clientService.save(client);
+    @RequestMapping(value = "{id}", method = RequestMethod.POST)
+    public String saveClient(@ModelAttribute Client client){
+        clientService.saveWithRelations(client);
         return "redirect:/clients";
     }
+
+    @RequestMapping(value = "new", method = RequestMethod.GET)
+    public String newClient(Model model){
+        model.addAttribute("client", new Client());
+        return "clientAddForm";
+    }
+
+    @RequestMapping(value = "new", method = RequestMethod.POST)
+    public String addNewClient(@ModelAttribute Client client){
+        clientService.save(client);
+        return "redirect:/clients/"+client.getId();
+    }
+
 }

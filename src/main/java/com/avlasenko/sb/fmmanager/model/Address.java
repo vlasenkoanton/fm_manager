@@ -1,14 +1,10 @@
 package com.avlasenko.sb.fmmanager.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
-public class Address {
-	
-	@Id
-	private int id;
-	
+public class Address extends BaseEntity {
+
 	private int postCode;
 	
 	private int country;
@@ -21,15 +17,7 @@ public class Address {
 	private int apartment;
 	
 	public Address() {
-		super();
-	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public int getPostCode() {

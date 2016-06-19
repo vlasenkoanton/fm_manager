@@ -10,8 +10,6 @@ import java.util.Collection;
 public interface GenericBaseRepository<T extends BaseEntity> {
     T save(T entity);
 
-    T update(T entity);
-
     void delete(T entity);
 
     T get(int id);

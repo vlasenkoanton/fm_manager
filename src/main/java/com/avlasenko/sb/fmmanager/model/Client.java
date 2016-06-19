@@ -6,13 +6,9 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-public class Client extends Person implements BaseEntity {
+public class Client extends Person {
 	@Embedded
 	private Contact contact;
-
-	@OneToMany
-	@JoinColumn(name = "client_id", referencedColumnName = "id")
-	private List<Document> documents;
 
 	@OneToOne
 	private Employee employee;
@@ -22,10 +18,6 @@ public class Client extends Person implements BaseEntity {
 
 	@OneToMany
 	private List<Related> relateds;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
 
 	private String independActivity;
 
@@ -38,14 +30,6 @@ public class Client extends Person implements BaseEntity {
 	private boolean pep;
 
 	public Client() {
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public Contact getContact() {

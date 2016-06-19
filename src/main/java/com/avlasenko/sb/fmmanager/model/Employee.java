@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class Employee extends Person {
+public class Employee {
 	@Embedded
 	private Contact contact;
 	
