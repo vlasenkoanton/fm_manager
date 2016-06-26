@@ -1,11 +1,14 @@
 package com.avlasenko.sb.fmmanager.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @MappedSuperclass
 public class Person extends BaseEntity {
@@ -21,11 +24,13 @@ public class Person extends BaseEntity {
 	private boolean resident;
 	private int citizenship;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private Address address;
 
-	@OneToOne
-	private Document document;
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "owner_id", referencedColumnName = "id")
+	private List<Document> documents;
+
 	@OneToOne
 	private Work work;
 
@@ -105,14 +110,6 @@ public class Person extends BaseEntity {
 		this.address = address;
 	}
 
-	public Document getDocument() {
-		return document;
-	}
-
-	public void setDocument(Document document) {
-		this.document = document;
-	}
-
 	public Work getWork() {
 		return work;
 	}
@@ -121,13 +118,32 @@ public class Person extends BaseEntity {
 		this.work = work;
 	}
 
+	public List<Document> getDocuments() {
+		if (this.documents == null) {
+			return new ArrayList<>();
+		}
+		return documents;
+	}
+
+	public void setDocuments(List<Document> documents) {
+		this.documents = documents;
+	}
+
+	public void addDocument(Document document) {
+		document.setOwnerId(this.id);
+		if (document.isNew()) {
+			this.getDocuments().add(document);
+		} else {
+			documents = documents.stream()
+					.map(d -> document.getId().equals(d.getId()) ? document : d)
+					.collect(Collectors.toList());
+		}
+	}
 
 	@Override
 	public String toString() {
 		return "Person{" +
-				"address=" + address +
-				", document=" + document +
-				", work=" + work +
+				"identNumber=" + identNumber +
 				", firstName='" + firstName + '\'' +
 				", lastName='" + lastName + '\'' +
 				", middleName='" + middleName + '\'' +
@@ -135,7 +151,9 @@ public class Person extends BaseEntity {
 				", placeBirth='" + placeBirth + '\'' +
 				", resident=" + resident +
 				", citizenship=" + citizenship +
-				", identNumber=" + identNumber +
+				", address=" + address +
+				", documents=" + documents +
+				", work=" + work +
 				'}';
 	}
 }

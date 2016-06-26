@@ -5,85 +5,84 @@ import javax.persistence.*;
 @Entity
 public class Address extends BaseEntity {
 
-	private int postCode;
-	
-	private int country;
-	private String region;
-	private String district;
-	
-	private String city;
-	private String street;
-	private int house;
-	private int apartment;
-	
-	public Address() {
+    private int postCode;
 
-	}
+    private int country;
+    private String region;
+    private String district;
 
-	public int getPostCode() {
-		return postCode;
-	}
+    private String city;
+    private String street;
+    private int house;
+    private int apartment;
 
-	public void setPostCode(int postCode) {
-		this.postCode = postCode;
-	}
+    public Address() {
 
-	public int getCountry() {
-		return country;
-	}
+    }
 
-	public void setCountry(int country) {
-		this.country = country;
-	}
+    public int getPostCode() {
+        return postCode;
+    }
 
-	public String getRegion() {
-		return region;
-	}
+    public void setPostCode(int postCode) {
+        this.postCode = postCode;
+    }
 
-	public void setRegion(String region) {
-		this.region = region;
-	}
+    public int getCountry() {
+        return country;
+    }
 
-	public String getDistrict() {
-		return district;
-	}
+    public void setCountry(int country) {
+        this.country = country;
+    }
 
-	public void setDistrict(String district) {
-		this.district = district;
-	}
+    public String getRegion() {
+        return region;
+    }
 
-	public String getCity() {
-		return city;
-	}
+    public void setRegion(String region) {
+        this.region = region;
+    }
 
-	public void setCity(String city) {
-		this.city = city;
-	}
+    public String getDistrict() {
+        return district;
+    }
 
-	public String getStreet() {
-		return street;
-	}
+    public void setDistrict(String district) {
+        this.district = district;
+    }
 
-	public void setStreet(String street) {
-		this.street = street;
-	}
+    public String getCity() {
+        return city;
+    }
 
-	public int getHouse() {
-		return house;
-	}
+    public void setCity(String city) {
+        this.city = city;
+    }
 
-	public void setHouse(int house) {
-		this.house = house;
-	}
+    public String getStreet() {
+        return street;
+    }
 
-	public int getApartment() {
-		return apartment;
-	}
+    public void setStreet(String street) {
+        this.street = street;
+    }
 
-	public void setApartment(int apartment) {
-		this.apartment = apartment;
-	}
-	
-	
+    public int getHouse() {
+        return house;
+    }
+
+    public void setHouse(int house) {
+        this.house = house;
+    }
+
+    public int getApartment() {
+        return apartment;
+    }
+
+    public void setApartment(int apartment) {
+        this.apartment = apartment;
+    }
+
 
 }

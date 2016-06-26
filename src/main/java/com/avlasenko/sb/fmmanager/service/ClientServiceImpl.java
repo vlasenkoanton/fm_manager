@@ -2,13 +2,15 @@ package com.avlasenko.sb.fmmanager.service;
 
 import com.avlasenko.sb.fmmanager.model.Address;
 import com.avlasenko.sb.fmmanager.model.Client;
+import com.avlasenko.sb.fmmanager.model.Document;
 import com.avlasenko.sb.fmmanager.repository.ClientJpaRepository;
-import com.avlasenko.sb.fmmanager.repository.address.AddressJpaRepository;
+import com.avlasenko.sb.fmmanager.repository.document.DocumentJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by A. Vlasenko on 16.06.2016.
@@ -17,12 +19,12 @@ import java.util.Collection;
 public class ClientServiceImpl implements ClientService {
 
     private ClientJpaRepository clientJpaRepository;
-    private AddressJpaRepository addressJpaRepository;
+    private DocumentJpaRepository documentJpaRepository;
 
     @Autowired
-    public ClientServiceImpl(ClientJpaRepository clientJpaRepository, AddressJpaRepository addressJpaRepository) {
+    public ClientServiceImpl(ClientJpaRepository clientJpaRepository, DocumentJpaRepository documentJpaRepository) {
         this.clientJpaRepository = clientJpaRepository;
-        this.addressJpaRepository = addressJpaRepository;
+        this.documentJpaRepository = documentJpaRepository;
     }
 
     @Override
@@ -32,14 +34,21 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    @Transactional
     public Client saveWithRelations(Client client) {
         int id = client.getId();
-        Client fromDB = getById(id);
-        Address address = fromDB.getAddress();
+
+        Client fromDb = clientJpaRepository.get(id);
+        Address address = fromDb.getAddress();
+        List<Document> documentList = fromDb.getDocuments();
 
         client.setAddress(address);
+        client.setDocuments(documentList);
+
+        clientJpaRepository.save(client);
         return client;
     }
+
 
     @Override
     @Transactional
@@ -55,17 +64,14 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional
-    public Collection<Client> getAll() {
-        return clientJpaRepository.getAll();
+    public Document getDocument(int id, int ownerId) {
+        return documentJpaRepository.get(id, ownerId);
     }
 
     @Override
     @Transactional
-    public Client setAddress(int id, Address address) {
-        addressJpaRepository.save(address);
-        Client client = clientJpaRepository.get(id);
-        client.setAddress(address);
-        return clientJpaRepository.save(client);
+    public Collection<Client> getAll() {
+        return clientJpaRepository.getAll();
     }
 
 }

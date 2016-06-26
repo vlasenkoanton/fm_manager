@@ -2,7 +2,9 @@ package com.avlasenko.sb.fmmanager.service;
 
 import com.avlasenko.sb.fmmanager.model.Address;
 import com.avlasenko.sb.fmmanager.model.Client;
+import com.avlasenko.sb.fmmanager.model.Document;
 
+import javax.print.Doc;
 import java.util.Collection;
 
 /**
@@ -18,7 +20,7 @@ public interface ClientService {
 
     Client getById(int id);
 
-    Collection<Client> getAll();
+    Document getDocument(int id, int ownerId);
 
-    Client setAddress(int id, Address address);
+    Collection<Client> getAll();
 }

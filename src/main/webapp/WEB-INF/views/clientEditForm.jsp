@@ -3,13 +3,14 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
 <head>
     <title></title>
 </head>
 <body>
-    <form:form method="POST" commandName="client">
+    <form:form method="POST" modelAttribute="client">
         <dl>
             <form:hidden path="id"/>
             <dt>Identification code</dt>
@@ -33,6 +34,14 @@
             <dd>
                 <p>${client.address.country}, ${client.address.city}, ${client.address.street}, house #${client.address.house}, aprt.${client.address.apartment}</p>
                 <a href="${client.id}/address">Add address</a>
+            </dd>
+            <dt>Documents</dt>
+            <dd>
+                <c:forEach items="${client.documents}" var="document">
+                    <p>${document.series} ${document.number}, issued by: ${document.authority} on ${document.dateIssue}</p>
+                    <a href="${client.id}/document/${document.id}">Edit</a>
+                </c:forEach>
+                <p><a href="${client.id}/document/new">Add new document</a></p>
             </dd>
         </dl>
         <button type="submit">Save</button>

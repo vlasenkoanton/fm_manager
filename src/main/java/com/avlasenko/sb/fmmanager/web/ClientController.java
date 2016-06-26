@@ -1,5 +1,6 @@
 package com.avlasenko.sb.fmmanager.web;
 
+import com.avlasenko.sb.fmmanager.model.Address;
 import com.avlasenko.sb.fmmanager.model.Client;
 import com.avlasenko.sb.fmmanager.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +18,8 @@ import java.util.List;
 @RequestMapping("/clients")
 public class ClientController {
 
-    private ClientService clientService;
-
     @Autowired
-    public void setClientService(ClientService clientService) {
-        this.clientService = clientService;
-    }
+    private ClientService clientService;
 
     @RequestMapping(method = RequestMethod.GET)
     public String clientList(Model model) {

@@ -19,12 +19,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class AddressController {
 
     @Autowired
-    private ClientService service;
+    private ClientService clientService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String address(@PathVariable Integer id,
-                          Model model) {
-        Client client = service.getById(id);
+    public String addressEdit(@PathVariable Integer id, Model model) {
+        Client client = clientService.getById(id);
         Address address = client.getAddress();
 
         if (address == null) {
@@ -39,7 +38,9 @@ public class AddressController {
     @RequestMapping(method = RequestMethod.POST)
     public String saveAddress(@PathVariable Integer id,
                               @ModelAttribute Address address) {
-        service.setAddress(id, address);
-        return "redirect:/clients/"+id;
+        Client client = clientService.getById(id);
+        client.setAddress(address);
+        clientService.save(client);
+        return "redirect:/clients/" + id;
     }
 }
