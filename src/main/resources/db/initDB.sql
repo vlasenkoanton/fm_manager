@@ -15,12 +15,9 @@ CREATE TABLE fm_manager.client (
   resident    BIT(1)                          NOT NULL,
   citizenship INTEGER(3)                      NOT NULL,
   pep         BIT(0)                          NOT NULL,
-  address_id  INTEGER REFERENCES fm_manager.address (id)
-    ON DELETE SET NULL,
-  work_id     INTEGER REFERENCES fm_manager.work (id)
-    ON DELETE SET NULL,
-  contact_id  INTEGER REFERENCES fm_manager.contact (id)
-    ON DELETE SET NULL
+  address_id  INTEGER UNSIGNED,
+  work_id     INTEGER UNSIGNED,
+  contact_id  INTEGER UNSIGNED
 );
 CREATE TABLE fm_manager.document (
   id         INTEGER UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
@@ -32,8 +29,7 @@ CREATE TABLE fm_manager.document (
   authority  VARCHAR(50)                     NOT NULL,
   dateIssue  DATE                            NOT NULL,
   dateExpire DATE,
-  owner_id   INTEGER                         NOT NULL REFERENCES fm_manager.client (id)
-    ON DELETE CASCADE
+  owner_id   INTEGER UNSIGNED
 );
 CREATE TABLE fm_manager.address (
   id        INTEGER UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
@@ -59,4 +55,13 @@ CREATE TABLE fm_manager.contact (
   mobileTel VARCHAR(50)                     NOT NULL,
   fax       VARCHAR(50),
   email     VARCHAR(50)
-)
+);
+
+#Following are Foreign Key settings:
+ALTER TABLE fm_manager.client
+  ADD FOREIGN KEY (address_id) REFERENCES address(id) ON DELETE SET NULL,
+  ADD FOREIGN KEY (work_id) REFERENCES work(id) ON DELETE SET NULL,
+  ADD FOREIGN KEY (contact_id) REFERENCES contact(id) ON DELETE SET NULL;
+
+ALTER TABLE fm_manager.document
+    ADD FOREIGN KEY (owner_id) REFERENCES client(id) ON DELETE CASCADE;
