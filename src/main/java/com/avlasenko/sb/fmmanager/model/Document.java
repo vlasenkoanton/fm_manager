@@ -1,6 +1,5 @@
 package com.avlasenko.sb.fmmanager.model;
 
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 

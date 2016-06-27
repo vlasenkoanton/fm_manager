@@ -1,8 +1,6 @@
 package com.avlasenko.sb.fmmanager.service;
 
-import com.avlasenko.sb.fmmanager.model.Address;
-import com.avlasenko.sb.fmmanager.model.Client;
-import com.avlasenko.sb.fmmanager.model.Document;
+import com.avlasenko.sb.fmmanager.model.*;
 import com.avlasenko.sb.fmmanager.repository.ClientJpaRepository;
 import com.avlasenko.sb.fmmanager.repository.document.DocumentJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,14 +34,19 @@ public class ClientServiceImpl implements ClientService {
     @Override
     @Transactional
     public Client saveWithRelations(Client client) {
+        //TODO find more precise implementation
         int id = client.getId();
 
         Client fromDb = clientJpaRepository.get(id);
         Address address = fromDb.getAddress();
         List<Document> documentList = fromDb.getDocuments();
+        Work work = fromDb.getWork();
+        Contact contact = fromDb.getContact();
 
         client.setAddress(address);
         client.setDocuments(documentList);
+        client.setWork(work);
+        client.setContact(contact);
 
         clientJpaRepository.save(client);
         return client;

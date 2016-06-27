@@ -12,14 +12,16 @@
 <form:form method="POST" commandName="client">
     <dl>
         <form:hidden path="id"/>
-        <dt>Identification code</dt>
-        <dd><form:input path="identNumber" /></dd>
         <dt>First name</dt>
         <dd><form:input path="firstName" /></dd>
         <dt>Last name</dt>
         <dd><form:input path="lastName" /></dd>
         <dt>Middle name</dt>
         <dd><form:input path="middleName" /></dd>
+        <dt>Identification code</dt>
+        <dd><form:input path="identNumber" /></dd>
+        <dt>Date of Birth</dt>
+        <dd><form:input path="dateBirth" type="date"/></dd>
         <dt>Place of birth</dt>
         <dd><form:input path="placeBirth" /></dd>
         <dt>Resident status</dt>
@@ -29,6 +31,11 @@
         </dd>
         <dt>Citizenship</dt>
         <dd><form:input path="citizenship" /></dd>
+        <dt>Political exposed person</dt>
+        <dd>
+            Yes<form:radiobutton path="pep" value="true" />
+            No<form:radiobutton path="pep" value="false" />
+        </dd>
     </dl>
     <button type="submit">Create new client</button>
 </form:form>

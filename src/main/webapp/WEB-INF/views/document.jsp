@@ -25,7 +25,6 @@
         <dd><form:input path="dateIssue" type="date"/></dd>
         <dt>Expiration date</dt>
         <dd><form:input path="dateExpire" type="date"/></dd>
-
         <dt>Main/Additional</dt>
         <dd>
             Main<form:radiobutton path="main" value="true"/>

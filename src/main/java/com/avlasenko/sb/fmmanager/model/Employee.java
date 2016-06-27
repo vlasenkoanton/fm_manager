@@ -4,12 +4,11 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity
 public class Employee {
-	@Embedded
+
 	private Contact contact;
 	
-	@Id
+
 	private int id;
 
 	public Employee() {

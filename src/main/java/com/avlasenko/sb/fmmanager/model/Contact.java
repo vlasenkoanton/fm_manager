@@ -1,11 +1,10 @@
 package com.avlasenko.sb.fmmanager.model;
 
-import javax.persistence.Embeddable;
+import javax.persistence.Entity;
 
-@Embeddable
-public class Contact {
-	
-	
+@Entity
+public class Contact extends BaseEntity {
+
 	private String homeTel;
 	private String workTel;
 	private String mobileTel;
@@ -14,8 +13,6 @@ public class Contact {
 
 	public Contact() {
 	}
-
-	
 
 	public String getHomeTel() {
 		return homeTel;
@@ -56,7 +53,4 @@ public class Contact {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	
-
 }

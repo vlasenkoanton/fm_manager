@@ -3,9 +3,8 @@ package com.avlasenko.sb.fmmanager.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity
+
 public class Related {
-	@Id
 	private int id;
 
 	private int relationType;

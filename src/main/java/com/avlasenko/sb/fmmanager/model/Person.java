@@ -2,10 +2,7 @@ package com.avlasenko.sb.fmmanager.model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.persistence.*;
@@ -31,8 +28,11 @@ public class Person extends BaseEntity {
 	@JoinColumn(name = "owner_id", referencedColumnName = "id")
 	private List<Document> documents;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private Work work;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	private Contact contact;
 
 
 	public Person() {
@@ -138,6 +138,14 @@ public class Person extends BaseEntity {
 					.map(d -> document.getId().equals(d.getId()) ? document : d)
 					.collect(Collectors.toList());
 		}
+	}
+
+	public Contact getContact() {
+		return contact;
+	}
+
+	public void setContact(Contact contact) {
+		this.contact = contact;
 	}
 
 	@Override

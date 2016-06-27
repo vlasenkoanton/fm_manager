@@ -10,7 +10,7 @@
     <title>Address</title>
 </head>
 <body>
-    <form:form action="address" method="post" commandName="address">
+    <form:form action="address" method="post" modelAttribute="address">
         <dl>
             <dt>Postal code</dt>
             <dd><form:input path="postCode"/></dd>

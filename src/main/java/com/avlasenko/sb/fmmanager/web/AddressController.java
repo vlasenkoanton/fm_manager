@@ -22,7 +22,7 @@ public class AddressController {
     private ClientService clientService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String addressEdit(@PathVariable Integer id, Model model) {
+    public String editAddress(@PathVariable Integer id, Model model) {
         Client client = clientService.getById(id);
         Address address = client.getAddress();
 
@@ -31,7 +31,6 @@ public class AddressController {
         } else {
             model.addAttribute("address", address);
         }
-        model.addAttribute("client", client);
         return "address";
     }
 

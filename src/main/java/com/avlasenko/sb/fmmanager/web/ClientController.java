@@ -1,13 +1,15 @@
 package com.avlasenko.sb.fmmanager.web;
 
-import com.avlasenko.sb.fmmanager.model.Address;
 import com.avlasenko.sb.fmmanager.model.Client;
 import com.avlasenko.sb.fmmanager.service.ClientService;
+import com.avlasenko.sb.fmmanager.util.LocalTimePropertyConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +22,11 @@ public class ClientController {
 
     @Autowired
     private ClientService clientService;
+
+    @InitBinder
+    public void initBinder(WebDataBinder webDataBinder) {
+        webDataBinder.registerCustomEditor(LocalDate.class, new LocalTimePropertyConverter("yyyy-MM-dd"));
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public String clientList(Model model) {

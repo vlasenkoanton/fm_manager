@@ -13,9 +13,7 @@ import javax.persistence.Id;
  *
  */
 
-@Entity
 public class FmProfile {
-	@Id
 	private int id;
 
 	private String serviceHistory;

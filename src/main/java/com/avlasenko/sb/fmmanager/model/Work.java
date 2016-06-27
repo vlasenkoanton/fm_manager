@@ -4,24 +4,13 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class Work {
-	@Id
-	private int id;
+public class Work extends BaseEntity {
 	
 	private String name;
 	private int identCode;
 	private String position;
 	
 	public Work() {
-		
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getName() {
