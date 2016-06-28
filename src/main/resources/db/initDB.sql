@@ -3,21 +3,24 @@ DROP TABLE IF EXISTS fm_manager.client;
 DROP TABLE IF EXISTS fm_manager.address;
 DROP TABLE IF EXISTS fm_manager.work;
 DROP TABLE IF EXISTS fm_manager.contact;
+DROP TABLE IF EXISTS fm_manager.entrepreneurInfo;
 
 CREATE TABLE fm_manager.client (
-  id          INTEGER UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
-  firstName   VARCHAR(50)                     NOT NULL,
-  lastName    VARCHAR(50)                     NOT NULL,
-  middleName  VARCHAR(50),
-  identNumber INTEGER,
-  dateBirth   DATE                            NOT NULL,
-  placeBirth  VARCHAR(50)                     NOT NULL,
-  resident    BIT(1)                          NOT NULL,
-  citizenship INTEGER(3)                      NOT NULL,
-  pep         BIT(0)                          NOT NULL,
-  address_id  INTEGER UNSIGNED,
-  work_id     INTEGER UNSIGNED,
-  contact_id  INTEGER UNSIGNED
+  id              INTEGER UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
+  firstName       VARCHAR(50)                     NOT NULL,
+  lastName        VARCHAR(50)                     NOT NULL,
+  middleName      VARCHAR(50),
+  identNumber     INTEGER,
+  dateBirth       DATE                            NOT NULL,
+  placeBirth      VARCHAR(50)                     NOT NULL,
+  resident        BIT(1)                          NOT NULL,
+  citizenship     INTEGER(3)                      NOT NULL,
+  responsible     VARCHAR(50),
+  pep             BIT(0)                          NOT NULL,
+  address_id      INTEGER UNSIGNED,
+  work_id         INTEGER UNSIGNED,
+  contact_id      INTEGER UNSIGNED,
+  entrepreneurInfo_id INTEGER UNSIGNED
 );
 CREATE TABLE fm_manager.document (
   id         INTEGER UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
@@ -56,12 +59,25 @@ CREATE TABLE fm_manager.contact (
   fax       VARCHAR(50),
   email     VARCHAR(50)
 );
+CREATE TABLE fm_manager.entrepreneurInfo (
+  id        INTEGER UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
+  regNumber INTEGER                         NOT NULL,
+  authority VARCHAR(50)                     NOT NULL,
+  regDate   DATE                            NOT NULL,
+  activity  VARCHAR(50)                     NOT NULL
+);
 
 #Following are Foreign Key settings:
 ALTER TABLE fm_manager.client
-  ADD FOREIGN KEY (address_id) REFERENCES address(id) ON DELETE SET NULL,
-  ADD FOREIGN KEY (work_id) REFERENCES work(id) ON DELETE SET NULL,
-  ADD FOREIGN KEY (contact_id) REFERENCES contact(id) ON DELETE SET NULL;
+  ADD FOREIGN KEY (address_id) REFERENCES address (id)
+  ON DELETE SET NULL,
+  ADD FOREIGN KEY (work_id) REFERENCES work (id)
+  ON DELETE SET NULL,
+  ADD FOREIGN KEY (contact_id) REFERENCES contact (id)
+  ON DELETE SET NULL,
+  ADD FOREIGN KEY (entrepreneurInfo_id) REFERENCES entrepreneurInfo (id)
+  ON DELETE SET NULL;
 
 ALTER TABLE fm_manager.document
-    ADD FOREIGN KEY (owner_id) REFERENCES client(id) ON DELETE CASCADE;
+  ADD FOREIGN KEY (owner_id) REFERENCES client (id)
+  ON DELETE CASCADE;

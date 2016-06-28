@@ -42,11 +42,13 @@ public class ClientServiceImpl implements ClientService {
         List<Document> documentList = fromDb.getDocuments();
         Work work = fromDb.getWork();
         Contact contact = fromDb.getContact();
+        EntrepreneurInfo entrepreneurInfo = fromDb.getEntrepreneurInfo();
 
         client.setAddress(address);
         client.setDocuments(documentList);
         client.setWork(work);
         client.setContact(contact);
+        client.setEntrepreneurInfo(entrepreneurInfo);
 
         clientJpaRepository.save(client);
         return client;
