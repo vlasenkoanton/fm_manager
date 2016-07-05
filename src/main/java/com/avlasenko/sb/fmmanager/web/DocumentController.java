@@ -53,6 +53,7 @@ public class DocumentController {
     @RequestMapping(value = "{docId}", method = RequestMethod.POST)
     public String saveDocument(@PathVariable Integer id,
                                @ModelAttribute Document document) {
+        System.out.println("vot tut: "+document.getDateExpire());
         Client client = clientService.getById(id);
         client.addDocument(document);
         clientService.save(client);

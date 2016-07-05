@@ -3,17 +3,31 @@ package com.avlasenko.sb.fmmanager.model;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "address")
 public class Address extends BaseEntity {
 
+    @Column(name = "postal_code")
     private int postCode;
 
+    @Column(name = "country", nullable = false)
     private int country;
+
+    @Column(name = "region")
     private String region;
+
+    @Column(name = "district")
     private String district;
 
+    @Column(name = "city", nullable = false)
     private String city;
+
+    @Column(name = "street", nullable = false)
     private String street;
+
+    @Column(name = "house", nullable = false)
     private int house;
+
+    @Column(name = "apartment")
     private int apartment;
 
     public Address() {

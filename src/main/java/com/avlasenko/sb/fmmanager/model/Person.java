@@ -1,37 +1,56 @@
 package com.avlasenko.sb.fmmanager.model;
 
+
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.persistence.*;
 
 @MappedSuperclass
-public class Person extends BaseEntity {
+public abstract class Person extends BaseEntity {
+
+	@Column(name = "ident_number")
 	private int identNumber;
 
+	@Column(name = "first_name", nullable = false)
 	private String firstName;
+
+	@Column(name = "last_name", nullable = false)
 	private String lastName;
+
+	@Column(name = "middle_name")
 	private String middleName;
 
+	@Column(name = "date_birth", nullable = false)
 	private LocalDate dateBirth;
+
+	@Column(name = "place_birth", nullable = false)
 	private String placeBirth;
 
+	@Column(name = "resident", nullable = false)
 	private boolean resident;
+
+	@Column(name = "citizenship", nullable = false)
 	private int citizenship;
 
 	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "address_id")
 	private Address address;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "owner_id", referencedColumnName = "id")
-	private List<Document> documents;
+	private Set<Document> documents;
 
 	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "work_id")
 	private Work work;
 
 	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "contact_id")
 	private Contact contact;
 
 
@@ -118,26 +137,20 @@ public class Person extends BaseEntity {
 		this.work = work;
 	}
 
-	public List<Document> getDocuments() {
+	public Set<Document> getDocuments() {
 		if (this.documents == null) {
-			return new ArrayList<>();
+			return new HashSet<>();
 		}
 		return documents;
 	}
 
-	public void setDocuments(List<Document> documents) {
+	public void setDocuments(Set<Document> documents) {
 		this.documents = documents;
 	}
 
 	public void addDocument(Document document) {
 		document.setOwnerId(this.id);
-		if (document.isNew()) {
-			this.getDocuments().add(document);
-		} else {
-			documents = documents.stream()
-					.map(d -> document.getId().equals(d.getId()) ? document : d)
-					.collect(Collectors.toList());
-		}
+		this.documents.add(document);
 	}
 
 	public Contact getContact() {

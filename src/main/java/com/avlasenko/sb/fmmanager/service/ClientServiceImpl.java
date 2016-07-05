@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by A. Vlasenko on 16.06.2016.
@@ -39,7 +39,7 @@ public class ClientServiceImpl implements ClientService {
 
         Client fromDb = clientJpaRepository.get(id);
         Address address = fromDb.getAddress();
-        List<Document> documentList = fromDb.getDocuments();
+        Set<Document> documentList = fromDb.getDocuments();
         Work work = fromDb.getWork();
         Contact contact = fromDb.getContact();
         EntrepreneurInfo entrepreneurInfo = fromDb.getEntrepreneurInfo();

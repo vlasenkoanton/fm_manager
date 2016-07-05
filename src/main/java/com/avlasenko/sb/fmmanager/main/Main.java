@@ -2,9 +2,7 @@ package com.avlasenko.sb.fmmanager.main;
 
 import com.avlasenko.sb.fmmanager.model.Address;
 import com.avlasenko.sb.fmmanager.model.Client;
-import com.avlasenko.sb.fmmanager.model.Document;
 import com.avlasenko.sb.fmmanager.service.ClientService;
-import com.avlasenko.sb.fmmanager.service.ClientServiceImpl;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

@@ -25,7 +25,11 @@ public class LocalTimePropertyConverter extends PropertyEditorSupport {
 
     @Override
     public void setAsText(String text) throws IllegalArgumentException {
-        LocalDate localDate = LocalDate.parse(text, dateTimeFormatter);
-        this.setValue(localDate);
+        if (text == null || text.isEmpty()) {
+            this.setValue(null);
+        } else {
+            LocalDate localDate = LocalDate.parse(text, dateTimeFormatter);
+            this.setValue(localDate);
+        }
     }
 }

@@ -6,20 +6,34 @@ import java.time.LocalDate;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "document")
 public class Document extends BaseEntity {
 
 	@Column(name = "owner_id")
 	private int ownerId;
 
+	@Column(name = "type", nullable = false)
 	private int type;
+
+	@Column(name = "main", nullable = false)
 	private boolean main;
 
+	@Column(name = "name", nullable = false)
 	private String name;
+
+	@Column(name = "series")
 	private String series;
+
+	@Column(name = "number", nullable = false)
 	private int number;
+
+	@Column(name = "authority", nullable = false)
 	private String authority;
 
+	@Column(name = "date_issue", nullable = false)
 	private LocalDate dateIssue;
+
+	@Column(name = "date_expire")
 	private LocalDate dateExpire;
 	
 	public Document() {
@@ -95,6 +109,29 @@ public class Document extends BaseEntity {
 
 	public void setOwnerId(int ownerId) {
 		this.ownerId = ownerId;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		if (!super.equals(o)) return false;
+
+		Document document = (Document) o;
+
+		if (type != document.type) return false;
+		if (number != document.number) return false;
+		return series != null ? series.equals(document.series) : document.series == null;
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = super.hashCode();
+		result = 31 * result + type;
+		result = 31 * result + (series != null ? series.hashCode() : 0);
+		result = 31 * result + number;
+		return result;
 	}
 
 	@Override

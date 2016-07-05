@@ -3,14 +3,21 @@ package com.avlasenko.sb.fmmanager.model;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "client")
 public class Client extends Person {
 
+	@Column(name = "responsible")
 	private String responsible;
 
 	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "fop_id")
 	private EntrepreneurInfo entrepreneurInfo;
 
+	@Column(name = "pep", nullable = false)
 	private boolean pep;
+
+	//@OneToMany(mappedBy = "owner")
+	//private List<Account> accountList;
 
 	public Client() {
 	}

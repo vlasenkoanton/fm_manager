@@ -1,13 +1,20 @@
 package com.avlasenko.sb.fmmanager.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "work")
 public class Work extends BaseEntity {
-	
+
+	@Column(name = "name", nullable = false)
 	private String name;
+
+	@Column(name = "identification_code")
 	private int identCode;
+
+	@Column(name = "position")
 	private String position;
 	
 	public Work() {
@@ -36,8 +43,5 @@ public class Work extends BaseEntity {
 	public void setPosition(String position) {
 		this.position = position;
 	}
-	
-	
-	
 	
 }
