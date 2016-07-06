@@ -43,14 +43,14 @@ public class ClientController {
             clientService.delete(id);
             return "redirect:/clients";
         }
-        Client client = clientService.getById(id);
+        Client client = clientService.getWithAllProperties(id);
         model.addAttribute("client", client);
         return "clientEditForm";
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.POST)
     public String saveClient(@ModelAttribute Client client){
-        clientService.saveWithRelations(client);
+        clientService.save(client);
         return "redirect:/clients";
     }
 

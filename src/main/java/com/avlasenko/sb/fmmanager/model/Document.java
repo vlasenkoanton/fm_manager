@@ -7,10 +7,15 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "document")
+@NamedQueries({
+		@NamedQuery(name = Document.GET_BY_OWNER, query = "SELECT d FROM Document d WHERE d.id=:id AND d.owner.id=:ownerId")
+})
 public class Document extends BaseEntity {
+	public static final String GET_BY_OWNER = "Document.getByOwner";
 
-	@Column(name = "owner_id")
-	private int ownerId;
+	@ManyToOne
+	@JoinColumn(name = "owner_id")
+	private Client owner;
 
 	@Column(name = "type", nullable = false)
 	private int type;
@@ -103,12 +108,12 @@ public class Document extends BaseEntity {
 		this.dateExpire = dateExpire;
 	}
 
-	public int getOwnerId() {
-		return ownerId;
+	public Client getOwner() {
+		return owner;
 	}
 
-	public void setOwnerId(int ownerId) {
-		this.ownerId = ownerId;
+	public void setOwner(Client owner) {
+		this.owner = owner;
 	}
 
 	@Override
@@ -137,7 +142,7 @@ public class Document extends BaseEntity {
 	@Override
 	public String toString() {
 		return "Document{" +
-				"ownerId=" + ownerId +
+				"owner=" + owner +
 				", type=" + type +
 				", main=" + main +
 				", name='" + name + '\'' +

@@ -17,20 +17,9 @@ public class Main {
 
             ClientService service = (ClientService) appCtx.getBean("clientServiceImpl");
 
-            Client client = service.getById(1);
+            Client client = service.getWithAllProperties(1);
 
-            Address address1 = new Address();
-            address1.setCountry(840);
-            address1.setCity("KIEV");
-
-            client.setAddress(address1);
-
-            service.save(client);
-
-
-
-
-            client.getDocuments().forEach(System.out::println);
+            System.out.println(client.getDocuments());
 
 
         }

@@ -1,8 +1,7 @@
 package com.avlasenko.sb.fmmanager.web;
 
-import com.avlasenko.sb.fmmanager.model.Client;
 import com.avlasenko.sb.fmmanager.model.Document;
-import com.avlasenko.sb.fmmanager.service.ClientService;
+import com.avlasenko.sb.fmmanager.service.DocumentService;
 import com.avlasenko.sb.fmmanager.util.LocalTimePropertyConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +20,7 @@ import java.time.LocalDate;
 public class DocumentController {
 
     @Autowired
-    private ClientService clientService;
+    private DocumentService service;
 
     @InitBinder
     public void initBinder(WebDataBinder webDataBinder) {
@@ -36,9 +35,7 @@ public class DocumentController {
 
     @RequestMapping(value = "new", method = RequestMethod.POST)
     public String addNewDocument(@ModelAttribute Document document, @PathVariable Integer id) {
-        Client client = clientService.getById(id);
-        client.addDocument(document);
-        clientService.save(client);
+        service.save(document, id);
         return "redirect:/clients/"+id;
     }
 
@@ -46,20 +43,15 @@ public class DocumentController {
     public String editDocument(@PathVariable Integer id,
                                @PathVariable Integer docId,
                                Model model) {
-        model.addAttribute("document", clientService.getDocument(docId, id));
+        model.addAttribute("document", service.getByOwner(docId, id));
         return "document";
     }
 
     @RequestMapping(value = "{docId}", method = RequestMethod.POST)
     public String saveDocument(@PathVariable Integer id,
                                @ModelAttribute Document document) {
-        System.out.println("vot tut: "+document.getDateExpire());
-        Client client = clientService.getById(id);
-        client.addDocument(document);
-        clientService.save(client);
+        service.save(document, id);
         return "redirect:/clients/"+id;
     }
-
-
 
 }

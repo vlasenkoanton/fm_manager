@@ -14,13 +14,11 @@ public interface ClientService {
 
     Client save(Client client);
 
-    Client saveWithRelations(Client client);
-
     void delete(int id);
 
     Client getById(int id);
 
-    Document getDocument(int id, int ownerId);
+    Client getWithAllProperties(int id);
 
     Collection<Client> getAll();
 }

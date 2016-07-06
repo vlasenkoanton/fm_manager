@@ -2,11 +2,8 @@ package com.avlasenko.sb.fmmanager.model;
 
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.persistence.*;
 
@@ -37,20 +34,16 @@ public abstract class Person extends BaseEntity {
 	@Column(name = "citizenship", nullable = false)
 	private int citizenship;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "address_id")
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "address_id", updatable = false, insertable = false)
 	private Address address;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "owner_id", referencedColumnName = "id")
-	private Set<Document> documents;
-
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "work_id")
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "work_id", updatable = false, insertable = false)
 	private Work work;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "contact_id")
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "contact_id", updatable = false, insertable = false)
 	private Contact contact;
 
 
@@ -137,22 +130,6 @@ public abstract class Person extends BaseEntity {
 		this.work = work;
 	}
 
-	public Set<Document> getDocuments() {
-		if (this.documents == null) {
-			return new HashSet<>();
-		}
-		return documents;
-	}
-
-	public void setDocuments(Set<Document> documents) {
-		this.documents = documents;
-	}
-
-	public void addDocument(Document document) {
-		document.setOwnerId(this.id);
-		this.documents.add(document);
-	}
-
 	public Contact getContact() {
 		return contact;
 	}
@@ -173,7 +150,6 @@ public abstract class Person extends BaseEntity {
 				", resident=" + resident +
 				", citizenship=" + citizenship +
 				", address=" + address +
-				", documents=" + documents +
 				", work=" + work +
 				'}';
 	}
