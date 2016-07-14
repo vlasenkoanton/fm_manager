@@ -2,7 +2,8 @@ package com.avlasenko.sb.fmmanager.main;
 
 import com.avlasenko.sb.fmmanager.model.Address;
 import com.avlasenko.sb.fmmanager.model.Client;
-import com.avlasenko.sb.fmmanager.service.ClientService;
+import com.avlasenko.sb.fmmanager.repository.address.AddressJpaRepository;
+import com.avlasenko.sb.fmmanager.repository.client.ClientJpaRepository;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -15,11 +16,13 @@ public class Main {
 
             System.out.println(Arrays.toString(appCtx.getBeanDefinitionNames()));
 
-            ClientService service = (ClientService) appCtx.getBean("clientServiceImpl");
+            ClientJpaRepository repository = (ClientJpaRepository) appCtx.getBean("clientJpaRepositoryImpl");
 
-            Client client = service.getWithAllProperties(1);
+            AddressJpaRepository addressJpaRepository = (AddressJpaRepository) appCtx.getBean("addressJpaRepositoryImpl");
 
-            System.out.println(client.getDocuments());
+            addressJpaRepository.get(1, 1);
+
+
 
 
         }

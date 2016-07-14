@@ -1,15 +1,11 @@
 package com.avlasenko.sb.fmmanager.web;
 
 import com.avlasenko.sb.fmmanager.model.Address;
-import com.avlasenko.sb.fmmanager.model.Client;
-import com.avlasenko.sb.fmmanager.service.ClientService;
+import com.avlasenko.sb.fmmanager.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by A. Vlasenko on 18.06.2016.
@@ -19,27 +15,32 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class AddressController {
 
     @Autowired
-    private ClientService clientService;
+    private AddressService service;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String editAddress(@PathVariable Integer id, Model model) {
-        Client client = clientService.getById(id);
-        Address address = client.getAddress();
-
-        if (address == null) {
-            model.addAttribute("address", new Address());
-        } else {
-            model.addAttribute("address", address);
-        }
+    @RequestMapping(value = "new", method = RequestMethod.GET)
+    public String newAddress(Model model) {
+        model.addAttribute("address", new Address());
         return "address";
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public String saveAddress(@PathVariable Integer id,
-                              @ModelAttribute Address address) {
-        Client client = clientService.getById(id);
-        client.setAddress(address);
-        clientService.save(client);
-        return "redirect:/clients/" + id;
+    @RequestMapping(value = "{addressId}", method = RequestMethod.GET)
+    public String editAddress(@PathVariable Integer id,
+                              @PathVariable Integer addressId,
+                              Model model) {
+        model.addAttribute("address", service.get(addressId, id));
+        return "address";
     }
+
+    @RequestMapping(value = {"new", "{addressId}"}, method = RequestMethod.POST)
+    public String saveAddress(@ModelAttribute Address address, @PathVariable Integer id) {
+        service.save(address, id);
+        return "redirect:/clients/"+id;
+    }
+
+    @RequestMapping(value = "{addressId}", params = "action=delete", method = RequestMethod.GET)
+    public String deleteAddress(@PathVariable Integer addressId, @PathVariable Integer id) {
+        service.delete(addressId, id);
+        return "redirect:/clients/"+id;
+    }
+
 }

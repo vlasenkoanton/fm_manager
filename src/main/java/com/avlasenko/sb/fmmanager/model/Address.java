@@ -4,7 +4,14 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "address")
+@NamedQueries({
+        @NamedQuery(name = Address.GET_BY_CLIENT, query = "SELECT c.address FROM Client c " +
+                "WHERE c.address.id=:id AND c.id=:clientId"),
+        @NamedQuery(name = Address.DELETE_BY_CLIENT, query = "DELETE FROM Address a WHERE a.id=:id")
+})
 public class Address extends BaseEntity {
+    public static final String GET_BY_CLIENT = "Address.getByClient";
+    public static final String DELETE_BY_CLIENT = "Address.deleteByClient";
 
     @Column(name = "postal_code")
     private int postCode;
@@ -97,6 +104,4 @@ public class Address extends BaseEntity {
     public void setApartment(int apartment) {
         this.apartment = apartment;
     }
-
-
 }

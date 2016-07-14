@@ -8,8 +8,9 @@ import com.avlasenko.sb.fmmanager.model.Document;
  */
 public interface DocumentService {
 
-    void save(Document document, int ownerId);
+    void save(Document document, int clientId);
 
-    Document getByOwner(int id, int ownerId);
+    Document get(int id, int clientId);
 
+    void delete(int id, int clientId);
 }

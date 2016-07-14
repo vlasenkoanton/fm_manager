@@ -10,8 +10,9 @@
     <title>Address</title>
 </head>
 <body>
-    <form:form action="address" method="post" modelAttribute="address">
+    <form:form method="post" modelAttribute="address">
         <dl>
+            <form:hidden path="id"/>
             <dt>Postal code</dt>
             <dd><form:input path="postCode"/></dd>
             <dt>Country</dt>

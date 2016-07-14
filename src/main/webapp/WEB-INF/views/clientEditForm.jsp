@@ -34,38 +34,242 @@
             <dd><form:input path="citizenship" /></dd>
             <dt>Responsible employee</dt>
             <dd><form:input path="responsible" /></dd>
-            <dt>Entrepreneur activity</dt>
-            <dd>
-                <p>${client.entrepreneurInfo.regNumber}, ${client.entrepreneurInfo.authority}, ${client.entrepreneurInfo.regDate}, ${client.entrepreneurInfo.activity}</p>
-                <a href="${client.id}/entrepreneur">Entrepreneur Info</a>
-            </dd>
             <dt>Political exposed person</dt>
             <dd>
                 Yes<form:radiobutton path="pep" value="true" />
                 No<form:radiobutton path="pep" value="false" />
             </dd>
+
             <dt>Address</dt>
             <dd>
-                <p>${client.address.country}, ${client.address.city}, ${client.address.street}, house #${client.address.house}, aprt.${client.address.apartment}</p>
-                <a href="${client.id}/address">Add address</a>
+                <c:choose>
+                    <c:when test="${client.address == null}">
+                        <a href="${client.id}/address/new">Add address</a>
+                    </c:when>
+                    <c:otherwise>
+                        <table border="1">
+                            <tr>
+                                <th>
+                                    Postal code
+                                </th>
+                                <th>
+                                    Country
+                                </th>
+                                <th>
+                                    Region
+                                </th>
+                                <th>
+                                    District
+                                </th>
+                                <th>
+                                    City/Town/Village
+                                </th>
+                                <th>
+                                    House #
+                                </th>
+                                <th>
+                                    Apartment/Room #
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    ${client.address.postCode}
+                                </td>
+                                <td>
+                                    ${client.address.country}
+                                </td>
+                                <td>
+                                    ${client.address.region}
+                                </td>
+                                <td>
+                                    ${client.address.district}
+                                </td>
+                                <td>
+                                    ${client.address.city}
+                                </td>
+                                <td>
+                                    ${client.address.house}
+                                </td>
+                                <td>
+                                    ${client.address.apartment}
+                                </td>
+                            </tr>
+                        </table>
+                        <a href="${client.id}/address/${client.address.id}">Edit address</a>
+                        <a href="${client.id}/address/${client.address.id}?action=delete">Delete address</a>
+                    </c:otherwise>
+                </c:choose>
             </dd>
             <dt>Documents</dt>
             <dd>
-                <c:forEach items="${client.documents}" var="document">
-                    <p>${document.series} ${document.number}, issued by: ${document.authority} on ${document.dateIssue}</p>
-                    <a href="${client.id}/document/${document.id}">Edit</a>
-                </c:forEach>
-                <p><a href="${client.id}/document/new">Add new document</a></p>
+                <c:choose>
+                    <c:when test="${client.documents == null}">
+                        <a href="${client.id}/document/new">Add document</a>
+                    </c:when>
+                    <c:otherwise>
+                        <table border="1">
+                            <tr>
+                                <th>
+                                    Type
+                                </th>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Series
+                                </th>
+                                <th>
+                                    Number
+                                </th>
+                                <th>
+                                    Authority
+                                </th>
+                                <th>
+                                    Issue date
+                                </th>
+                                <th>
+                                    Expiration date
+                                </th>
+                                <th>
+                                    Main/Additional
+                                </th>
+                            </tr>
+                            <c:forEach items="${client.documents}" var="document">
+                                <tr>
+                                    <td>${document.type}</td>
+                                    <td>${document.name}</td>
+                                    <td>${document.series}</td>
+                                    <td>${document.number}</td>
+                                    <td>${document.authority}</td>
+                                    <td>${document.dateIssue}</td>
+                                    <td>${document.dateExpire}</td>
+                                    <td>${document.main}</td>
+                                    <td><a href="${client.id}/document/${document.id}">Edit</a></td>
+                                    <td><a href="${client.id}/document/${document.id}?action=delete">Delete</a></td>
+                                </tr>
+                            </c:forEach>
+                        </table>
+                        <a href="${client.id}/document/new">Add document</a>
+                    </c:otherwise>
+                </c:choose>
             </dd>
             <dt>Workplace</dt>
             <dd>
-                <p>${client.work.name}, ${client.work.identCode}, ${client.work.position}</p>
-                <a href="${client.id}/work">Add work</a>
+                <c:choose>
+                    <c:when test="${client.work == null}">
+                        <a href="${client.id}/work/new">Add workplace</a>
+                    </c:when>
+                    <c:otherwise>
+                        <table border="1">
+                            <tr>
+                                <th>
+                                    Company name
+                                </th>
+                                <th>
+                                    Identification code
+                                </th>
+                                <th>
+                                    Position
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    ${client.work.name}
+                                </td>
+                                <td>
+                                    ${client.work.identCode}
+                                </td>
+                                <td>
+                                    ${client.work.position}
+                                </td>
+                            </tr>
+                        </table>
+                        <a href="${client.id}/work/${client.work.id}">Edit workplace</a>
+                        <a href="${client.id}/work/${client.work.id}?action=delete">Delete workplace</a>
+                    </c:otherwise>
+                </c:choose>
             </dd>
             <dt>Contact</dt>
             <dd>
-                <p>Home tel.number: ${client.contact.homeTel}, Work tel.number: ${client.contact.workTel}, Mobile: ${client.contact.mobileTel}, Fax: ${client.contact.fax}, E-mail: ${client.contact.email}</p>
-                <a href="${client.id}/contact">Add contact</a>
+                <c:choose>
+                    <c:when test="${client.contact == null}">
+                        <a href="${client.id}/contact/new">Add contact</a>
+                    </c:when>
+                    <c:otherwise>
+                        <table border="1">
+                            <tr>
+                                <th>
+                                    Home tel. number
+                                </th>
+                                <th>
+                                    Work tel. number
+                                </th>
+                                <th>
+                                    Mobile tel. number
+                                </th>
+                                <th>
+                                    Fax
+                                </th>
+                                <th>
+                                    E-mail
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                        ${client.contact.homeTel}
+                                </td>
+                                <td>
+                                        ${client.contact.workTel}
+                                </td>
+                                <td>
+                                        ${client.contact.mobileTel}
+                                </td>
+                                <td>
+                                        ${client.contact.fax}
+                                </td>
+                                <td>
+                                        ${client.contact.email}
+                                </td>
+                            </tr>
+                        </table>
+                        <a href="${client.id}/contact/${client.contact.id}">Edit contact</a>
+                        <a href="${client.id}/contact/${client.contact.id}?action=delete">Delete contact</a>
+                    </c:otherwise>
+                </c:choose>
+            </dd>
+            <dt>Entrepreneur activity</dt>
+            <dd>
+                <c:choose>
+                    <c:when test="${client.entrepreneurInfo == null}">
+                        <a href="${client.id}/entrepreneur/new">Add entrepreneur info</a>
+                    </c:when>
+                    <c:otherwise>
+                        <table border="1">
+                            <tr>
+                                <th>
+                                    Registration Number
+                                </th>
+                                <th>
+                                    Authority
+                                </th>
+                                <th>
+                                    Registration Date
+                                </th>
+                                <th>
+                                    Type of activity
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>${client.entrepreneurInfo.regNumber}</td>
+                                <td>${client.entrepreneurInfo.authority}</td>
+                                <td>${client.entrepreneurInfo.regDate}</td>
+                                <td>${client.entrepreneurInfo.activity}</td>
+                            </tr>
+                        </table>
+                        <a href="${client.id}/entrepreneur/${client.entrepreneurInfo.id}">Edit entrepreneur info</a>
+                        <a href="${client.id}/entrepreneur/${client.entrepreneurInfo.id}?action=delete">Delete entrepreneur info</a>
+                    </c:otherwise>
+                </c:choose>
             </dd>
         </dl>
         <button type="submit">Save</button>

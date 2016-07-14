@@ -8,14 +8,18 @@ import javax.persistence.*;
 @Entity
 @Table(name = "document")
 @NamedQueries({
-		@NamedQuery(name = Document.GET_BY_OWNER, query = "SELECT d FROM Document d WHERE d.id=:id AND d.owner.id=:ownerId")
+		@NamedQuery(name = Document.GET_BY_CLIENT, query = "SELECT d FROM Document d " +
+				"WHERE d.id=:id AND d.client.id=:ownerId"),
+		@NamedQuery(name = Document.DELETE_BY_CLIENT, query = "DELETE FROM Document d " +
+				"WHERE d.id=:id AND d.client.id=:clientId")
 })
 public class Document extends BaseEntity {
-	public static final String GET_BY_OWNER = "Document.getByOwner";
+	public static final String GET_BY_CLIENT = "Document.getByOwner";
+	public static final String DELETE_BY_CLIENT = "Document.deleteByClient";
 
 	@ManyToOne
-	@JoinColumn(name = "owner_id")
-	private Client owner;
+	@JoinColumn(name = "client_id")
+	private Client client;
 
 	@Column(name = "type", nullable = false)
 	private int type;
@@ -108,12 +112,12 @@ public class Document extends BaseEntity {
 		this.dateExpire = dateExpire;
 	}
 
-	public Client getOwner() {
-		return owner;
+	public Client getClient() {
+		return client;
 	}
 
-	public void setOwner(Client owner) {
-		this.owner = owner;
+	public void setClient(Client client) {
+		this.client = client;
 	}
 
 	@Override
@@ -139,18 +143,5 @@ public class Document extends BaseEntity {
 		return result;
 	}
 
-	@Override
-	public String toString() {
-		return "Document{" +
-				"owner=" + owner +
-				", type=" + type +
-				", main=" + main +
-				", name='" + name + '\'' +
-				", series='" + series + '\'' +
-				", number=" + number +
-				", authority='" + authority + '\'' +
-				", dateIssue=" + dateIssue +
-				", dateExpire=" + dateExpire +
-				'}';
-	}
+
 }

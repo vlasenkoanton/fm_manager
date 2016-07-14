@@ -20,8 +20,9 @@ CREATE TABLE fm_manager.client (
   address_id   INTEGER UNSIGNED,
   work_id      INTEGER UNSIGNED,
   contact_id   INTEGER UNSIGNED,
-  fop_id       INTEGER UNSIGNED
+  fop_info_id  INTEGER UNSIGNED
 );
+
 CREATE TABLE fm_manager.document (
   id          INTEGER UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
   type        INTEGER(1)                      NOT NULL,
@@ -32,7 +33,7 @@ CREATE TABLE fm_manager.document (
   authority   VARCHAR(50)                     NOT NULL,
   date_issue  DATE                            NOT NULL,
   date_expire DATE,
-  owner_id    INTEGER UNSIGNED
+  client_id   INTEGER UNSIGNED
 );
 CREATE TABLE fm_manager.address (
   id          INTEGER UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
@@ -46,10 +47,10 @@ CREATE TABLE fm_manager.address (
   apartment   INTEGER(4)
 );
 CREATE TABLE fm_manager.work (
-  id        INTEGER UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
-  name      VARCHAR(50)                     NOT NULL,
+  id                  INTEGER UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
+  name                VARCHAR(50)                     NOT NULL,
   identification_code INTEGER,
-  position  VARCHAR(50)
+  position            VARCHAR(50)
 );
 CREATE TABLE fm_manager.contact (
   id               INTEGER UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
@@ -75,9 +76,13 @@ ALTER TABLE fm_manager.client
   ON DELETE SET NULL,
   ADD FOREIGN KEY (contact_id) REFERENCES contact (id)
   ON DELETE SET NULL,
-  ADD FOREIGN KEY (fop_id) REFERENCES fop_info (id)
+  ADD FOREIGN KEY (fop_info_id) REFERENCES fop_info (id)
   ON DELETE SET NULL;
 
 ALTER TABLE fm_manager.document
-  ADD FOREIGN KEY (owner_id) REFERENCES client (id)
+  ADD FOREIGN KEY (client_id) REFERENCES CLIENT (id)
   ON DELETE CASCADE;
+
+
+
+

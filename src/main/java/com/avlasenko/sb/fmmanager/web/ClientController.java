@@ -49,8 +49,8 @@ public class ClientController {
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.POST)
-    public String saveClient(@ModelAttribute Client client){
-        clientService.save(client);
+    public String saveClient(@ModelAttribute Client client, @PathVariable Integer id){
+        clientService.updateWithoutRelations(client, id);
         return "redirect:/clients";
     }
 

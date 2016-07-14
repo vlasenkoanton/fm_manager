@@ -14,5 +14,7 @@ public interface GenericBaseRepository<T extends BaseEntity> {
 
     T get(int id);
 
+    T getReference(int id);
+
     Collection<T> getAll();
 }

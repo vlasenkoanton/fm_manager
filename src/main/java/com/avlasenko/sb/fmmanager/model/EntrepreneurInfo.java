@@ -1,8 +1,6 @@
 package com.avlasenko.sb.fmmanager.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 /**
@@ -10,7 +8,14 @@ import java.time.LocalDate;
  */
 @Entity
 @Table(name = "fop_info")
+@NamedQueries({
+        @NamedQuery(name = EntrepreneurInfo.GET_BY_CLIENT, query = "SELECT c.entrepreneurInfo FROM Client c " +
+                "WHERE c.entrepreneurInfo.id=:id AND c.id=:clientId"),
+        @NamedQuery(name = EntrepreneurInfo.DELETE_BY_CLIENT, query = "DELETE FROM EntrepreneurInfo e WHERE e.id=:id")
+})
 public class EntrepreneurInfo extends BaseEntity {
+    public static final String GET_BY_CLIENT = "EntrepreneurInfo.getByClient";
+    public static final String DELETE_BY_CLIENT = "EntrepreneurInfo.deleteByClient";
 
     @Column(name = "registration_number", nullable = false)
     private int regNumber;

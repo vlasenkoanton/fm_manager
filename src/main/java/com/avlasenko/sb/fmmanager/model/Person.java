@@ -2,8 +2,6 @@ package com.avlasenko.sb.fmmanager.model;
 
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.*;
 
@@ -35,19 +33,26 @@ public abstract class Person extends BaseEntity {
 	private int citizenship;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "address_id", updatable = false, insertable = false)
+	@JoinColumn(name = "address_id")
 	private Address address;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "work_id", updatable = false, insertable = false)
+	@JoinColumn(name = "work_id")
 	private Work work;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "contact_id", updatable = false, insertable = false)
+	@JoinColumn(name = "contact_id")
 	private Contact contact;
 
-
 	public Person() {
+	}
+
+	public int getIdentNumber() {
+		return identNumber;
+	}
+
+	public void setIdentNumber(int identNumber) {
+		this.identNumber = identNumber;
 	}
 
 	public String getFirstName() {
@@ -106,14 +111,6 @@ public abstract class Person extends BaseEntity {
 		this.citizenship = citizenship;
 	}
 
-	public int getIdentNumber() {
-		return identNumber;
-	}
-
-	public void setIdentNumber(int identNumber) {
-		this.identNumber = identNumber;
-	}
-
 	public Address getAddress() {
 		return address;
 	}
@@ -136,21 +133,5 @@ public abstract class Person extends BaseEntity {
 
 	public void setContact(Contact contact) {
 		this.contact = contact;
-	}
-
-	@Override
-	public String toString() {
-		return "Person{" +
-				"identNumber=" + identNumber +
-				", firstName='" + firstName + '\'' +
-				", lastName='" + lastName + '\'' +
-				", middleName='" + middleName + '\'' +
-				", dateBirth=" + dateBirth +
-				", placeBirth='" + placeBirth + '\'' +
-				", resident=" + resident +
-				", citizenship=" + citizenship +
-				", address=" + address +
-				", work=" + work +
-				'}';
 	}
 }

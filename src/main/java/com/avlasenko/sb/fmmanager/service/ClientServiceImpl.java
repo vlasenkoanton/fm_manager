@@ -25,24 +25,27 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional
+    public void updateWithoutRelations(Client client, int id) {
+        repository.updateWithoutRelations(client, id);
+    }
+
+    @Override
+    @Transactional
     public void delete(int id) {
         repository.delete(repository.get(id));
     }
 
     @Override
-    @Transactional
     public Client getById(int id) {
         return repository.get(id);
     }
 
     @Override
-    @Transactional
     public Client getWithAllProperties(int id) {
         return repository.getWithAllProperties(id);
     }
 
     @Override
-    @Transactional
     public Collection<Client> getAll() {
         return repository.getAll();
     }

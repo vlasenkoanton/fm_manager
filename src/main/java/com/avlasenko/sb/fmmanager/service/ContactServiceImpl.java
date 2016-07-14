@@ -1,28 +1,28 @@
 package com.avlasenko.sb.fmmanager.service;
 
-import com.avlasenko.sb.fmmanager.model.Document;
-import com.avlasenko.sb.fmmanager.repository.document.DocumentJpaRepository;
+import com.avlasenko.sb.fmmanager.model.Contact;
+import com.avlasenko.sb.fmmanager.repository.contact.ContactJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Created by A. Vlasenko on 06.07.2016.
+ * Created by A. Vlasenko on 14.07.2016.
  */
 @Service
-public class DocumentServiceImpl implements DocumentService {
+public class ContactServiceImpl implements ContactService {
 
     @Autowired
-    private DocumentJpaRepository repository;
+    private ContactJpaRepository repository;
 
     @Override
     @Transactional
-    public void save(Document document, int clientId) {
-        repository.save(document, clientId);
+    public void save(Contact contact, int clientId) {
+        repository.save(contact, clientId);
     }
 
     @Override
-    public Document get(int id, int clientId) {
+    public Contact get(int id, int clientId) {
         return repository.get(id, clientId);
     }
 

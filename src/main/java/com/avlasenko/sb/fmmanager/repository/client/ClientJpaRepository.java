@@ -8,6 +8,8 @@ import com.avlasenko.sb.fmmanager.repository.GenericBaseRepository;
  */
 
 public interface ClientJpaRepository extends GenericBaseRepository<Client> {
-    //some special methods to Clients
+
     Client getWithAllProperties(int id);
+
+    Client updateWithoutRelations(Client client, int id);
 }

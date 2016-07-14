@@ -1,8 +1,7 @@
 package com.avlasenko.sb.fmmanager.web;
 
-import com.avlasenko.sb.fmmanager.model.Client;
 import com.avlasenko.sb.fmmanager.model.Contact;
-import com.avlasenko.sb.fmmanager.service.ClientService;
+import com.avlasenko.sb.fmmanager.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,26 +18,29 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class ContactController {
 
     @Autowired
-    private ClientService service;
+    private ContactService service;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String editContact(@PathVariable Integer id, Model model) {
-        Client client = service.getById(id);
-        Contact contact = client.getContact();
-
-        if (contact == null) {
-            model.addAttribute("contact", new Contact());
-        } else {
-            model.addAttribute("contact", contact);
-        }
+    @RequestMapping(value = "new", method = RequestMethod.GET)
+    public String newContact(Model model) {
+        model.addAttribute("contact", new Contact());
         return "contact";
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "{contactId}", method = RequestMethod.GET)
+    public String editContact(@PathVariable Integer id, @PathVariable Integer contactId, Model model) {
+        model.addAttribute("contact", service.get(contactId, id));
+        return "contact";
+    }
+
+    @RequestMapping(value = {"new", "{contactId}"}, method = RequestMethod.POST)
     public String saveContact(@ModelAttribute Contact contact, @PathVariable Integer id) {
-        Client client = service.getById(id);
-        client.setContact(contact);
-        service.save(client);
+        service.save(contact, id);
+        return "redirect:/clients/"+id;
+    }
+
+    @RequestMapping(value = "{contactId}", params = "action=delete", method = RequestMethod.GET)
+    private String deleteContact(@PathVariable Integer id, @PathVariable Integer contactId) {
+        service.delete(contactId, id);
         return "redirect:/clients/"+id;
     }
 

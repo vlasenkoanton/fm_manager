@@ -9,8 +9,9 @@
     <title>Contact</title>
 </head>
 <body>
-    <form:form action="contact" method="POST" modelAttribute="contact">
+    <form:form method="POST" modelAttribute="contact">
         <dl>
+            <form:hidden path="id"/>
             <dt>Home tel. number</dt>
             <dd><form:input path="homeTel"/></dd>
             <dt>Work tel. number</dt>

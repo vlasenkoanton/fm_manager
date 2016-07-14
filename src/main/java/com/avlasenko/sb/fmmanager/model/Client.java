@@ -5,21 +5,31 @@ import java.util.Set;
 
 @Entity
 @Table(name = "client")
-@NamedQueries({
-		@NamedQuery(name = Client.GET_WITH_PROPERTIES, query = "FROM Client c JOIN FETCH c.documents d FETCH ALL PROPERTIES WHERE c.id=:id GROUP BY c.id")
+@NamedEntityGraph(name = Client.GRAPH, attributeNodes = {
+		@NamedAttributeNode("documents"),
+		@NamedAttributeNode("address"),
+		@NamedAttributeNode("work"),
+		@NamedAttributeNode("contact"),
+		@NamedAttributeNode("entrepreneurInfo")
 })
+@NamedQuery(name = Client.UPDATE_WITHOUT_RELATIONS, query = "UPDATE Client c SET " +
+		"c.identNumber=:identNumber, c.firstName=:firstName, c.lastName=:lastName, c.middleName=:middleName, " +
+		"c.dateBirth=:dateBirth, c.placeBirth=:placeBirth, c.resident=:resident, c.citizenship=:citizenship," +
+		"c.responsible=:responsible, c.pep=:pep WHERE c.id=:id")
 public class Client extends Person {
-	public static final String GET_WITH_PROPERTIES = "Client.edit";
+	public static final String GRAPH = "Client.graph";
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "owner")
+	public static final String UPDATE_WITHOUT_RELATIONS = "Client.updateWithoutRelations";
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
 	private Set<Document> documents;
+
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "fop_info_id")
+	private EntrepreneurInfo entrepreneurInfo;
 
 	@Column(name = "responsible")
 	private String responsible;
-
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "fop_id", updatable = false, insertable = false)
-	private EntrepreneurInfo entrepreneurInfo;
 
 	@Column(name = "pep", nullable = false)
 	private boolean pep;
@@ -38,12 +48,12 @@ public class Client extends Person {
 		this.documents = documents;
 	}
 
-	public boolean isPep() {
-		return pep;
+	public EntrepreneurInfo getEntrepreneurInfo() {
+		return entrepreneurInfo;
 	}
 
-	public void setPep(boolean pep) {
-		this.pep = pep;
+	public void setEntrepreneurInfo(EntrepreneurInfo entrepreneurInfo) {
+		this.entrepreneurInfo = entrepreneurInfo;
 	}
 
 	public String getResponsible() {
@@ -54,16 +64,11 @@ public class Client extends Person {
 		this.responsible = responsible;
 	}
 
-	public EntrepreneurInfo getEntrepreneurInfo() {
-		return entrepreneurInfo;
+	public boolean isPep() {
+		return pep;
 	}
 
-	public void setEntrepreneurInfo(EntrepreneurInfo entrepreneurInfo) {
-		this.entrepreneurInfo = entrepreneurInfo;
-	}
-
-	@Override
-	public String toString() {
-		return super.toString();
+	public void setPep(boolean pep) {
+		this.pep = pep;
 	}
 }

@@ -9,8 +9,9 @@
     <title>Work</title>
 </head>
 <body>
-<form:form action="work" method="post" modelAttribute="work">
+<form:form method="post" modelAttribute="work">
     <dl>
+        <form:hidden path="id"/>
         <dt>Company name</dt>
         <dd><form:input path="name"/></dd>
         <dt>Identification code</dt>

@@ -9,8 +9,9 @@
     <title>Entrepreneur Info</title>
 </head>
 <body>
-    <form:form action="entrepreneur" method="POST" modelAttribute="entrepreneurInfo">
+    <form:form method="POST" modelAttribute="entrepreneurInfo">
         <dl>
+            <form:hidden path="id"/>
             <dt>Registration Number</dt>
             <dd><form:input path="regNumber"/></dd>
             <dt>Authority</dt>

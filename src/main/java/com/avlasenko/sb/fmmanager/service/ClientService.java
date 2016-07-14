@@ -1,10 +1,7 @@
 package com.avlasenko.sb.fmmanager.service;
 
-import com.avlasenko.sb.fmmanager.model.Address;
 import com.avlasenko.sb.fmmanager.model.Client;
-import com.avlasenko.sb.fmmanager.model.Document;
 
-import javax.print.Doc;
 import java.util.Collection;
 
 /**
@@ -13,6 +10,8 @@ import java.util.Collection;
 public interface ClientService {
 
     Client save(Client client);
+
+    void updateWithoutRelations(Client client, int id);
 
     void delete(int id);
 
