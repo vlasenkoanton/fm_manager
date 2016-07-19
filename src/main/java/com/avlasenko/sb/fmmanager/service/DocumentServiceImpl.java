@@ -2,6 +2,7 @@ package com.avlasenko.sb.fmmanager.service;
 
 import com.avlasenko.sb.fmmanager.model.Document;
 import com.avlasenko.sb.fmmanager.repository.document.DocumentJpaRepository;
+import com.avlasenko.sb.fmmanager.util.exception.ExceptionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,17 +19,17 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     @Transactional
     public void save(Document document, int clientId) {
-        repository.save(document, clientId);
+        ExceptionUtil.checkNotFoundByClient(repository.save(document, clientId), clientId);
     }
 
     @Override
     public Document get(int id, int clientId) {
-        return repository.get(id, clientId);
+        return ExceptionUtil.checkNotFoundByClient(repository.get(id, clientId), clientId);
     }
 
     @Override
     @Transactional
     public void delete(int id, int clientId) {
-        repository.delete(id, clientId);
+        ExceptionUtil.checkNotFoundByClient(repository.delete(id, clientId), clientId);
     }
 }
