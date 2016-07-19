@@ -271,6 +271,35 @@
                     </c:otherwise>
                 </c:choose>
             </dd>
+            <dt>Financial monitoring info</dt>
+            <dd>
+                <c:choose>
+                    <c:when test="${client.fmInfo == null}">
+                        <a href="${client.id}/fmInfo/new">Add FM Info</a>
+                    </c:when>
+                    <c:otherwise>
+                        <table border="1">
+                            <tr>
+                                <th>Service history</th>
+                                <th>Income sources and size</th>
+                            </tr>
+                            <tr>
+                                <td>${client.fmInfo.serviceHistory}</td>
+                                <td>
+                                    <tr><th>Total month income</th><td>${client.fmInfo.incomeSources.monthIncome}</td></tr>
+                                    <tr><th>Financial help</th><td>${client.fmInfo.incomeSources.financialHelp}</td></tr>
+                                    <tr><th>Securities</th><td>${client.fmInfo.incomeSources.securities}</td></tr>
+                                    <tr><th>Assignment</th><td>${client.fmInfo.incomeSources.assignment}</td></tr>
+                                    <tr><th>Loan</th><td>${client.fmInfo.incomeSources.loans}</td></tr>
+                                    <tr><th>Term contracts</th><td>${client.fmInfo.incomeSources.termContracts}</td></tr>
+                                </td>
+                            </tr>
+                        </table>
+                        <a href="${client.id}/fmInfo/${client.fmInfo.id}">Edit FM Info</a>
+                        <a href="${client.id}/fmInfo/${client.fmInfo.id}?action=delete">Delete FM Info</a>
+                    </c:otherwise>
+                </c:choose>
+            </dd>
         </dl>
         <button type="submit">Save</button>
     </form:form>

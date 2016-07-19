@@ -30,10 +30,15 @@ INSERT INTO fm_manager.contact (home_telephone, work_telephone, mobile_telephone
 INSERT INTO fm_manager.fop_info (registration_number, authority, registration_date, activity) VALUES
   (123654789, 'fop registration', '2006-3-26', 'legal activity');
 
-INSERT INTO fm_manager.client (first_name, last_name, middle_name, ident_number, date_birth, place_birth, resident, citizenship, responsible, pep, address_id, work_id, contact_id, fop_info_id) VALUES
-  ('Anton', 'Antonenko', 'Antonovych', 12365474, '1988-5-5', 'Cherkassy', TRUE, 980, 'Vasya Pupkin', FALSE, 1, 1, 1, NULL),
-  ('Ivan', 'Ivanenko', 'Ivanovych', 25412548, '1994-7-24', 'Cherkassy', TRUE, 980, 'Vasya Pupkin', FALSE, 2, 2, 2, 1),
-  ('Petr', 'Petrenko', 'Petrovych', 45216, '1986-2-15', 'Chernigov', TRUE, 980, 'Vasya Pupkin', FALSE, 3, 3, 3, NULL);
+INSERT INTO fm_manager.fm_info (service_history, month_income, financial_help, securities, assignment, loans, term_contracts) VALUES
+  ('normal client', 1200000, 200000, 0, 0, 100000, 900000),
+  ('all right', 1500000, 0, 500000, 0, 0, 700000),
+  ('suspicious activity that not relates to month income', 2800000, 300000, 0, 150000, 350000, 2000000);
+
+INSERT INTO fm_manager.client (first_name, last_name, middle_name, ident_number, date_birth, place_birth, resident, citizenship, responsible, pep, address_id, work_id, contact_id, fop_info_id, fm_info_id) VALUES
+  ('Anton', 'Antonenko', 'Antonovych', 12365474, '1988-5-5', 'Cherkassy', TRUE, 980, 'Vasya Pupkin', FALSE, 1, 1, 1, NULL, 1),
+  ('Ivan', 'Ivanenko', 'Ivanovych', 25412548, '1994-7-24', 'Cherkassy', TRUE, 980, 'Vasya Pupkin', FALSE, 2, 2, 2, 1, 2),
+  ('Petr', 'Petrenko', 'Petrovych', 45216, '1986-2-15', 'Chernigov', TRUE, 980, 'Vasya Pupkin', FALSE, 3, 3, 3, NULL, 3);
 
 INSERT INTO fm_manager.document (type, main, name, series, number, authority, date_issue, date_expire, client_id) VALUES
   (1, TRUE, 'National Passport', 'KK', 123654, 'some authority', '1996-5-8', NULL, 1),

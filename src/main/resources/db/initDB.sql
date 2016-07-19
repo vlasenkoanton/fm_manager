@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS fm_manager.address;
 DROP TABLE IF EXISTS fm_manager.work;
 DROP TABLE IF EXISTS fm_manager.contact;
 DROP TABLE IF EXISTS fm_manager.fop_info;
+DROP TABLE IF EXISTS fm_manager.fm_info;
 
 CREATE TABLE fm_manager.client (
   id           INTEGER UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
@@ -20,7 +21,8 @@ CREATE TABLE fm_manager.client (
   address_id   INTEGER UNSIGNED,
   work_id      INTEGER UNSIGNED,
   contact_id   INTEGER UNSIGNED,
-  fop_info_id  INTEGER UNSIGNED
+  fop_info_id  INTEGER UNSIGNED,
+  fm_info_id   INTEGER UNSIGNED
 );
 
 CREATE TABLE fm_manager.document (
@@ -67,8 +69,17 @@ CREATE TABLE fm_manager.fop_info (
   registration_date   DATE                            NOT NULL,
   activity            VARCHAR(50)                     NOT NULL
 );
+CREATE TABLE fm_manager.fm_info (
+  id              INTEGER UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
+  service_history VARCHAR(255)                    NOT NULL,
+  month_income    BIGINT                          NOT NULL,
+  financial_help  BIGINT UNSIGNED,
+  securities      BIGINT UNSIGNED,
+  assignment      BIGINT UNSIGNED,
+  loans           BIGINT UNSIGNED,
+  term_contracts  BIGINT UNSIGNED
+);
 
-#Following are Foreign Key settings:
 ALTER TABLE fm_manager.client
   ADD FOREIGN KEY (address_id) REFERENCES address (id)
   ON DELETE SET NULL,
@@ -77,10 +88,12 @@ ALTER TABLE fm_manager.client
   ADD FOREIGN KEY (contact_id) REFERENCES contact (id)
   ON DELETE SET NULL,
   ADD FOREIGN KEY (fop_info_id) REFERENCES fop_info (id)
+  ON DELETE SET NULL,
+  ADD FOREIGN KEY (fm_info_id) REFERENCES fm_info (id)
   ON DELETE SET NULL;
 
 ALTER TABLE fm_manager.document
-  ADD FOREIGN KEY (client_id) REFERENCES CLIENT (id)
+  ADD FOREIGN KEY (client_id) REFERENCES client (id)
   ON DELETE CASCADE;
 
 

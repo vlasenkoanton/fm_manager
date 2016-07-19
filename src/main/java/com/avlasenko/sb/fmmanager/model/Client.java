@@ -10,12 +10,13 @@ import java.util.Set;
 		@NamedAttributeNode("address"),
 		@NamedAttributeNode("work"),
 		@NamedAttributeNode("contact"),
-		@NamedAttributeNode("entrepreneurInfo")
+		@NamedAttributeNode("entrepreneurInfo"),
+		@NamedAttributeNode("fmInfo")
 })
 @NamedQuery(name = Client.UPDATE_WITHOUT_RELATIONS, query = "UPDATE Client c SET " +
 		"c.identNumber=:identNumber, c.firstName=:firstName, c.lastName=:lastName, c.middleName=:middleName, " +
 		"c.dateBirth=:dateBirth, c.placeBirth=:placeBirth, c.resident=:resident, c.citizenship=:citizenship," +
-		"c.responsible=:responsible, c.pep=:pep WHERE c.id=:id")
+		"c.responsible=:responsible, c.pep=:pep WHERE c.id=:id") 												//TODO find more sophisticated solution
 public class Client extends Person {
 	public static final String GRAPH = "Client.graph";
 
@@ -27,6 +28,10 @@ public class Client extends Person {
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "fop_info_id")
 	private EntrepreneurInfo entrepreneurInfo;
+
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "fm_info_id")
+	private FmInfo fmInfo;
 
 	@Column(name = "responsible")
 	private String responsible;
@@ -54,6 +59,14 @@ public class Client extends Person {
 
 	public void setEntrepreneurInfo(EntrepreneurInfo entrepreneurInfo) {
 		this.entrepreneurInfo = entrepreneurInfo;
+	}
+
+	public FmInfo getFmInfo() {
+		return fmInfo;
+	}
+
+	public void setFmInfo(FmInfo fmInfo) {
+		this.fmInfo = fmInfo;
 	}
 
 	public String getResponsible() {
