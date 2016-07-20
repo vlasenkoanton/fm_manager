@@ -7,9 +7,9 @@ import com.avlasenko.sb.fmmanager.repository.GenericBaseRepository;
  * Created by A. Vlasenko on 26.06.2016.
  */
 public interface DocumentJpaRepository extends GenericBaseRepository<Document> {
-    Document save(Document document, int clientId);
+    Document save(Document document, int ownerId);
 
-    Document get(int id, int clientId);
+    Document get(int id, int ownerId);
 
-    boolean delete(int id, int clientId);
+    boolean delete(int id, int ownerId);
 }

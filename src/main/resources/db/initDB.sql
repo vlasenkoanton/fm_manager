@@ -1,28 +1,31 @@
 DROP TABLE IF EXISTS fm_manager.document;
-DROP TABLE IF EXISTS fm_manager.client;
+DROP TABLE IF EXISTS fm_manager.related;
 DROP TABLE IF EXISTS fm_manager.address;
 DROP TABLE IF EXISTS fm_manager.work;
 DROP TABLE IF EXISTS fm_manager.contact;
 DROP TABLE IF EXISTS fm_manager.fop_info;
 DROP TABLE IF EXISTS fm_manager.fm_info;
 
-CREATE TABLE fm_manager.client (
-  id           INTEGER UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
-  first_name   VARCHAR(50)                     NOT NULL,
-  last_name    VARCHAR(50)                     NOT NULL,
-  middle_name  VARCHAR(50),
-  ident_number INTEGER,
-  date_birth   DATE                            NOT NULL,
-  place_birth  VARCHAR(50)                     NOT NULL,
-  resident     BIT(1)                          NOT NULL,
-  citizenship  INTEGER(3)                      NOT NULL,
-  responsible  VARCHAR(50),
-  pep          BIT(0)                          NOT NULL,
-  address_id   INTEGER UNSIGNED,
-  work_id      INTEGER UNSIGNED,
-  contact_id   INTEGER UNSIGNED,
-  fop_info_id  INTEGER UNSIGNED,
-  fm_info_id   INTEGER UNSIGNED
+CREATE TABLE fm_manager.related (
+  id                INTEGER UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
+  rel_type          VARCHAR(10)                     NOT NULL,
+  first_name        VARCHAR(50)                     NOT NULL,
+  last_name         VARCHAR(50)                     NOT NULL,
+  middle_name       VARCHAR(50),
+  ident_number      INTEGER,
+  date_birth        DATE                            NOT NULL,
+  place_birth       VARCHAR(50)                     NOT NULL,
+  resident          BIT(1)                          NOT NULL,
+  citizenship       INTEGER(3)                      NOT NULL,
+  responsible       VARCHAR(50),
+  pep               BIT(0)                          NOT NULL,
+  address_id        INTEGER UNSIGNED,
+  work_id           INTEGER UNSIGNED,
+  contact_id        INTEGER UNSIGNED,
+  fop_info_id       INTEGER UNSIGNED,
+  fm_info_id        INTEGER UNSIGNED,
+  account_opener_id INTEGER UNSIGNED,
+  representative_id INTEGER UNSIGNED
 );
 
 CREATE TABLE fm_manager.document (
@@ -35,7 +38,7 @@ CREATE TABLE fm_manager.document (
   authority   VARCHAR(50)                     NOT NULL,
   date_issue  DATE                            NOT NULL,
   date_expire DATE,
-  client_id   INTEGER UNSIGNED
+  owner_id    INTEGER UNSIGNED
 );
 CREATE TABLE fm_manager.address (
   id          INTEGER UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
@@ -80,7 +83,7 @@ CREATE TABLE fm_manager.fm_info (
   term_contracts  BIGINT UNSIGNED
 );
 
-ALTER TABLE fm_manager.client
+ALTER TABLE fm_manager.related
   ADD FOREIGN KEY (address_id) REFERENCES address (id)
   ON DELETE SET NULL,
   ADD FOREIGN KEY (work_id) REFERENCES work (id)
@@ -90,10 +93,14 @@ ALTER TABLE fm_manager.client
   ADD FOREIGN KEY (fop_info_id) REFERENCES fop_info (id)
   ON DELETE SET NULL,
   ADD FOREIGN KEY (fm_info_id) REFERENCES fm_info (id)
+  ON DELETE SET NULL,
+  ADD FOREIGN KEY (account_opener_id) REFERENCES related (id)
+  ON DELETE SET NULL,
+  ADD FOREIGN KEY (representative_id) REFERENCES related (id)
   ON DELETE SET NULL;
 
 ALTER TABLE fm_manager.document
-  ADD FOREIGN KEY (client_id) REFERENCES client (id)
+  ADD FOREIGN KEY (owner_id) REFERENCES related (id)
   ON DELETE CASCADE;
 
 

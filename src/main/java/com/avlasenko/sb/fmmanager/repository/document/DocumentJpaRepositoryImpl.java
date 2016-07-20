@@ -1,7 +1,7 @@
 package com.avlasenko.sb.fmmanager.repository.document;
 
-import com.avlasenko.sb.fmmanager.model.Client;
 import com.avlasenko.sb.fmmanager.model.Document;
+import com.avlasenko.sb.fmmanager.model.Related;
 import com.avlasenko.sb.fmmanager.repository.GenericJpaRepository;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
@@ -22,29 +22,29 @@ public class DocumentJpaRepositoryImpl extends GenericJpaRepository<Document> im
 
 
     @Override
-    public Document save(Document document, int clientId) {
-        if (!document.isNew() && get(document.getId(), clientId) == null) {
+    public Document save(Document document, int ownerId) {
+        if (!document.isNew() && get(document.getId(), ownerId) == null) {
             return null;
         }
 
-        Client client = entityManager.getReference(Client.class, clientId);
-        document.setClient(client);
+        Related related = entityManager.getReference(Related.class, ownerId);
+        document.setOwner(related);
         return save(document);
     }
 
     @Override
-    public Document get(int id, int clientId) {
+    public Document get(int id, int ownerId) {
         TypedQuery<Document> query = entityManager.createNamedQuery(Document.GET_BY_CLIENT, Document.class);
         query.setParameter("id", id);
-        query.setParameter("ownerId", clientId);
+        query.setParameter("ownerId", ownerId);
         return DataAccessUtils.singleResult(query.getResultList());
     }
 
     @Override
-    public boolean delete(int id, int clientId) {
+    public boolean delete(int id, int ownerId) {
         Query query = entityManager.createNamedQuery(Document.DELETE_BY_CLIENT);
         query.setParameter("id", id)
-                .setParameter("clientId", clientId);
+                .setParameter("ownerId", ownerId);
         return query.executeUpdate() == 1;
     }
 }

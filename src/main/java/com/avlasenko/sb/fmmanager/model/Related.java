@@ -2,11 +2,36 @@ package com.avlasenko.sb.fmmanager.model;
 
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import javax.persistence.*;
 
-@MappedSuperclass
-public abstract class Person extends BaseEntity {
+@Entity
+@Table(name = "related")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "rel_type")
+@DiscriminatorValue("related")
+@NamedEntityGraph(name = Related.RELATED_GET_WITH_RELATIONS, attributeNodes = {
+		@NamedAttributeNode("address"),
+		@NamedAttributeNode("documents")
+})
+@NamedQueries({
+		@NamedQuery(name = Related.RELATED_UPDATE_WITHOUT_RELATIONS, query = "UPDATE Related r SET " +
+				"r.identNumber=:identNumber, r.firstName=:firstName, r.lastName=:lastName, r.middleName=:middleName, " +
+				"r.dateBirth=:dateBirth, r.placeBirth=:placeBirth, r.resident=:resident, r.citizenship=:citizenship " +
+				"WHERE r.id=:id"),																							//TODO find more sophisticated solution
+		@NamedQuery(name = Related.GET_OPENER_BY_CLIENT, query = "SELECT c.accOpener FROM Client c " +
+				"WHERE c.accOpener.id=:id AND c.id=:clientId"),
+		@NamedQuery(name = Related.GET_REPRESENTATIVE_BY_CLIENT, query = "SELECT c.representative FROM Client c " +
+				"WHERE c.representative.id=:id AND c.id=:clientId"),
+		@NamedQuery(name = Related.DELETE_BY_CLIENT, query = "DELETE FROM Related r WHERE r.id=:id")
+})
+public class Related extends BaseEntity {
+	public static final String RELATED_GET_WITH_RELATIONS = "Related.getWithRelations";
+	public static final String RELATED_UPDATE_WITHOUT_RELATIONS = "Related.updateWithoutRelations";
+	public static final String GET_OPENER_BY_CLIENT = "Related.getOpenerByClient";
+	public static final String GET_REPRESENTATIVE_BY_CLIENT = "Related.getRepresentativeByClient";
+	public static final String DELETE_BY_CLIENT = "Related.deleteByClient";
 
 	@Column(name = "ident_number")
 	private int identNumber;
@@ -36,15 +61,10 @@ public abstract class Person extends BaseEntity {
 	@JoinColumn(name = "address_id")
 	private Address address;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "work_id")
-	private Work work;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
+	private Set<Document> documents;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "contact_id")
-	private Contact contact;
-
-	public Person() {
+	public Related() {
 	}
 
 	public int getIdentNumber() {
@@ -119,19 +139,11 @@ public abstract class Person extends BaseEntity {
 		this.address = address;
 	}
 
-	public Work getWork() {
-		return work;
+	public Set<Document> getDocuments() {
+		return documents;
 	}
 
-	public void setWork(Work work) {
-		this.work = work;
-	}
-
-	public Contact getContact() {
-		return contact;
-	}
-
-	public void setContact(Contact contact) {
-		this.contact = contact;
+	public void setDocuments(Set<Document> documents) {
+		this.documents = documents;
 	}
 }

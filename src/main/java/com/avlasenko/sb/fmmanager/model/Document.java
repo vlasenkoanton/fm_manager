@@ -9,17 +9,17 @@ import javax.persistence.*;
 @Table(name = "document")
 @NamedQueries({
 		@NamedQuery(name = Document.GET_BY_CLIENT, query = "SELECT d FROM Document d " +
-				"WHERE d.id=:id AND d.client.id=:ownerId"),
+				"WHERE d.id=:id AND d.owner.id=:ownerId"),
 		@NamedQuery(name = Document.DELETE_BY_CLIENT, query = "DELETE FROM Document d " +
-				"WHERE d.id=:id AND d.client.id=:clientId")
+				"WHERE d.id=:id AND d.owner.id=:ownerId")
 })
 public class Document extends BaseEntity {
 	public static final String GET_BY_CLIENT = "Document.getByOwner";
 	public static final String DELETE_BY_CLIENT = "Document.deleteByClient";
 
 	@ManyToOne
-	@JoinColumn(name = "client_id")
-	private Client client;
+	@JoinColumn(name = "owner_id")
+	private Related owner;
 
 	@Column(name = "type", nullable = false)
 	private int type;
@@ -112,12 +112,12 @@ public class Document extends BaseEntity {
 		this.dateExpire = dateExpire;
 	}
 
-	public Client getClient() {
-		return client;
+	public Related getOwner() {
+		return owner;
 	}
 
-	public void setClient(Client client) {
-		this.client = client;
+	public void setOwner(Related owner) {
+		this.owner = owner;
 	}
 
 	@Override

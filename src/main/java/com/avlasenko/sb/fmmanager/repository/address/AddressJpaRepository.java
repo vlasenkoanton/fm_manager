@@ -9,7 +9,7 @@ import com.avlasenko.sb.fmmanager.repository.GenericBaseRepository;
 public interface AddressJpaRepository extends GenericBaseRepository<Address> {
     Address save(Address address, int clientId);
 
-    Address get(int id, int clientId);
+    Address get(int id, int clientId); //TODO remove code duplicate in all similar repos using Criteria API and generics
 
     boolean delete(int id, int clientId);
 }

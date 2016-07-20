@@ -103,7 +103,7 @@
             <dt>Documents</dt>
             <dd>
                 <c:choose>
-                    <c:when test="${client.documents == null}">
+                    <c:when test="${client.documents == null || empty client.documents}">
                         <a href="${client.id}/document/new">Add document</a>
                     </c:when>
                     <c:otherwise>

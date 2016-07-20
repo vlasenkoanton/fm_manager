@@ -23,7 +23,7 @@ public class ClientJpaRepositoryImpl extends GenericJpaRepository<Client> implem
 
     @Override
     public Client getWithAllProperties(int id) {
-        EntityGraph<?> graph = entityManager.createEntityGraph(Client.GRAPH);
+        EntityGraph<?> graph = entityManager.createEntityGraph(Client.CLIENT_GET_WITH_RELATIONS);
         Map<String, Object> hints = new HashMap<>();
         hints.put("javax.persistence.loadgraph", graph);
         return entityManager.find(Client.class, id, hints);
@@ -35,7 +35,7 @@ public class ClientJpaRepositoryImpl extends GenericJpaRepository<Client> implem
             return null;
         }
 
-        Query query = entityManager.createNamedQuery(Client.UPDATE_WITHOUT_RELATIONS);
+        Query query = entityManager.createNamedQuery(Client.CLIENT_UPDATE_WITHOUT_RELATIONS);
         query
                 .setParameter("id", id)
                 .setParameter("identNumber", client.getIdentNumber())

@@ -9,9 +9,9 @@ import com.avlasenko.sb.fmmanager.util.exception.EntryNotFoundException;
  */
 public interface DocumentService {
 
-    void save(Document document, int clientId) throws EntryNotFoundException;
+    void save(Document document, int ownerId) throws EntryNotFoundException;
 
-    Document get(int id, int clientId) throws EntryNotFoundException;
+    Document get(int id, int ownerId) throws EntryNotFoundException;
 
-    void delete(int id, int clientId) throws EntryNotFoundException;
+    void delete(int id, int ownerId) throws EntryNotFoundException;
 }
