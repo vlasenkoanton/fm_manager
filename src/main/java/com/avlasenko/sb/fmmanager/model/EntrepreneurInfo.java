@@ -8,14 +8,10 @@ import java.time.LocalDate;
  */
 @Entity
 @Table(name = "fop_info")
-@NamedQueries({
-        @NamedQuery(name = EntrepreneurInfo.GET_BY_CLIENT, query = "SELECT c.entrepreneurInfo FROM Client c " +
-                "WHERE c.entrepreneurInfo.id=:id AND c.id=:clientId"),
-        @NamedQuery(name = EntrepreneurInfo.DELETE_BY_CLIENT, query = "DELETE FROM EntrepreneurInfo e WHERE e.id=:id")
-})
+@NamedQuery(name = EntrepreneurInfo.GET_BY_OWNER, query = "SELECT i.entrepreneurInfo FROM Individual i " +
+        "WHERE i.id=:ownerId")
 public class EntrepreneurInfo extends BaseEntity {
-    public static final String GET_BY_CLIENT = "EntrepreneurInfo.getByClient";
-    public static final String DELETE_BY_CLIENT = "EntrepreneurInfo.deleteByClient";
+    public static final String GET_BY_OWNER = "EntrepreneurInfo.getByOwner";
 
     @Column(name = "registration_number", nullable = false)
     private int regNumber;

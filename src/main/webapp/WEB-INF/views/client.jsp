@@ -10,7 +10,7 @@
     <title></title>
 </head>
 <body>
-    <form:form method="POST" modelAttribute="client">
+    <form:form method="POST" modelAttribute="individual">
         <dl>
             <form:hidden path="id"/>
             <dt>First name</dt>
@@ -39,12 +39,11 @@
                 Yes<form:radiobutton path="pep" value="true" />
                 No<form:radiobutton path="pep" value="false" />
             </dd>
-
             <dt>Address</dt>
             <dd>
                 <c:choose>
-                    <c:when test="${client.address == null}">
-                        <a href="${client.id}/address/new">Add address</a>
+                    <c:when test="${individual.address == null}">
+                        <a href="${individual.id}/address">New Address</a>
                     </c:when>
                     <c:otherwise>
                         <table border="1">
@@ -73,38 +72,38 @@
                             </tr>
                             <tr>
                                 <td>
-                                    ${client.address.postCode}
+                                        ${individual.address.postCode}
                                 </td>
                                 <td>
-                                    ${client.address.country}
+                                        ${individual.address.country}
                                 </td>
                                 <td>
-                                    ${client.address.region}
+                                        ${individual.address.region}
                                 </td>
                                 <td>
-                                    ${client.address.district}
+                                        ${individual.address.district}
                                 </td>
                                 <td>
-                                    ${client.address.city}
+                                        ${individual.address.city}
                                 </td>
                                 <td>
-                                    ${client.address.house}
+                                        ${individual.address.house}
                                 </td>
                                 <td>
-                                    ${client.address.apartment}
+                                        ${individual.address.apartment}
                                 </td>
                             </tr>
                         </table>
-                        <a href="${client.id}/address/${client.address.id}">Edit address</a>
-                        <a href="${client.id}/address/${client.address.id}?action=delete">Delete address</a>
+                        <a href="${individual.id}/address">Edit Address</a>
+                        <a href="${individual.id}/address?action=delete">Delete address</a>
                     </c:otherwise>
                 </c:choose>
             </dd>
             <dt>Documents</dt>
             <dd>
                 <c:choose>
-                    <c:when test="${client.documents == null || empty client.documents}">
-                        <a href="${client.id}/document/new">Add document</a>
+                    <c:when test="${individual.documents == null || empty individual.documents}">
+                        <a href="${individual.id}/documents?action=create">Add document</a>
                     </c:when>
                     <c:otherwise>
                         <table border="1">
@@ -134,7 +133,7 @@
                                     Main/Additional
                                 </th>
                             </tr>
-                            <c:forEach items="${client.documents}" var="document">
+                            <c:forEach items="${individual.documents}" var="document">
                                 <tr>
                                     <td>${document.type}</td>
                                     <td>${document.name}</td>
@@ -144,20 +143,20 @@
                                     <td>${document.dateIssue}</td>
                                     <td>${document.dateExpire}</td>
                                     <td>${document.main}</td>
-                                    <td><a href="${client.id}/document/${document.id}">Edit</a></td>
-                                    <td><a href="${client.id}/document/${document.id}?action=delete">Delete</a></td>
+                                    <td><a href="${individual.id}/documents/${document.id}">Edit</a></td>
+                                    <td><a href="${individual.id}/documents/${document.id}?action=delete">Delete</a></td>
                                 </tr>
                             </c:forEach>
                         </table>
-                        <a href="${client.id}/document/new">Add document</a>
+                        <a href="${individual.id}/documents?action=create">Add document</a>
                     </c:otherwise>
                 </c:choose>
             </dd>
             <dt>Workplace</dt>
             <dd>
                 <c:choose>
-                    <c:when test="${client.work == null}">
-                        <a href="${client.id}/work/new">Add workplace</a>
+                    <c:when test="${individual.work == null}">
+                        <a href="${individual.id}/work">Add workplace</a>
                     </c:when>
                     <c:otherwise>
                         <table border="1">
@@ -174,26 +173,26 @@
                             </tr>
                             <tr>
                                 <td>
-                                    ${client.work.name}
+                                    ${individual.work.name}
                                 </td>
                                 <td>
-                                    ${client.work.identCode}
+                                    ${individual.work.identCode}
                                 </td>
                                 <td>
-                                    ${client.work.position}
+                                    ${individual.work.position}
                                 </td>
                             </tr>
                         </table>
-                        <a href="${client.id}/work/${client.work.id}">Edit workplace</a>
-                        <a href="${client.id}/work/${client.work.id}?action=delete">Delete workplace</a>
+                        <a href="${individual.id}/work">Edit workplace</a>
+                        <a href="${individual.id}/work?action=delete">Delete workplace</a>
                     </c:otherwise>
                 </c:choose>
             </dd>
             <dt>Contact</dt>
             <dd>
                 <c:choose>
-                    <c:when test="${client.contact == null}">
-                        <a href="${client.id}/contact/new">Add contact</a>
+                    <c:when test="${individual.contact == null}">
+                        <a href="${individual.id}/contact">Add contact</a>
                     </c:when>
                     <c:otherwise>
                         <table border="1">
@@ -216,32 +215,32 @@
                             </tr>
                             <tr>
                                 <td>
-                                        ${client.contact.homeTel}
+                                        ${individual.contact.homeTel}
                                 </td>
                                 <td>
-                                        ${client.contact.workTel}
+                                        ${individual.contact.workTel}
                                 </td>
                                 <td>
-                                        ${client.contact.mobileTel}
+                                        ${individual.contact.mobileTel}
                                 </td>
                                 <td>
-                                        ${client.contact.fax}
+                                        ${individual.contact.fax}
                                 </td>
                                 <td>
-                                        ${client.contact.email}
+                                        ${individual.contact.email}
                                 </td>
                             </tr>
                         </table>
-                        <a href="${client.id}/contact/${client.contact.id}">Edit contact</a>
-                        <a href="${client.id}/contact/${client.contact.id}?action=delete">Delete contact</a>
+                        <a href="${individual.id}/contact">Edit contact</a>
+                        <a href="${individual.id}/contact?action=delete">Delete contact</a>
                     </c:otherwise>
                 </c:choose>
             </dd>
             <dt>Entrepreneur activity</dt>
             <dd>
                 <c:choose>
-                    <c:when test="${client.entrepreneurInfo == null}">
-                        <a href="${client.id}/entrepreneur/new">Add entrepreneur info</a>
+                    <c:when test="${individual.entrepreneurInfo == null}">
+                        <a href="${individual.id}/entrepreneur">Add entrepreneur info</a>
                     </c:when>
                     <c:otherwise>
                         <table border="1">
@@ -260,22 +259,22 @@
                                 </th>
                             </tr>
                             <tr>
-                                <td>${client.entrepreneurInfo.regNumber}</td>
-                                <td>${client.entrepreneurInfo.authority}</td>
-                                <td>${client.entrepreneurInfo.regDate}</td>
-                                <td>${client.entrepreneurInfo.activity}</td>
+                                <td>${individual.entrepreneurInfo.regNumber}</td>
+                                <td>${individual.entrepreneurInfo.authority}</td>
+                                <td>${individual.entrepreneurInfo.regDate}</td>
+                                <td>${individual.entrepreneurInfo.activity}</td>
                             </tr>
                         </table>
-                        <a href="${client.id}/entrepreneur/${client.entrepreneurInfo.id}">Edit entrepreneur info</a>
-                        <a href="${client.id}/entrepreneur/${client.entrepreneurInfo.id}?action=delete">Delete entrepreneur info</a>
+                        <a href="${individual.id}/entrepreneur">Edit entrepreneur info</a>
+                        <a href="${individual.id}/entrepreneur?action=delete">Delete entrepreneur info</a>
                     </c:otherwise>
                 </c:choose>
             </dd>
             <dt>Financial monitoring info</dt>
             <dd>
                 <c:choose>
-                    <c:when test="${client.fmInfo == null}">
-                        <a href="${client.id}/fmInfo/new">Add FM Info</a>
+                    <c:when test="${individual.fmInfo == null}">
+                        <a href="${individual.id}/fmInfo">Add FM Info</a>
                     </c:when>
                     <c:otherwise>
                         <table border="1">
@@ -284,19 +283,67 @@
                                 <th>Income sources and size</th>
                             </tr>
                             <tr>
-                                <td>${client.fmInfo.serviceHistory}</td>
+                                <td>${individual.fmInfo.serviceHistory}</td>
                                 <td>
-                                    <tr><th>Total month income</th><td>${client.fmInfo.incomeSources.monthIncome}</td></tr>
-                                    <tr><th>Financial help</th><td>${client.fmInfo.incomeSources.financialHelp}</td></tr>
-                                    <tr><th>Securities</th><td>${client.fmInfo.incomeSources.securities}</td></tr>
-                                    <tr><th>Assignment</th><td>${client.fmInfo.incomeSources.assignment}</td></tr>
-                                    <tr><th>Loan</th><td>${client.fmInfo.incomeSources.loans}</td></tr>
-                                    <tr><th>Term contracts</th><td>${client.fmInfo.incomeSources.termContracts}</td></tr>
+                                    <tr><th>Total month income</th><td>${individual.fmInfo.incomeSources.monthIncome}</td></tr>
+                                    <tr><th>Financial help</th><td>${individual.fmInfo.incomeSources.financialHelp}</td></tr>
+                                    <tr><th>Securities</th><td>${individual.fmInfo.incomeSources.securities}</td></tr>
+                                    <tr><th>Assignment</th><td>${individual.fmInfo.incomeSources.assignment}</td></tr>
+                                    <tr><th>Loan</th><td>${individual.fmInfo.incomeSources.loans}</td></tr>
+                                    <tr><th>Term contracts</th><td>${individual.fmInfo.incomeSources.termContracts}</td></tr>
                                 </td>
                             </tr>
                         </table>
-                        <a href="${client.id}/fmInfo/${client.fmInfo.id}">Edit FM Info</a>
-                        <a href="${client.id}/fmInfo/${client.fmInfo.id}?action=delete">Delete FM Info</a>
+                        <a href="${individual.id}/fmInfo">Edit FM Info</a>
+                        <a href="${individual.id}/fmInfo?action=delete">Delete FM Info</a>
+                    </c:otherwise>
+                </c:choose>
+            </dd>
+            <dt>Account opener</dt>
+            <dd>
+                <c:choose>
+                    <c:when test="${individual.accOpener == null}">
+                        <a href="${individual.id}/proxies/accOpener">Add account opener</a>
+                    </c:when>
+                    <c:otherwise>
+                        <table border="1">
+                            <tr>
+                                <th>ID</th>
+                                <th>Full Name</th>
+                                <th>Identification number</th>
+                            </tr>
+                            <tr>
+                                <td>${individual.accOpener.id}</td>
+                                <td>${individual.accOpener.lastName} ${individual.accOpener.firstName} ${individual.accOpener.middleName}</td>
+                                <td>${individual.accOpener.identNumber}</td>
+                            </tr>
+                        </table>
+                        <a href="${individual.accOpener.id}">Edit account opener</a>
+                        <a href="${individual.accOpener.id}?action=delete">Delete account opener</a>
+                    </c:otherwise>
+                </c:choose>
+            </dd>
+            <dt>Representative</dt>
+            <dd>
+                <c:choose>
+                    <c:when test="${individual.representative == null}">
+                        <a href="${individual.id}/proxies/representative">Add representative</a>
+                    </c:when>
+                    <c:otherwise>
+                        <table border="1">
+                            <tr>
+                                <th>ID</th>
+                                <th>Full Name</th>
+                                <th>Identification number</th>
+                            </tr>
+                            <tr>
+                                <td>${individual.representative.id}</td>
+                                <td>${individual.representative.lastName} ${individual.representative.firstName} ${individual.representative.middleName}</td>
+                                <td>${individual.representative.identNumber}</td>
+                            </tr>
+                        </table>
+                        <a href="${individual.representative.id}">Edit representative</a>
+                        <a href="${individual.representative.id}?action=delete">Delete representative</a>
                     </c:otherwise>
                 </c:choose>
             </dd>

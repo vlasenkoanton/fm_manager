@@ -1,5 +1,5 @@
 DELETE FROM fm_manager.document;
-DELETE FROM fm_manager.related;
+DELETE FROM fm_manager.individual;
 DELETE FROM fm_manager.address;
 DELETE FROM fm_manager.work;
 DELETE FROM fm_manager.contact;
@@ -7,7 +7,7 @@ DELETE FROM fm_manager.fop_info;
 DELETE FROM fm_manager.fm_info;
 
 ALTER TABLE fm_manager.document AUTO_INCREMENT = 1;
-ALTER TABLE fm_manager.related AUTO_INCREMENT = 1;
+ALTER TABLE fm_manager.individual AUTO_INCREMENT = 1;
 ALTER TABLE fm_manager.address AUTO_INCREMENT = 1;
 ALTER TABLE fm_manager.work AUTO_INCREMENT = 1;
 ALTER TABLE fm_manager.contact AUTO_INCREMENT = 1;
@@ -37,10 +37,10 @@ INSERT INTO fm_manager.fm_info (service_history, month_income, financial_help, s
   ('all right', 1500000, 0, 500000, 0, 0, 700000),
   ('suspicious activity that not relates to month income', 2800000, 300000, 0, 150000, 350000, 2000000);
 
-INSERT INTO fm_manager.related (rel_type, first_name, last_name, middle_name, ident_number, date_birth, place_birth, resident, citizenship, responsible, pep, address_id, work_id, contact_id, fop_info_id, fm_info_id, account_opener_id, representative_id) VALUES
-  ('client', 'Anton', 'Antonenko', 'Antonovych', 12365474, '1988-5-5', 'Cherkassy', TRUE, 980, 'Vasya Pupkin', FALSE, 1, 1, 1, NULL, 1, NULL, NULL),
-  ('client', 'Ivan', 'Ivanenko', 'Ivanovych', 25412548, '1994-7-24', 'Cherkassy', TRUE, 980, 'Vasya Pupkin', FALSE, 2, 2, 2, 1, 2, NULL, NULL),
-  ('client', 'Petr', 'Petrenko', 'Petrovych', 45216, '1986-2-15', 'Chernigov', TRUE, 980, 'Vasya Pupkin', FALSE, 3, 3, 3, NULL, 3, 1, 2);
+INSERT INTO fm_manager.individual (`client`, first_name, last_name, middle_name, ident_number, date_birth, place_birth, resident, citizenship, responsible, pep, address_id, work_id, contact_id, fop_info_id, fm_info_id, account_opener_id, representative_id) VALUES
+  (TRUE,'Anton', 'Antonenko', 'Antonovych', 12365474, '1988-5-5', 'Cherkassy', TRUE, 980, 'Vasya Pupkin', FALSE, 1, 1, 1, NULL, 1, NULL, NULL),
+  (TRUE,'Ivan', 'Ivanenko', 'Ivanovych', 25412548, '1994-7-24', 'Cherkassy', TRUE, 980, 'Vasya Pupkin', FALSE, 2, 2, 2, 1, 2, NULL, NULL),
+  (TRUE,'Petr', 'Petrenko', 'Petrovych', 45216, '1986-2-15', 'Chernigov', TRUE, 980, 'Vasya Pupkin', FALSE, 3, 3, 3, NULL, 3, 1, 2);
 
 INSERT INTO fm_manager.document (type, main, name, series, number, authority, date_issue, date_expire, owner_id) VALUES
   (1, TRUE, 'National Passport', 'KK', 123654, 'some authority', '1996-5-8', NULL, 1),

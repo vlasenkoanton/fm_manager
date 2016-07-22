@@ -7,9 +7,9 @@ import com.avlasenko.sb.fmmanager.repository.GenericBaseRepository;
  * Created by A. Vlasenko on 14.07.2016.
  */
 public interface EntrepreneurJpaRepository extends GenericBaseRepository<EntrepreneurInfo> {
-    EntrepreneurInfo save(EntrepreneurInfo entrepreneurInfo, int clientId);
+    EntrepreneurInfo save(EntrepreneurInfo entrepreneurInfo, int ownerId);
 
-    EntrepreneurInfo get(int id, int clientId);
+    EntrepreneurInfo getByOwner(int ownerId);
 
-    boolean delete(int id, int clientId);
+    boolean delete(int ownerId);
 }

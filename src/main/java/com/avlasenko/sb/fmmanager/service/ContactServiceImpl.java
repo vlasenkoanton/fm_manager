@@ -2,6 +2,7 @@ package com.avlasenko.sb.fmmanager.service;
 
 import com.avlasenko.sb.fmmanager.model.Contact;
 import com.avlasenko.sb.fmmanager.repository.contact.ContactJpaRepository;
+import com.avlasenko.sb.fmmanager.util.exception.EntryNotFoundException;
 import com.avlasenko.sb.fmmanager.util.exception.ExceptionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,18 +19,18 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     @Transactional
-    public void save(Contact contact, int clientId) {
-        ExceptionUtil.checkNotFoundByClient(repository.save(contact, clientId), clientId);
+    public void save(Contact contact, int ownerId) throws EntryNotFoundException {
+        repository.save(contact, ownerId);
     }
 
     @Override
-    public Contact get(int id, int clientId) {
-        return ExceptionUtil.checkNotFoundByClient(repository.get(id, clientId), clientId);
+    public Contact getByOwner(int ownerId) throws EntryNotFoundException {
+        return repository.getByOwner(ownerId);
     }
 
     @Override
     @Transactional
-    public void delete(int id, int clientId) {
-        ExceptionUtil.checkNotFoundByClient(repository.delete(id, clientId), clientId);
+    public void delete(int ownerId) throws EntryNotFoundException {
+        repository.delete(ownerId);
     }
 }

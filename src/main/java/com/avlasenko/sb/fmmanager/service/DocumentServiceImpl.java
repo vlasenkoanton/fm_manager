@@ -24,7 +24,7 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public Document get(int id, int ownerId) {
-        return ExceptionUtil.checkNotFoundByClient(repository.get(id, ownerId), ownerId);
+        return ExceptionUtil.checkNotFoundByClient(repository.get(ownerId), ownerId);
     }
 
     @Override

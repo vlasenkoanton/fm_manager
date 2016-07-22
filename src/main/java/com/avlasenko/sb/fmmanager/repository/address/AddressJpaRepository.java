@@ -7,9 +7,9 @@ import com.avlasenko.sb.fmmanager.repository.GenericBaseRepository;
  * Created by A. Vlasenko on 06.07.2016.
  */
 public interface AddressJpaRepository extends GenericBaseRepository<Address> {
-    Address save(Address address, int clientId);
+    Address save(Address address, int ownerId);
 
-    Address get(int id, int clientId); //TODO remove code duplicate in all similar repos using Criteria API and generics
+    Address getByOwner(int ownerId);
 
-    boolean delete(int id, int clientId);
+    boolean delete(int ownerId);
 }

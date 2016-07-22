@@ -8,9 +8,9 @@ import com.avlasenko.sb.fmmanager.repository.GenericBaseRepository;
  */
 public interface WorkJpaRepository extends GenericBaseRepository<Work> {
 
-    Work save(Work work, int clientId);
+    Work save(Work work, int ownerId);
 
-    Work get(int id, int clientId);
+    Work getByOwner(int ownerId);
 
-    boolean delete(int id, int clientId);
+    boolean delete(int ownerId);
 }

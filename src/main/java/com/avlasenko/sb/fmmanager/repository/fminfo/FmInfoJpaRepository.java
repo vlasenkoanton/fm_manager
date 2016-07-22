@@ -7,9 +7,9 @@ import com.avlasenko.sb.fmmanager.repository.GenericBaseRepository;
  * Created by A. Vlasenko on 19.07.2016.
  */
 public interface FmInfoJpaRepository extends GenericBaseRepository<FmInfo> {
-    FmInfo save(FmInfo fmInfo, int clientId);
+    FmInfo save(FmInfo fmInfo, int ownerId);
 
-    FmInfo get(int id, int clientId);
+    FmInfo getByOwner(int ownerId);
 
-    boolean delete(int id, int clientId);
+    boolean delete(int ownerId);
 }

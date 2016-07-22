@@ -7,14 +7,9 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "fm_info")
-@NamedQueries({
-        @NamedQuery(name = FmInfo.GET_BY_CLIENT, query = "SELECT c.fmInfo FROM Client c " +
-                "WHERE c.fmInfo.id=:id AND c.id=:clientId"),
-        @NamedQuery(name = FmInfo.DELETE_BY_CLIENT, query = "DELETE FROM FmInfo f WHERE f.id=:id")
-})
+@NamedQuery(name = FmInfo.GET_BY_OWNER, query = "SELECT i.fmInfo FROM Individual i WHERE i.id=:ownerId")
 public class FmInfo extends BaseEntity {
-    public static final String GET_BY_CLIENT = "FmInfo.getByClient";
-    public static final String DELETE_BY_CLIENT = "FmInfo.deleteByClient";
+    public static final String GET_BY_OWNER = "FmInfo.getByOwner";
 
     @Column(name = "service_history")
     private String serviceHistory;

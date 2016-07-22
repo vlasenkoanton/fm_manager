@@ -1,24 +1,24 @@
 DROP TABLE IF EXISTS fm_manager.document;
-DROP TABLE IF EXISTS fm_manager.related;
+DROP TABLE IF EXISTS fm_manager.individual;
 DROP TABLE IF EXISTS fm_manager.address;
 DROP TABLE IF EXISTS fm_manager.work;
 DROP TABLE IF EXISTS fm_manager.contact;
 DROP TABLE IF EXISTS fm_manager.fop_info;
 DROP TABLE IF EXISTS fm_manager.fm_info;
 
-CREATE TABLE fm_manager.related (
+CREATE TABLE fm_manager.individual (
   id                INTEGER UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
-  rel_type          VARCHAR(10)                     NOT NULL,
+  `client`          BIT(0)                          NOT NULL,
   first_name        VARCHAR(50)                     NOT NULL,
   last_name         VARCHAR(50)                     NOT NULL,
   middle_name       VARCHAR(50),
-  ident_number      INTEGER,
+  ident_number      BIGINT,
   date_birth        DATE                            NOT NULL,
-  place_birth       VARCHAR(50)                     NOT NULL,
+  place_birth       VARCHAR(50),
   resident          BIT(1)                          NOT NULL,
-  citizenship       INTEGER(3)                      NOT NULL,
+  citizenship       INTEGER(3),
   responsible       VARCHAR(50),
-  pep               BIT(0)                          NOT NULL,
+  pep               BIT(0),
   address_id        INTEGER UNSIGNED,
   work_id           INTEGER UNSIGNED,
   contact_id        INTEGER UNSIGNED,
@@ -83,7 +83,7 @@ CREATE TABLE fm_manager.fm_info (
   term_contracts  BIGINT UNSIGNED
 );
 
-ALTER TABLE fm_manager.related
+ALTER TABLE fm_manager.individual
   ADD FOREIGN KEY (address_id) REFERENCES address (id)
   ON DELETE SET NULL,
   ADD FOREIGN KEY (work_id) REFERENCES work (id)
@@ -94,13 +94,13 @@ ALTER TABLE fm_manager.related
   ON DELETE SET NULL,
   ADD FOREIGN KEY (fm_info_id) REFERENCES fm_info (id)
   ON DELETE SET NULL,
-  ADD FOREIGN KEY (account_opener_id) REFERENCES related (id)
+  ADD FOREIGN KEY (account_opener_id) REFERENCES individual (id)
   ON DELETE SET NULL,
-  ADD FOREIGN KEY (representative_id) REFERENCES related (id)
+  ADD FOREIGN KEY (representative_id) REFERENCES individual (id)
   ON DELETE SET NULL;
 
 ALTER TABLE fm_manager.document
-  ADD FOREIGN KEY (owner_id) REFERENCES related (id)
+  ADD FOREIGN KEY (owner_id) REFERENCES individual (id)
   ON DELETE CASCADE;
 
 

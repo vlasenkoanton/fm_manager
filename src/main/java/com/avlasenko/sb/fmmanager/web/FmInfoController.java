@@ -14,33 +14,32 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Created by A. Vlasenko on 19.07.2016.
  */
 @Controller
-@RequestMapping("/clients/{id}/fmInfo")
+@RequestMapping("/profiles/individuals/{id}/fmInfo")
 public class FmInfoController {
 
     @Autowired
     private FmInfoService service;
 
-    @RequestMapping(value = "new", method = RequestMethod.GET)
-    public String newFmInfo(Model model) {
-        model.addAttribute("fmInfo", new FmInfo());
+    @RequestMapping(method = RequestMethod.GET)
+    public String fmInfo(@PathVariable Integer id, Model model) {
+        FmInfo fmInfo = service.getByOwner(id);
+        if (fmInfo == null) {
+            model.addAttribute("fmInfo", new FmInfo());
+        } else {
+            model.addAttribute("fmInfo", fmInfo);
+        }
         return "fmInfo";
     }
 
-    @RequestMapping(value = "{fmInfoId}", method = RequestMethod.GET)
-    public String editFmInfo(@PathVariable Integer id, @PathVariable Integer fmInfoId, Model model) {
-        model.addAttribute("fmInfo", service.get(fmInfoId, id));
-        return "fmInfo";
-    }
-
-    @RequestMapping(value = {"new", "{fmInfoId}"}, method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public String saveFmInfo(@ModelAttribute FmInfo fmInfo, @PathVariable Integer id) {
         service.save(fmInfo, id);
-        return "redirect:/clients/" + id;
+        return "redirect:/profiles/individuals/" + id;
     }
 
-    @RequestMapping(value = "{fmInfoId}", params = "action=delete", method = RequestMethod.GET)
-    public String deleteFmInfo(@PathVariable Integer id, @PathVariable Integer fmInfoId) {
-        service.delete(fmInfoId, id);
-        return "redirect:/clients/" + id;
+    @RequestMapping(params = "action=delete", method = RequestMethod.GET)
+    public String deleteFmInfo(@PathVariable Integer id) {
+        service.delete(id);
+        return "redirect:/profiles/individuals/" + id;
     }
 }

@@ -29,7 +29,7 @@
             <dd><form:input path="house"/></dd>
             <dt>Apartment/Room #</dt>
             <dd><form:input path="apartment"/></dd>
-            </dl>
+        </dl>
             <button type="submit">Save</button>
     </form:form>
 </body>

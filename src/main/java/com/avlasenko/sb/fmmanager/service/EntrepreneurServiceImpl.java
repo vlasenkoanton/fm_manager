@@ -2,6 +2,7 @@ package com.avlasenko.sb.fmmanager.service;
 
 import com.avlasenko.sb.fmmanager.model.EntrepreneurInfo;
 import com.avlasenko.sb.fmmanager.repository.entrepreneur.EntrepreneurJpaRepository;
+import com.avlasenko.sb.fmmanager.util.exception.EntryNotFoundException;
 import com.avlasenko.sb.fmmanager.util.exception.ExceptionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,18 +19,18 @@ public class EntrepreneurServiceImpl implements EntrepreneurService {
 
     @Override
     @Transactional
-    public void save(EntrepreneurInfo entrepreneurInfo, int clientId) {
-        ExceptionUtil.checkNotFoundByClient(repository.save(entrepreneurInfo, clientId), clientId);
+    public void save(EntrepreneurInfo entrepreneurInfo, int ownerId) throws EntryNotFoundException {
+        repository.save(entrepreneurInfo, ownerId);
     }
 
     @Override
-    public EntrepreneurInfo get(int id, int clientId) {
-        return ExceptionUtil.checkNotFoundByClient(repository.get(id, clientId), clientId);
+    public EntrepreneurInfo getByOwner(int ownerId) throws EntryNotFoundException {
+        return repository.getByOwner(ownerId);
     }
 
     @Override
     @Transactional
-    public void delete(int id, int clientId) {
-        ExceptionUtil.checkNotFoundByClient(repository.delete(id, clientId), clientId);
+    public void delete(int ownerId) throws EntryNotFoundException {
+        repository.delete(ownerId);
     }
 }

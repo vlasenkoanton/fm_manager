@@ -2,7 +2,6 @@ package com.avlasenko.sb.fmmanager.service;
 
 import com.avlasenko.sb.fmmanager.model.Address;
 import com.avlasenko.sb.fmmanager.repository.address.AddressJpaRepository;
-import com.avlasenko.sb.fmmanager.util.exception.ExceptionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,18 +18,18 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     @Transactional
-    public void save(Address address, int clientId) {
-        ExceptionUtil.checkNotFoundByClient(repository.save(address, clientId), clientId);
+    public void save(Address address, int ownerId) {
+        repository.save(address, ownerId);
     }
 
     @Override
-    public Address get(int id, int clientId) {
-        return ExceptionUtil.checkNotFoundByClient(repository.get(id, clientId), clientId);
+    public Address getByOwner(int ownerId) {
+        return repository.getByOwner(ownerId);
     }
 
     @Override
     @Transactional
-    public void delete(int id, int clientId) {
-        ExceptionUtil.checkNotFoundByClient(repository.delete(id, clientId), clientId);
+    public void delete(int ownerId) {
+        repository.delete(ownerId);
     }
 }

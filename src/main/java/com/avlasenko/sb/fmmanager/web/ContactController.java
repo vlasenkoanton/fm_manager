@@ -14,34 +14,33 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Created by A. Vlasenko on 27.06.2016.
  */
 @Controller
-@RequestMapping("/clients/{id}/contact")
+@RequestMapping("/profiles/individuals/{id}/contact")
 public class ContactController {
 
     @Autowired
     private ContactService service;
 
-    @RequestMapping(value = "new", method = RequestMethod.GET)
-    public String newContact(Model model) {
-        model.addAttribute("contact", new Contact());
+    @RequestMapping(method = RequestMethod.GET)
+    public String contact(@PathVariable Integer id, Model model) {
+        Contact contact = service.getByOwner(id);
+        if (contact == null) {
+            model.addAttribute("contact", new Contact());
+        } else {
+            model.addAttribute("contact", contact);
+        }
         return "contact";
     }
 
-    @RequestMapping(value = "{contactId}", method = RequestMethod.GET)
-    public String editContact(@PathVariable Integer id, @PathVariable Integer contactId, Model model) {
-        model.addAttribute("contact", service.get(contactId, id));
-        return "contact";
-    }
-
-    @RequestMapping(value = {"new", "{contactId}"}, method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public String saveContact(@ModelAttribute Contact contact, @PathVariable Integer id) {
         service.save(contact, id);
-        return "redirect:/clients/"+id;
+        return "redirect:/profiles/individuals/" + id;
     }
 
-    @RequestMapping(value = "{contactId}", params = "action=delete", method = RequestMethod.GET)
-    private String deleteContact(@PathVariable Integer id, @PathVariable Integer contactId) {
-        service.delete(contactId, id);
-        return "redirect:/clients/"+id;
+    @RequestMapping(params = "action=delete", method = RequestMethod.GET)
+    public String deleteContact(@PathVariable Integer id) {
+        service.delete(id);
+        return "redirect:/profiles/individuals/" + id;
     }
 
 }

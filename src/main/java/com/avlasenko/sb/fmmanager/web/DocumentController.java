@@ -16,7 +16,7 @@ import java.time.LocalDate;
  * Created by A. Vlasenko on 19.06.2016.
  */
 @Controller
-@RequestMapping("/clients/{id}/document")
+@RequestMapping("/profiles/individuals/{id}/documents")
 public class DocumentController {
 
     @Autowired
@@ -27,10 +27,16 @@ public class DocumentController {
         webDataBinder.registerCustomEditor(LocalDate.class, new LocalTimePropertyConverter("yyyy-MM-dd"));
     }
 
-    @RequestMapping(value = "new", method = RequestMethod.GET)
+    @RequestMapping(params = "action=create", method = RequestMethod.GET)
     public String newDocument(Model model) {
         model.addAttribute("document", new Document());
         return "document";
+    }
+
+    @RequestMapping(params = "action=create", method = RequestMethod.POST)
+    public String saveNewDocument(@ModelAttribute Document document, @PathVariable Integer id) {
+        service.save(document, id);
+        return "redirect:/profiles/individuals/"+id;
     }
 
     @RequestMapping(value = "{docId}", method = RequestMethod.GET)
@@ -41,16 +47,16 @@ public class DocumentController {
         return "document";
     }
 
-    @RequestMapping(value = {"new", "{docId}"}, method = RequestMethod.POST)
+    @RequestMapping(value = "{docId}", method = RequestMethod.POST)
     public String saveDocument(@ModelAttribute Document document, @PathVariable Integer id) {
         service.save(document, id);
-        return "redirect:/clients/"+id;
+        return "redirect:/profiles/individuals/"+id;
     }
 
     @RequestMapping(value = "{docId}", params = "action=delete", method = RequestMethod.GET)
-    public String saveDocument(@PathVariable Integer id, @PathVariable Integer docId) {
+    public String deleteDocument(@PathVariable Integer id, @PathVariable Integer docId) {
         service.delete(docId, id);
-        return "redirect:/clients/"+id;
+        return "redirect:/profiles/individuals/"+id;
     }
 
 }

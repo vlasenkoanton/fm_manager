@@ -1,7 +1,7 @@
 package com.avlasenko.sb.fmmanager.repository.document;
 
 import com.avlasenko.sb.fmmanager.model.Document;
-import com.avlasenko.sb.fmmanager.model.Related;
+import com.avlasenko.sb.fmmanager.model.Individual;
 import com.avlasenko.sb.fmmanager.repository.GenericJpaRepository;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
@@ -20,15 +20,14 @@ public class DocumentJpaRepositoryImpl extends GenericJpaRepository<Document> im
         super(Document.class);
     }
 
-
     @Override
     public Document save(Document document, int ownerId) {
         if (!document.isNew() && get(document.getId(), ownerId) == null) {
             return null;
         }
 
-        Related related = entityManager.getReference(Related.class, ownerId);
-        document.setOwner(related);
+        Individual individual = entityManager.getReference(Individual.class, ownerId);
+        document.setOwner(individual);
         return save(document);
     }
 

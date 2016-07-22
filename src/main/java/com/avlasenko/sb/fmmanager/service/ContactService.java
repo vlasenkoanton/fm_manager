@@ -7,9 +7,9 @@ import com.avlasenko.sb.fmmanager.util.exception.EntryNotFoundException;
  * Created by A. Vlasenko on 14.07.2016.
  */
 public interface ContactService {
-    void save(Contact contact, int clientId) throws EntryNotFoundException;
+    void save(Contact contact, int ownerId) throws EntryNotFoundException;
 
-    Contact get(int id, int clientId) throws EntryNotFoundException;
+    Contact getByOwner(int ownerId) throws EntryNotFoundException;
 
-    void delete(int id, int clientId) throws EntryNotFoundException;
+    void delete(int ownerId) throws EntryNotFoundException;
 }

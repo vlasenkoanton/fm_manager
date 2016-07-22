@@ -1,7 +1,7 @@
 package com.avlasenko.sb.fmmanager.repository.contact;
 
-import com.avlasenko.sb.fmmanager.model.Client;
 import com.avlasenko.sb.fmmanager.model.Contact;
+import com.avlasenko.sb.fmmanager.model.Individual;
 import com.avlasenko.sb.fmmanager.repository.GenericJpaRepository;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
@@ -20,38 +20,33 @@ public class ContactJpaRepositoryImpl extends GenericJpaRepository<Contact> impl
         super(Contact.class);
     }
 
-
     @Override
-    public Contact save(Contact contact, int clientId) {
-        if (!contact.isNew() && get(contact.getId(), clientId) == null) {
+    public Contact save(Contact contact, int ownerId) {
+        if (!contact.isNew() && getByOwner(ownerId) == null) {
             return null;
         }
-
         if (contact.isNew()) {
-            Client client = entityManager.getReference(Client.class, clientId);
-            client.setContact(contact);
-            entityManager.merge(client);
+            Individual individual = entityManager.getReference(Individual.class, ownerId);
+            individual.setContact(contact);
             return contact;
-        } else {
-            return save(contact);
         }
+        return save(contact);
     }
 
     @Override
-    public Contact get(int id, int clientId) {
-        TypedQuery<Contact> query = entityManager.createNamedQuery(Contact.GET_BY_CLIENT, Contact.class);
-        query.setParameter("id", id)
-                .setParameter("clientId", clientId);
+    public Contact getByOwner(int ownerId) {
+        TypedQuery<Contact> query = entityManager.createNamedQuery(Contact.GET_BY_OWNER, Contact.class);
+        query.setParameter("ownerId", ownerId);
         return DataAccessUtils.singleResult(query.getResultList());
     }
 
     @Override
-    public boolean delete(int id, int clientId) {
-        if (get(id, clientId) == null) {
+    public boolean delete(int ownerId) {
+        Contact contact = getByOwner(ownerId);
+        if (contact == null) {
             return false;
         }
-        Query query = entityManager.createNamedQuery(Contact.DELETE_BY_CLIENT);
-        query.setParameter("id", id);
-        return query.executeUpdate() == 1;
+        delete(contact);
+        return true;
     }
 }

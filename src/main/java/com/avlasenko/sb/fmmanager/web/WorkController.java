@@ -14,33 +14,32 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Created by A. Vlasenko on 27.06.2016.
  */
 @Controller
-@RequestMapping("/clients/{id}/work")
+@RequestMapping("/profiles/individuals/{id}/work")
 public class WorkController {
 
     @Autowired
     private WorkService service;
 
-    @RequestMapping(value = "new", method = RequestMethod.GET)
-    public String newWork(Model model) {
-        model.addAttribute("work", new Work());
+    @RequestMapping(method = RequestMethod.GET)
+    public String work(@PathVariable Integer id, Model model) {
+        Work work = service.getByOwner(id);
+        if (work == null) {
+            model.addAttribute("work", new Work());
+        } else {
+            model.addAttribute("work", work);
+        }
         return "work";
     }
 
-    @RequestMapping(value = "{workId}", method = RequestMethod.GET)
-    public String editWork(@PathVariable Integer id, @PathVariable Integer workId, Model model) {
-        model.addAttribute("work", service.get(workId, id));
-        return "work";
-    }
-
-    @RequestMapping(value = {"new", "{workId}"}, method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public String saveWork(@ModelAttribute Work work, @PathVariable Integer id) {
         service.save(work, id);
-        return "redirect:/clients/"+id;
+        return "redirect:/profiles/individuals/"+id;
     }
 
-    @RequestMapping(value = "{workId}", params = "action=delete", method = RequestMethod.GET)
-    public String deleteWork(@PathVariable Integer id, @PathVariable Integer workId) {
-        service.delete(workId, id);
-        return "redirect:/clients/"+id;
+    @RequestMapping(params = "action=delete", method = RequestMethod.GET)
+    public String deleteWork(@PathVariable Integer id) {
+        service.delete(id);
+        return "redirect:/profiles/individuals/"+id;
     }
 }

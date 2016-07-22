@@ -1,9 +1,16 @@
 package com.avlasenko.sb.fmmanager.model;
 
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import java.time.LocalDate;
 
 import javax.persistence.*;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 @Entity
 @Table(name = "document")
@@ -19,33 +26,68 @@ public class Document extends BaseEntity {
 
 	@ManyToOne
 	@JoinColumn(name = "owner_id")
-	private Related owner;
+	private Individual owner;
 
 	@Column(name = "type", nullable = false)
+	@Min(1)
 	private int type;
 
 	@Column(name = "main", nullable = false)
 	private boolean main;
 
 	@Column(name = "name", nullable = false)
+	@Length(max = 25)
+	@NotNull
+	@NotEmpty
 	private String name;
 
 	@Column(name = "series")
+	@Length(max = 25)
 	private String series;
 
 	@Column(name = "number", nullable = false)
+	@Min(1)
 	private int number;
 
 	@Column(name = "authority", nullable = false)
+	@Length(max = 50)
+	@NotNull
+	@NotEmpty
 	private String authority;
 
 	@Column(name = "date_issue", nullable = false)
+	@NotNull
 	private LocalDate dateIssue;
 
 	@Column(name = "date_expire")
 	private LocalDate dateExpire;
 	
 	public Document() {
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		if (!super.equals(o)) return false;
+
+		Document document = (Document) o;
+
+		if (getType() != document.getType()) return false;
+		if (getNumber() != document.getNumber()) return false;
+		if (!getName().equals(document.getName())) return false;
+		return getSeries().equals(document.getSeries());
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = super.hashCode();
+		result = 31 * result + getType();
+		result = 31 * result + getName().hashCode();
+		result = 31 * result + getSeries().hashCode();
+		result = 31 * result + getNumber();
+		return result;
 	}
 
 	public int getType() {
@@ -112,36 +154,12 @@ public class Document extends BaseEntity {
 		this.dateExpire = dateExpire;
 	}
 
-	public Related getOwner() {
+	public Individual getOwner() {
 		return owner;
 	}
 
-	public void setOwner(Related owner) {
+	public void setOwner(Individual owner) {
 		this.owner = owner;
 	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		if (!super.equals(o)) return false;
-
-		Document document = (Document) o;
-
-		if (type != document.type) return false;
-		if (number != document.number) return false;
-		return series != null ? series.equals(document.series) : document.series == null;
-
-	}
-
-	@Override
-	public int hashCode() {
-		int result = super.hashCode();
-		result = 31 * result + type;
-		result = 31 * result + (series != null ? series.hashCode() : 0);
-		result = 31 * result + number;
-		return result;
-	}
-
 
 }

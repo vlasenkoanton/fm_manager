@@ -1,13 +1,12 @@
 package com.avlasenko.sb.fmmanager.repository.entrepreneur;
 
-import com.avlasenko.sb.fmmanager.model.Client;
 import com.avlasenko.sb.fmmanager.model.EntrepreneurInfo;
+import com.avlasenko.sb.fmmanager.model.Individual;
 import com.avlasenko.sb.fmmanager.repository.GenericJpaRepository;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 /**
@@ -21,37 +20,33 @@ public class EntrepreneurJpaRepositoryImpl extends GenericJpaRepository<Entrepre
     }
 
     @Override
-    public EntrepreneurInfo save(EntrepreneurInfo entrepreneurInfo, int clientId) {
-        if (!entrepreneurInfo.isNew() && get(entrepreneurInfo.getId(), clientId) == null) {
+    public EntrepreneurInfo save(EntrepreneurInfo entrepreneurInfo, int ownerId) {
+        if (!entrepreneurInfo.isNew() && getByOwner(ownerId) == null) {
             return null;
         }
-
-        if (entrepreneurInfo.isNew()) {
-            Client client = entityManager.getReference(Client.class, clientId);
-            client.setEntrepreneurInfo(entrepreneurInfo);
-            entityManager.merge(client);
+        if(entrepreneurInfo.isNew()) {
+            Individual individual = entityManager.getReference(Individual.class, ownerId);
+            individual.setEntrepreneurInfo(entrepreneurInfo);
             return entrepreneurInfo;
-        } else {
-            return save(entrepreneurInfo);
         }
+        return save(entrepreneurInfo);
     }
 
     @Override
-    public EntrepreneurInfo get(int id, int clientId) {
-        TypedQuery<EntrepreneurInfo> query =
-                entityManager.createNamedQuery(EntrepreneurInfo.GET_BY_CLIENT, EntrepreneurInfo.class);
-        query.setParameter("id", id)
-                .setParameter("clientId", clientId);
+    public EntrepreneurInfo getByOwner(int ownerId) {
+        TypedQuery<EntrepreneurInfo> query = entityManager
+                .createNamedQuery(EntrepreneurInfo.GET_BY_OWNER, EntrepreneurInfo.class);
+        query.setParameter("ownerId", ownerId);
         return DataAccessUtils.singleResult(query.getResultList());
     }
 
     @Override
-    public boolean delete(int id, int clientId) {
-        if (get(id, clientId) == null) {
+    public boolean delete(int ownerId) {
+        EntrepreneurInfo entrepreneurInfo = getByOwner(ownerId);
+        if (entrepreneurInfo == null) {
             return false;
         }
-        Query query = entityManager.createNamedQuery(EntrepreneurInfo.DELETE_BY_CLIENT);
-        query.setParameter("id", id);
-        return query.executeUpdate() == 1;
+        delete(entrepreneurInfo);
+        return true;
     }
 }
