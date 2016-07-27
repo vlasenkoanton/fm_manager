@@ -22,9 +22,9 @@
     <th>
         Name
     </th>
-    <thd>
+    <th>
         Identification Number
-    </thd>
+    </th>
 </tr>
 </thead>
 

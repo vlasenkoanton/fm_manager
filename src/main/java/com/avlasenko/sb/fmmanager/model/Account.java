@@ -8,24 +8,69 @@ import java.time.LocalDateTime;
  *
  */
 
-//@Entity
-//@Table(name = "account")
+@Entity
+@Table(name = "account")
 public class Account extends BaseEntity {
 
+	@ManyToOne
+	@JoinColumn(name = "owner_id")
+	private Individual owner;
+
+	@Column(name = "name")
+	private String name;
+
+	@Column(name = "number")
 	private long number;
+
+	@Column(name = "balance")
 	private long balance;
 
+	@Column(name = "opened")
 	private LocalDateTime opened;
-	private LocalDateTime lastUpdate = LocalDateTime.now();
+
+	@Column(name = "updated")
+	private LocalDateTime lastUpdate;
+
+	@Column(name = "closed")
 	private LocalDateTime closed;
-	
-	/*@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "owner_id")
-	private Client owner;*/
 
 	public Account() {
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		if (!super.equals(o)) return false;
+
+		Account account = (Account) o;
+
+		return getNumber() == account.getNumber();
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = super.hashCode();
+		result = 31 * result + (int) (number ^ (number >>> 32));
+		return result;
+	}
+
+	public Individual getOwner() {
+		return owner;
+	}
+
+	public void setOwner(Individual owner) {
+		this.owner = owner;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public long getNumber() {
 		return number;
@@ -66,12 +111,4 @@ public class Account extends BaseEntity {
 	public void setClosed(LocalDateTime closed) {
 		this.closed = closed;
 	}
-
-	/*public Client getOwner() {
-		return owner;
-	}
-
-	public void setOwner(Client owner) {
-		this.owner = owner;
-	}*/
 }

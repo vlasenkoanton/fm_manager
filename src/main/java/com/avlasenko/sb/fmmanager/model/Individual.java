@@ -16,7 +16,8 @@ import javax.persistence.*;
         @NamedAttributeNode("fmInfo"),
         @NamedAttributeNode("entrepreneurInfo"),
         @NamedAttributeNode("accOpener"),
-        @NamedAttributeNode("representative")
+        @NamedAttributeNode("representative"),
+        @NamedAttributeNode("accounts")
 })
 @NamedQueries({
         @NamedQuery(name = Individual.WITHOUT_RELATIONS, query = "UPDATE Individual i SET identNumber=:identNumber," +
@@ -31,8 +32,8 @@ public class Individual extends BaseEntity {
     @Column(name = "client")
     private boolean client;
 
-    @Column(name = "ident_number")
-    private long identNumber;
+    @Column(name = "ident_number", nullable = false)
+    private String identNumber;
 
     @Column(name = "first_name", nullable = false)
     private String firstName;
@@ -65,7 +66,7 @@ public class Individual extends BaseEntity {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
+    @OneToMany(mappedBy = "owner")
     private Set<Document> documents;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -92,6 +93,9 @@ public class Individual extends BaseEntity {
     @JoinColumn(name = "representative_id")
     private Individual representative;
 
+    @OneToMany(mappedBy = "owner")
+    private Set<Account> accounts;
+
     public Individual() {
     }
 
@@ -103,11 +107,11 @@ public class Individual extends BaseEntity {
         this.client = client;
     }
 
-    public long getIdentNumber() {
+    public String getIdentNumber() {
         return identNumber;
     }
 
-    public void setIdentNumber(long identNumber) {
+    public void setIdentNumber(String identNumber) {
         this.identNumber = identNumber;
     }
 
@@ -183,6 +187,22 @@ public class Individual extends BaseEntity {
         this.pep = pep;
     }
 
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public Set<Document> getDocuments() {
+        return documents;
+    }
+
+    public void setDocuments(Set<Document> documents) {
+        this.documents = documents;
+    }
+
     public Work getWork() {
         return work;
     }
@@ -231,19 +251,11 @@ public class Individual extends BaseEntity {
         this.representative = representative;
     }
 
-    public Address getAddress() {
-        return address;
+    public Set<Account> getAccounts() {
+        return accounts;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public Set<Document> getDocuments() {
-        return documents;
-    }
-
-    public void setDocuments(Set<Document> documents) {
-        this.documents = documents;
+    public void setAccounts(Set<Account> accounts) {
+        this.accounts = accounts;
     }
 }

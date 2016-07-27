@@ -1,26 +1,27 @@
 package com.avlasenko.sb.fmmanager.util;
 
 import java.beans.PropertyEditorSupport;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Created by A. Vlasenko on 26.06.2016.
+ * Created by A. Vlasenko on 27.07.2016.
  */
-public class LocalTimePropertyConverter extends PropertyEditorSupport {
+public class LocalDateTimePropertyConverter extends PropertyEditorSupport {
+
     private DateTimeFormatter dateTimeFormatter;
 
-    public LocalTimePropertyConverter(String pattern) {
+    public LocalDateTimePropertyConverter(String pattern) {
         this.dateTimeFormatter = DateTimeFormatter.ofPattern(pattern);
     }
 
     @Override
     public String getAsText() {
-        LocalDate localDate = (LocalDate) this.getValue();
-        if (localDate == null) {
+        Object o = this.getValue();
+        if (o == null) {
             return "";
         }
-        return dateTimeFormatter.format(localDate);
+        return dateTimeFormatter.format((LocalDateTime) o);
     }
 
     @Override
@@ -28,8 +29,8 @@ public class LocalTimePropertyConverter extends PropertyEditorSupport {
         if (text == null || text.isEmpty()) {
             this.setValue(null);
         } else {
-            LocalDate localDate = LocalDate.parse(text, dateTimeFormatter);
-            this.setValue(localDate);
+            LocalDateTime localDateTime = LocalDateTime.parse(text, dateTimeFormatter);
+            this.setValue(localDateTime);
         }
     }
 }

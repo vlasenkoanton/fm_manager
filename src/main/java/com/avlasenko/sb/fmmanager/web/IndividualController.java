@@ -2,7 +2,8 @@ package com.avlasenko.sb.fmmanager.web;
 
 import com.avlasenko.sb.fmmanager.model.Individual;
 import com.avlasenko.sb.fmmanager.service.IndividualService;
-import com.avlasenko.sb.fmmanager.util.LocalTimePropertyConverter;
+import com.avlasenko.sb.fmmanager.util.LocalDateTimePropertyConverter;
+import com.avlasenko.sb.fmmanager.util.LocalDatePropertyConverter;
 import com.avlasenko.sb.fmmanager.util.dto.IndividualQuickFormDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Created by A. Vlasenko on 16.06.2016.
@@ -26,7 +28,8 @@ public class IndividualController {
 
     @InitBinder
     public void initBinder(WebDataBinder webDataBinder) {
-        webDataBinder.registerCustomEditor(LocalDate.class, new LocalTimePropertyConverter("yyyy-MM-dd"));
+        webDataBinder.registerCustomEditor(LocalDate.class, new LocalDatePropertyConverter("yyyy-MM-dd"));
+        webDataBinder.registerCustomEditor(LocalDateTime.class, new LocalDateTimePropertyConverter("yyyy-MM-dd hh:mm:ss"));
     }
 
     @RequestMapping(method = RequestMethod.GET)

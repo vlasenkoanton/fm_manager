@@ -347,6 +347,25 @@
                     </c:otherwise>
                 </c:choose>
             </dd>
+            <dt>Account list</dt>
+            <dd>
+                <c:if test="${individual.accounts != null && not empty individual.accounts}">
+                    <table border="1">
+                        <tr>
+                            <th>Account number</th>
+                            <th>Date opened</th>
+                            <th>Date opened</th>
+                        </tr>
+                        <c:forEach items="${individual.accounts}" var="account">
+                            <tr>
+                                <td>${account.number}</td>
+                                <td>${account.opened}</td>
+                                <td>${account.closed}</td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+                </c:if>
+            </dd>
         </dl>
         <button type="submit">Save</button>
     </form:form>

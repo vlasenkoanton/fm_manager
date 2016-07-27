@@ -2,7 +2,7 @@ package com.avlasenko.sb.fmmanager.web;
 
 import com.avlasenko.sb.fmmanager.model.EntrepreneurInfo;
 import com.avlasenko.sb.fmmanager.service.EntrepreneurService;
-import com.avlasenko.sb.fmmanager.util.LocalTimePropertyConverter;
+import com.avlasenko.sb.fmmanager.util.LocalDatePropertyConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +24,7 @@ public class EntrepreneurInfoController {
 
     @InitBinder
     public void initBinder(WebDataBinder webDataBinder) {
-        webDataBinder.registerCustomEditor(LocalDate.class, new LocalTimePropertyConverter("yyyy-MM-dd"));
+        webDataBinder.registerCustomEditor(LocalDate.class, new LocalDatePropertyConverter("yyyy-MM-dd"));
     }
 
     @RequestMapping(method = RequestMethod.GET)
