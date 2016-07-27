@@ -32,8 +32,6 @@
         </dd>
         <dt>Citizenship</dt>
         <dd><form:input path="citizenship" /></dd>
-        <dt>Responsible employee</dt>
-        <dd><form:input path="responsible" /></dd>
         <dt>Political exposed person</dt>
         <dd>
             Yes<form:radiobutton path="pep" value="true" />

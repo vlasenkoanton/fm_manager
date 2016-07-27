@@ -22,8 +22,8 @@ import javax.persistence.*;
 @NamedQueries({
         @NamedQuery(name = Individual.WITHOUT_RELATIONS, query = "UPDATE Individual i SET identNumber=:identNumber," +
                 " firstName=:firstName, lastName=:lastName, middleName=:middleName," +
-                "dateBirth=:dateBirth, placeBirth=:placeBirth, resident=:resident, citizenship=:citizenship," +
-                " responsible=:responsible, pep=:pep WHERE i.id=:id")
+                "dateBirth=:dateBirth, placeBirth=:placeBirth, resident=:resident, citizenship=:citizenship, " +
+                "pep=:pep WHERE i.id=:id")
 })
 public class Individual extends BaseEntity {
     public static final String ALL_RELATIONS = "Individual.allRelations";
@@ -56,11 +56,11 @@ public class Individual extends BaseEntity {
     @Column(name = "citizenship", nullable = false)
     private int citizenship;
 
-    @Column(name = "responsible")
-    private String responsible;
-
     @Column(name = "pep", nullable = false)
     private boolean pep;
+
+    @Column(name = "initial_profile_fill")
+    private LocalDate initialProfileFill;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
@@ -95,6 +95,10 @@ public class Individual extends BaseEntity {
 
     @OneToMany(mappedBy = "owner")
     private Set<Account> accounts;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "responsible_id")
+    private User responsible;
 
     public Individual() {
     }
@@ -169,14 +173,6 @@ public class Individual extends BaseEntity {
 
     public void setCitizenship(int citizenship) {
         this.citizenship = citizenship;
-    }
-
-    public String getResponsible() {
-        return responsible;
-    }
-
-    public void setResponsible(String responsible) {
-        this.responsible = responsible;
     }
 
     public boolean isPep() {
@@ -257,5 +253,21 @@ public class Individual extends BaseEntity {
 
     public void setAccounts(Set<Account> accounts) {
         this.accounts = accounts;
+    }
+
+    public User getResponsible() {
+        return responsible;
+    }
+
+    public void setResponsible(User responsible) {
+        this.responsible = responsible;
+    }
+
+    public LocalDate getInitialProfileFill() {
+        return initialProfileFill;
+    }
+
+    public void setInitialProfileFill(LocalDate initialProfileFill) {
+        this.initialProfileFill = initialProfileFill;
     }
 }

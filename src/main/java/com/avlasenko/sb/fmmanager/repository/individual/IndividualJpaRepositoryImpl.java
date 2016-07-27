@@ -46,7 +46,6 @@ public class IndividualJpaRepositoryImpl extends GenericJpaRepository<Individual
                 .setParameter("placeBirth", individual.getPlaceBirth())
                 .setParameter("resident", individual.isResident())
                 .setParameter("citizenship", individual.getCitizenship())
-                .setParameter("responsible", individual.getResponsible())
                 .setParameter("pep", individual.isPep());
 
         return query.executeUpdate() == 1 ? individual : null;

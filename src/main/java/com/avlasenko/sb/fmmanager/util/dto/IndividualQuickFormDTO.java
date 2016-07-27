@@ -14,11 +14,8 @@ import java.time.LocalDate;
  */
 public class IndividualQuickFormDTO implements DTO {
 
-    @Max(9999999999L)
-    @Min(100000000L)
-    private long identNumber;
-
-    private boolean client;
+    @NotEmpty
+    private String identNumber;
 
     @Length(max = 25)
     @NotEmpty
@@ -47,19 +44,11 @@ public class IndividualQuickFormDTO implements DTO {
     public IndividualQuickFormDTO() {
     }
 
-    public boolean isClient() {
-        return client;
-    }
-
-    public void setClient(boolean client) {
-        this.client = client;
-    }
-
-    public long getIdentNumber() {
+    public String getIdentNumber() {
         return identNumber;
     }
 
-    public void setIdentNumber(long identNumber) {
+    public void setIdentNumber(String identNumber) {
         this.identNumber = identNumber;
     }
 

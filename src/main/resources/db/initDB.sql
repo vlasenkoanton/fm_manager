@@ -11,25 +11,26 @@ DROP TABLE IF EXISTS fm_manager.user;
 
 
 CREATE TABLE fm_manager.individual (
-  id                INTEGER UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
-  `client`          BIT(0)                          NOT NULL,
-  first_name        VARCHAR(50)                     NOT NULL,
-  last_name         VARCHAR(50)                     NOT NULL,
-  middle_name       VARCHAR(50),
-  ident_number      VARCHAR(50),
-  date_birth        DATE                            NOT NULL,
-  place_birth       VARCHAR(50),
-  resident          BIT(1)                          NOT NULL,
-  citizenship       INTEGER(3),
-  responsible       VARCHAR(50),
-  pep               BIT(0),
-  address_id        INTEGER UNSIGNED,
-  work_id           INTEGER UNSIGNED,
-  contact_id        INTEGER UNSIGNED,
-  fop_info_id       INTEGER UNSIGNED,
-  fm_info_id        INTEGER UNSIGNED,
-  account_opener_id INTEGER UNSIGNED,
-  representative_id INTEGER UNSIGNED
+  id                   INTEGER UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
+  `client`             BIT(0)                          NOT NULL,
+  first_name           VARCHAR(50)                     NOT NULL,
+  last_name            VARCHAR(50)                     NOT NULL,
+  middle_name          VARCHAR(50),
+  ident_number         VARCHAR(50),
+  date_birth           DATE                            NOT NULL,
+  place_birth          VARCHAR(50),
+  resident             BIT(1)                          NOT NULL,
+  citizenship          INTEGER(3),
+  pep                  BIT(0),
+  initial_profile_fill DATE                            NOT NULL,
+  responsible_id       INTEGER UNSIGNED,
+  address_id           INTEGER UNSIGNED,
+  work_id              INTEGER UNSIGNED,
+  contact_id           INTEGER UNSIGNED,
+  fop_info_id          INTEGER UNSIGNED,
+  fm_info_id           INTEGER UNSIGNED,
+  account_opener_id    INTEGER UNSIGNED,
+  representative_id    INTEGER UNSIGNED
 );
 CREATE TABLE fm_manager.document (
   id          INTEGER UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
@@ -125,6 +126,8 @@ ALTER TABLE fm_manager.individual
   ADD FOREIGN KEY (account_opener_id) REFERENCES individual (id)
   ON DELETE SET NULL,
   ADD FOREIGN KEY (representative_id) REFERENCES individual (id)
+  ON DELETE SET NULL,
+  ADD FOREIGN KEY (responsible_id) REFERENCES user (id)
   ON DELETE SET NULL;
 
 ALTER TABLE fm_manager.document

@@ -3,12 +3,15 @@ package com.avlasenko.sb.fmmanager.service;
 import com.avlasenko.sb.fmmanager.model.*;
 import com.avlasenko.sb.fmmanager.repository.document.DocumentJpaRepository;
 import com.avlasenko.sb.fmmanager.repository.individual.IndividualJpaRepository;
+import com.avlasenko.sb.fmmanager.repository.user.UserJpaRepository;
 import com.avlasenko.sb.fmmanager.util.dto.IndividualQuickFormDTO;
 import com.avlasenko.sb.fmmanager.util.dto.converter.DTOConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,12 +23,14 @@ public class IndividualServiceImpl implements IndividualService {
 
     private IndividualJpaRepository individualRepository;
     private DocumentJpaRepository documentRepository;
+    private UserJpaRepository userRepository;
 
     @Autowired
     public IndividualServiceImpl(IndividualJpaRepository individualRepository,
-                                 DocumentJpaRepository documentRepository) {
+                                 DocumentJpaRepository documentRepository, UserJpaRepository userRepository) {
         this.individualRepository = individualRepository;
         this.documentRepository = documentRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -41,12 +46,15 @@ public class IndividualServiceImpl implements IndividualService {
     @Override
     @Transactional
     public Integer save(IndividualQuickFormDTO dto) {
-        //purpose of this method creating only clients. Non-clients(related persons) is creating in "saveProxy" method.
-        dto.setClient(true);
-
         Document document = dto.getDocument();
         Individual individual = DTOConverter.convertToEntity(dto);
+
+        //purpose of this method creating only clients. Non-clients(related persons) is creating in "saveProxy" method.
+        individual.setClient(true);
+        setResponsible(individual);
+        individual.setInitialProfileFill(LocalDate.now());
         individualRepository.save(individual);
+
         //if document field had included into DTO, would have a problems with lost foreign key for "document"
         // when trying to persist individual
         document.setOwner(individual);
@@ -63,9 +71,11 @@ public class IndividualServiceImpl implements IndividualService {
     @Override
     @Transactional
     public void saveProxy(IndividualQuickFormDTO dto, int ownerId, String type) {
-        dto.setClient(false);
         Document document = dto.getDocument();
         Individual proxy = DTOConverter.convertToEntity(dto);
+        proxy.setClient(false);
+        setResponsible(proxy);
+        proxy.setInitialProfileFill(LocalDate.now());
         switch (type) {
             case "accOpener": individualRepository.saveAccOpener(proxy, ownerId);
                 break;
@@ -80,5 +90,11 @@ public class IndividualServiceImpl implements IndividualService {
     @Transactional
     public void delete(int id) {
         individualRepository.delete(id);
+    }
+
+    //When creating new individual automatically set responsible to current authenticated user
+    private void setResponsible(Individual individual) {
+        User user = userRepository.getByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+        individual.setResponsible(user);
     }
 }

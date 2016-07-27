@@ -12,6 +12,9 @@ import java.util.Set;
 public class User extends BaseEntity {
     public static final String GET_BY_LOGIN = "User.getByLogin";
 
+    @OneToMany(mappedBy = "responsible")
+    private Set<Individual> individuals;
+
     @Column(name = "login")
     private String login;
 
@@ -104,5 +107,13 @@ public class User extends BaseEntity {
 
     public void setUserRoles(Set<UserRole> userRoles) {
         this.userRoles = userRoles;
+    }
+
+    public Set<Individual> getIndividuals() {
+        return individuals;
+    }
+
+    public void setIndividuals(Set<Individual> individuals) {
+        this.individuals = individuals;
     }
 }
