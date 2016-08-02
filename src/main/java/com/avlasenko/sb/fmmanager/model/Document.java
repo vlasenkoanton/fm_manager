@@ -65,6 +65,13 @@ public class Document extends BaseEntity {
 	public Document() {
 	}
 
+	public Document(int type, String name, String series, int number) {
+		this.type = type;
+		this.name = name;
+		this.series = series;
+		this.number = number;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -75,8 +82,8 @@ public class Document extends BaseEntity {
 
 		if (getType() != document.getType()) return false;
 		if (getNumber() != document.getNumber()) return false;
-		if (!getName().equals(document.getName())) return false;
-		return getSeries().equals(document.getSeries());
+		if (getName() != null ? !getName().equals(document.getName()) : document.getName() != null) return false;
+		return getSeries() != null ? getSeries().equals(document.getSeries()) : document.getSeries() == null;
 
 	}
 
@@ -84,10 +91,25 @@ public class Document extends BaseEntity {
 	public int hashCode() {
 		int result = super.hashCode();
 		result = 31 * result + getType();
-		result = 31 * result + getName().hashCode();
-		result = 31 * result + getSeries().hashCode();
+		result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+		result = 31 * result + (getSeries() != null ? getSeries().hashCode() : 0);
 		result = 31 * result + getNumber();
 		return result;
+	}
+
+	@Override
+	public String toString() {
+		return "Document{" +
+				"owner=" + owner +
+				", type=" + type +
+				", main=" + main +
+				", name='" + name + '\'' +
+				", series='" + series + '\'' +
+				", number=" + number +
+				", authority='" + authority + '\'' +
+				", dateIssue=" + dateIssue +
+				", dateExpire=" + dateExpire +
+				'}';
 	}
 
 	public int getType() {
