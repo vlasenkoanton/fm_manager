@@ -20,6 +20,20 @@ public class FmInfo extends BaseEntity {
     public FmInfo() {
     }
 
+    public FmInfo(Integer id, String serviceHistory, IncomeSources incomeSources) {
+        super(id);
+        this.serviceHistory = serviceHistory;
+        this.incomeSources = incomeSources;
+    }
+
+    @Override
+    public String toString() {
+        return "FmInfo{" +
+                "serviceHistory='" + serviceHistory + '\'' +
+                ", incomeSources=" + incomeSources +
+                "} " + super.toString();
+    }
+
     public String getServiceHistory() {
         return serviceHistory;
     }

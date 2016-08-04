@@ -1,6 +1,7 @@
-package com.avlasenko.sb.fmmanager.main;
+package com.avlasenko.sb.fmmanager;
 
 import com.avlasenko.sb.fmmanager.config.SecurityConfig;
+import com.avlasenko.sb.fmmanager.model.Document;
 import com.avlasenko.sb.fmmanager.model.Individual;
 import com.avlasenko.sb.fmmanager.repository.address.AddressJpaRepository;
 import com.avlasenko.sb.fmmanager.repository.individual.IndividualJpaRepository;
@@ -10,11 +11,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 
 import java.util.Arrays;
+import java.util.Set;
 
 public class Main {
 
     public static void main(String[] args) {
-        try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/appCtx.xml", "spring/webCtx.xml")) {
+        try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/webCtx.xml", "spring/appCtx.xml")) {
 
 
             System.out.println(Arrays.toString(appCtx.getBeanDefinitionNames()));
@@ -23,11 +25,10 @@ public class Main {
 
             AddressJpaRepository addressJpaRepository = (AddressJpaRepository) appCtx.getBean("addressJpaRepositoryImpl");
 
-            String name = SecurityContextHolder.getContext().getAuthentication().getName();
-
-            System.out.println(name);
-
-
+            Individual withAllProperties = repository.getWithAllProperties(1);
+            Set<Document> documents = withAllProperties.getDocuments();
+            System.out.println(documents.getClass().getName());
+            System.out.println(withAllProperties);
 
 
         }

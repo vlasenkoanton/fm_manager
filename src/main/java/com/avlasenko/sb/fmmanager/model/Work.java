@@ -12,12 +12,28 @@ public class Work extends BaseEntity {
     private String name;
 
     @Column(name = "identification_code")
-    private int identCode;
+    private Integer identCode;
 
     @Column(name = "position")
     private String position;
 
     public Work() {
+    }
+
+    public Work(Integer id, String name, Integer identCode, String position) {
+        super(id);
+        this.name = name;
+        this.identCode = identCode;
+        this.position = position;
+    }
+
+    @Override
+    public String toString() {
+        return "Work{" +
+                "name='" + name + '\'' +
+                ", identCode=" + identCode +
+                ", position='" + position + '\'' +
+                "} " + super.toString();
     }
 
     public String getName() {
@@ -28,11 +44,11 @@ public class Work extends BaseEntity {
         this.name = name;
     }
 
-    public int getIdentCode() {
+    public Integer getIdentCode() {
         return identCode;
     }
 
-    public void setIdentCode(int identCode) {
+    public void setIdentCode(Integer identCode) {
         this.identCode = identCode;
     }
 

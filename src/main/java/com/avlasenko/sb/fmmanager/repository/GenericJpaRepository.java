@@ -45,11 +45,6 @@ public class GenericJpaRepository<T extends BaseEntity> implements GenericBaseRe
     }
 
     @Override
-    public T getReference(int id) {
-        return entityManager.getReference(clazz, id);
-    }
-
-    @Override
     public Collection<T> getAll() {
         return entityManager.createQuery(
                 String.format("select e from %s e", clazz.getSimpleName()), clazz

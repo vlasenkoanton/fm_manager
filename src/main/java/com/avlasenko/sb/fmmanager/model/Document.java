@@ -15,173 +15,183 @@ import javax.validation.constraints.Past;
 @Entity
 @Table(name = "document")
 @NamedQueries({
-		@NamedQuery(name = Document.GET_BY_CLIENT, query = "SELECT d FROM Document d " +
-				"WHERE d.id=:id AND d.owner.id=:ownerId"),
-		@NamedQuery(name = Document.DELETE_BY_CLIENT, query = "DELETE FROM Document d " +
-				"WHERE d.id=:id AND d.owner.id=:ownerId")
+        @NamedQuery(name = Document.GET_BY_CLIENT, query = "SELECT d FROM Document d " +
+                "WHERE d.id=:id AND d.owner.id=:ownerId"),
+        @NamedQuery(name = Document.DELETE_BY_CLIENT, query = "DELETE FROM Document d " +
+                "WHERE d.id=:id AND d.owner.id=:ownerId")
 })
 public class Document extends BaseEntity {
-	public static final String GET_BY_CLIENT = "Document.getByOwner";
-	public static final String DELETE_BY_CLIENT = "Document.deleteByClient";
+    public static final String GET_BY_CLIENT = "Document.getByOwner";
+    public static final String DELETE_BY_CLIENT = "Document.deleteByClient";
 
-	@ManyToOne
-	@JoinColumn(name = "owner_id")
-	private Individual owner;
+    @Column(name = "type", nullable = false)
+    @Min(1)
+    private Integer type;
 
-	@Column(name = "type", nullable = false)
-	@Min(1)
-	private int type;
+    @Column(name = "main", nullable = false)
+    private boolean main;
 
-	@Column(name = "main", nullable = false)
-	private boolean main;
+    @Column(name = "name", nullable = false)
+    @Length(max = 25)
+    @NotNull
+    @NotEmpty
+    private String name;
 
-	@Column(name = "name", nullable = false)
-	@Length(max = 25)
-	@NotNull
-	@NotEmpty
-	private String name;
+    @Column(name = "series")
+    @Length(max = 25)
+    private String series;
 
-	@Column(name = "series")
-	@Length(max = 25)
-	private String series;
+    @Column(name = "number", nullable = false)
+    @Min(1)
+    private Integer number;
 
-	@Column(name = "number", nullable = false)
-	@Min(1)
-	private int number;
+    @Column(name = "authority", nullable = false)
+    @Length(max = 50)
+    @NotNull
+    @NotEmpty
+    private String authority;
 
-	@Column(name = "authority", nullable = false)
-	@Length(max = 50)
-	@NotNull
-	@NotEmpty
-	private String authority;
+    @Column(name = "date_issue", nullable = false)
+    @NotNull
+    private LocalDate dateIssue;
 
-	@Column(name = "date_issue", nullable = false)
-	@NotNull
-	private LocalDate dateIssue;
+    @Column(name = "date_expire")
+    private LocalDate dateExpire;
 
-	@Column(name = "date_expire")
-	private LocalDate dateExpire;
-	
-	public Document() {
-	}
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private Individual owner;
 
-	public Document(int type, String name, String series, int number) {
-		this.type = type;
-		this.name = name;
-		this.series = series;
-		this.number = number;
-	}
+    public Document() {
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		if (!super.equals(o)) return false;
+    public Document(Integer type, String name, String series, Integer number) {
+        this.type = type;
+        this.name = name;
+        this.series = series;
+        this.number = number;
+    }
 
-		Document document = (Document) o;
+    public Document(Integer id, Integer type, boolean main, String name, String series, Integer number,
+                    String authority, LocalDate dateIssue, LocalDate dateExpire) {
+        super(id);
+        this.type = type;
+        this.main = main;
+        this.name = name;
+        this.series = series;
+        this.number = number;
+        this.authority = authority;
+        this.dateIssue = dateIssue;
+        this.dateExpire = dateExpire;
+    }
 
-		if (getType() != document.getType()) return false;
-		if (getNumber() != document.getNumber()) return false;
-		if (getName() != null ? !getName().equals(document.getName()) : document.getName() != null) return false;
-		return getSeries() != null ? getSeries().equals(document.getSeries()) : document.getSeries() == null;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-	}
+        Document document = (Document) o;
 
-	@Override
-	public int hashCode() {
-		int result = super.hashCode();
-		result = 31 * result + getType();
-		result = 31 * result + (getName() != null ? getName().hashCode() : 0);
-		result = 31 * result + (getSeries() != null ? getSeries().hashCode() : 0);
-		result = 31 * result + getNumber();
-		return result;
-	}
+        if (getType() != null ? !getType().equals(document.getType()) : document.getType() != null) return false;
+        if (getName() != null ? !getName().equals(document.getName()) : document.getName() != null) return false;
+        if (getSeries() != null ? !getSeries().equals(document.getSeries()) : document.getSeries() != null)
+            return false;
+        return getNumber() != null ? getNumber().equals(document.getNumber()) : document.getNumber() == null;
 
-	@Override
-	public String toString() {
-		return "Document{" +
-				"owner=" + owner +
-				", type=" + type +
-				", main=" + main +
-				", name='" + name + '\'' +
-				", series='" + series + '\'' +
-				", number=" + number +
-				", authority='" + authority + '\'' +
-				", dateIssue=" + dateIssue +
-				", dateExpire=" + dateExpire +
-				'}';
-	}
+    }
 
-	public int getType() {
-		return type;
-	}
+    @Override
+    public int hashCode() {
+        int result = getType() != null ? getType().hashCode() : 0;
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        result = 31 * result + (getSeries() != null ? getSeries().hashCode() : 0);
+        result = 31 * result + (getNumber() != null ? getNumber().hashCode() : 0);
+        return result;
+    }
 
-	public void setType(int type) {
-		this.type = type;
-	}
+    @Override
+    public String toString() {
+        return "Document{" +
+                "type=" + type +
+                ", main=" + main +
+                ", name='" + name + '\'' +
+                ", series='" + series + '\'' +
+                ", number=" + number +
+                ", authority='" + authority + '\'' +
+                ", dateIssue=" + dateIssue +
+                ", dateExpire=" + dateExpire +
+                "} " + super.toString();
+    }
 
-	public boolean isMain() {
-		return main;
-	}
+    public Integer getType() {
+        return type;
+    }
 
-	public void setMain(boolean main) {
-		this.main = main;
-	}
+    public void setType(Integer type) {
+        this.type = type;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public boolean isMain() {
+        return main;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setMain(boolean main) {
+        this.main = main;
+    }
 
-	public String getSeries() {
-		return series;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setSeries(String series) {
-		this.series = series;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public int getNumber() {
-		return number;
-	}
+    public String getSeries() {
+        return series;
+    }
 
-	public void setNumber(int number) {
-		this.number = number;
-	}
+    public void setSeries(String series) {
+        this.series = series;
+    }
 
-	public String getAuthority() {
-		return authority;
-	}
+    public Integer getNumber() {
+        return number;
+    }
 
-	public void setAuthority(String authority) {
-		this.authority = authority;
-	}
+    public void setNumber(Integer number) {
+        this.number = number;
+    }
 
-	public LocalDate getDateIssue() {
-		return dateIssue;
-	}
+    public String getAuthority() {
+        return authority;
+    }
 
-	public void setDateIssue(LocalDate dateIssue) {
-		this.dateIssue = dateIssue;
-	}
+    public void setAuthority(String authority) {
+        this.authority = authority;
+    }
 
-	public LocalDate getDateExpire() {
-		return dateExpire;
-	}
+    public LocalDate getDateIssue() {
+        return dateIssue;
+    }
 
-	public void setDateExpire(LocalDate dateExpire) {
-		this.dateExpire = dateExpire;
-	}
+    public void setDateIssue(LocalDate dateIssue) {
+        this.dateIssue = dateIssue;
+    }
 
-	public Individual getOwner() {
-		return owner;
-	}
+    public LocalDate getDateExpire() {
+        return dateExpire;
+    }
 
-	public void setOwner(Individual owner) {
-		this.owner = owner;
-	}
+    public void setDateExpire(LocalDate dateExpire) {
+        this.dateExpire = dateExpire;
+    }
 
+    public Individual getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Individual owner) {
+        this.owner = owner;
+    }
 }

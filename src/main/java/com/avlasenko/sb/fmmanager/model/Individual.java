@@ -2,6 +2,7 @@ package com.avlasenko.sb.fmmanager.model;
 
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -32,9 +33,6 @@ public class Individual extends BaseEntity {
     @Column(name = "client")
     private boolean client;
 
-    @Column(name = "ident_number", nullable = false)
-    private String identNumber;
-
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
@@ -43,6 +41,9 @@ public class Individual extends BaseEntity {
 
     @Column(name = "middle_name")
     private String middleName;
+
+    @Column(name = "ident_number", nullable = false)
+    private String identNumber;
 
     @Column(name = "date_birth", nullable = false)
     private LocalDate dateBirth;
@@ -54,7 +55,7 @@ public class Individual extends BaseEntity {
     private boolean resident;
 
     @Column(name = "citizenship", nullable = false)
-    private int citizenship;
+    private Integer citizenship;
 
     @Column(name = "pep", nullable = false)
     private boolean pep;
@@ -62,12 +63,13 @@ public class Individual extends BaseEntity {
     @Column(name = "initial_profile_fill")
     private LocalDate initialProfileFill;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "responsible_id")
+    private User responsible;
+
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
-
-    @OneToMany(mappedBy = "owner")
-    private Set<Document> documents;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "work_id")
@@ -94,13 +96,87 @@ public class Individual extends BaseEntity {
     private Individual representative;
 
     @OneToMany(mappedBy = "owner")
+    private Set<Document> documents;
+
+    @OneToMany(mappedBy = "owner")
     private Set<Account> accounts;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "responsible_id")
-    private User responsible;
-
     public Individual() {
+    }
+
+    public Individual(Integer id, String firstName, String lastName, String middleName, String identNumber, LocalDate dateBirth,
+                      String placeBirth, boolean resident, Integer citizenship, boolean pep) {
+        //Constructor for testing updateWithoutRelations() method.
+        super(id);
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.middleName = middleName;
+        this.identNumber = identNumber;
+        this.dateBirth = dateBirth;
+        this.placeBirth = placeBirth;
+        this.resident = resident;
+        this.citizenship = citizenship;
+        this.pep = pep;
+    }
+
+    public Individual(Integer id, boolean client, String firstName, String lastName, String middleName,
+                      String identNumber, LocalDate dateBirth, String placeBirth, boolean resident,
+                      Integer citizenship, boolean pep, LocalDate initialProfileFill) {
+        super(id);
+        this.client = client;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.middleName = middleName;
+        this.identNumber = identNumber;
+        this.dateBirth = dateBirth;
+        this.placeBirth = placeBirth;
+        this.resident = resident;
+        this.citizenship = citizenship;
+        this.pep = pep;
+        this.initialProfileFill = initialProfileFill;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Individual that = (Individual) o;
+
+        if (getFirstName() != null ? !getFirstName().equals(that.getFirstName()) : that.getFirstName() != null)
+            return false;
+        if (getLastName() != null ? !getLastName().equals(that.getLastName()) : that.getLastName() != null)
+            return false;
+        if (getIdentNumber() != null ? !getIdentNumber().equals(that.getIdentNumber()) : that.getIdentNumber() != null)
+            return false;
+        return getDateBirth() != null ? getDateBirth().equals(that.getDateBirth()) : that.getDateBirth() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getFirstName() != null ? getFirstName().hashCode() : 0;
+        result = 31 * result + (getLastName() != null ? getLastName().hashCode() : 0);
+        result = 31 * result + (getIdentNumber() != null ? getIdentNumber().hashCode() : 0);
+        result = 31 * result + (getDateBirth() != null ? getDateBirth().hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Individual{" +
+                "client=" + client +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", middleName='" + middleName + '\'' +
+                ", identNumber='" + identNumber + '\'' +
+                ", dateBirth=" + dateBirth +
+                ", placeBirth='" + placeBirth + '\'' +
+                ", resident=" + resident +
+                ", citizenship=" + citizenship +
+                ", pep=" + pep +
+                ", initialProfileFill=" + initialProfileFill +
+                "} " + super.toString();
     }
 
     public boolean isClient() {
@@ -109,14 +185,6 @@ public class Individual extends BaseEntity {
 
     public void setClient(boolean client) {
         this.client = client;
-    }
-
-    public String getIdentNumber() {
-        return identNumber;
-    }
-
-    public void setIdentNumber(String identNumber) {
-        this.identNumber = identNumber;
     }
 
     public String getFirstName() {
@@ -143,6 +211,14 @@ public class Individual extends BaseEntity {
         this.middleName = middleName;
     }
 
+    public String getIdentNumber() {
+        return identNumber;
+    }
+
+    public void setIdentNumber(String identNumber) {
+        this.identNumber = identNumber;
+    }
+
     public LocalDate getDateBirth() {
         return dateBirth;
     }
@@ -167,11 +243,11 @@ public class Individual extends BaseEntity {
         this.resident = resident;
     }
 
-    public int getCitizenship() {
+    public Integer getCitizenship() {
         return citizenship;
     }
 
-    public void setCitizenship(int citizenship) {
+    public void setCitizenship(Integer citizenship) {
         this.citizenship = citizenship;
     }
 
@@ -183,20 +259,28 @@ public class Individual extends BaseEntity {
         this.pep = pep;
     }
 
+    public LocalDate getInitialProfileFill() {
+        return initialProfileFill;
+    }
+
+    public void setInitialProfileFill(LocalDate initialProfileFill) {
+        this.initialProfileFill = initialProfileFill;
+    }
+
+    public User getResponsible() {
+        return responsible;
+    }
+
+    public void setResponsible(User responsible) {
+        this.responsible = responsible;
+    }
+
     public Address getAddress() {
         return address;
     }
 
     public void setAddress(Address address) {
         this.address = address;
-    }
-
-    public Set<Document> getDocuments() {
-        return documents;
-    }
-
-    public void setDocuments(Set<Document> documents) {
-        this.documents = documents;
     }
 
     public Work getWork() {
@@ -247,27 +331,19 @@ public class Individual extends BaseEntity {
         this.representative = representative;
     }
 
+    public Set<Document> getDocuments() {
+        return documents;
+    }
+
+    public void setDocuments(Set<Document> documents) {
+        this.documents = documents;
+    }
+
     public Set<Account> getAccounts() {
         return accounts;
     }
 
     public void setAccounts(Set<Account> accounts) {
         this.accounts = accounts;
-    }
-
-    public User getResponsible() {
-        return responsible;
-    }
-
-    public void setResponsible(User responsible) {
-        this.responsible = responsible;
-    }
-
-    public LocalDate getInitialProfileFill() {
-        return initialProfileFill;
-    }
-
-    public void setInitialProfileFill(LocalDate initialProfileFill) {
-        this.initialProfileFill = initialProfileFill;
     }
 }

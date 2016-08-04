@@ -20,9 +20,9 @@ ALTER TABLE fm_manager.fm_info AUTO_INCREMENT = 1;
 ALTER TABLE fm_manager.user AUTO_INCREMENT = 1;
 
 INSERT INTO fm_manager.address (postal_code, country, region, district, city, street, house, apartment) VALUES
-  (111111, 980, 'Cherkassy', 'USR', 'Cherkassy', 'Sumgaitska', 45, 23),
-  (222222, 980, '', 'Sviatoshynskiy', 'Kiev', 'Rykova', 5, 6),
-  (333333, 980, '', 'Obolonskiy', 'Kiev', 'G. Stalingrada', 25, 62);
+  (111111, 980, 'Cherkaska', '', 'Cherkasy', 'Sumgaitska', 45, 23),
+  (222222, 980, '', '', 'Kyiv', 'P. Kurinnogo', 5, 6),
+  (333333, 980, 'Cherkaska', 'Chygyrynsryi', 's. Borovytsya', 'Golovna', 25, NULL);
 
 INSERT INTO fm_manager.work (name, identification_code, position) VALUES
   ('First Corporation', 236589, 'Programmer'),

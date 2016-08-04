@@ -5,21 +5,21 @@ package com.avlasenko.sb.fmmanager.util.exception;
  */
 public abstract class ExceptionUtil {
 
-    public static void checkNotFoundByClient(int notFound, int clientId) {
-        checkNotFound(notFound, "by clientId=" + clientId);
+    public static void checkNotFoundByOwner(int found, int ownerId) {
+        checkNotFound(found, "by ownerId=" + ownerId);
     }
 
-    public static <T> T checkNotFoundByClient(T entry, int clientId) {
-        return checkNotFound(entry, "by clientId=" + clientId);
+    public static <T> T checkNotFoundByOwner(T entry, int ownerId) {
+        return checkNotFound(entry, "by ownerId=" + ownerId);
     }
 
     public static <T> T checkNotFound(T entry, String msg) {
-        checkNotFound(entry == null, msg);
+        checkNotFound(entry != null, msg);
         return entry;
     }
 
-    public static void checkNotFound(boolean notFound, String msg) {
-        if (notFound) throw new EntryNotFoundException("Can't found entry " + msg);
+    public static void checkNotFound(boolean found, String msg) {
+        if (!found) throw new EntryNotFoundException("Can't found entry " + msg);
     }
 
 

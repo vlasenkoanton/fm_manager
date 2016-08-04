@@ -10,71 +10,92 @@ import javax.persistence.Embeddable;
 public class IncomeSources {
 
     @Column(name = "month_income")
-    private long monthIncome;
+    private Long monthIncome;
 
     @Column(name = "financial_help")
-    private long financialHelp;
+    private Long financialHelp;
 
     @Column(name = "securities")
-    private long securities;
+    private Long securities;
 
     @Column(name = "assignment")
-    private long assignment;
+    private Long assignment;
 
     @Column(name = "loans")
-    private long loans;
+    private Long loans;
 
     @Column(name = "term_contracts")
-    private long termContracts;
+    private Long termContracts;
 
     public IncomeSources() {
     }
 
-    public long getMonthIncome() {
+    public IncomeSources(Long monthIncome, Long financialHelp, Long securities, Long assignment, Long loans, Long termContracts) {
+        this.monthIncome = monthIncome;
+        this.financialHelp = financialHelp;
+        this.securities = securities;
+        this.assignment = assignment;
+        this.loans = loans;
+        this.termContracts = termContracts;
+    }
+
+    @Override
+    public String toString() {
+        return "IncomeSources{" +
+                "monthIncome=" + monthIncome +
+                ", financialHelp=" + financialHelp +
+                ", securities=" + securities +
+                ", assignment=" + assignment +
+                ", loans=" + loans +
+                ", termContracts=" + termContracts +
+                '}';
+    }
+
+    public Long getMonthIncome() {
         return monthIncome;
     }
 
-    public void setMonthIncome(long monthIncome) {
+    public void setMonthIncome(Long monthIncome) {
         this.monthIncome = monthIncome;
     }
 
-    public long getFinancialHelp() {
+    public Long getFinancialHelp() {
         return financialHelp;
     }
 
-    public void setFinancialHelp(long financialHelp) {
+    public void setFinancialHelp(Long financialHelp) {
         this.financialHelp = financialHelp;
     }
 
-    public long getSecurities() {
+    public Long getSecurities() {
         return securities;
     }
 
-    public void setSecurities(long securities) {
+    public void setSecurities(Long securities) {
         this.securities = securities;
     }
 
-    public long getAssignment() {
+    public Long getAssignment() {
         return assignment;
     }
 
-    public void setAssignment(long assignment) {
+    public void setAssignment(Long assignment) {
         this.assignment = assignment;
     }
 
-    public long getLoans() {
+    public Long getLoans() {
         return loans;
     }
 
-    public void setLoans(long loans) {
+    public void setLoans(Long loans) {
         this.loans = loans;
     }
 
-    public long getTermContracts() {
+    public Long getTermContracts() {
         return termContracts;
     }
 
-    public void setTermContracts(long termContracts) {
+    public void setTermContracts(Long termContracts) {
         this.termContracts = termContracts;
     }
 }

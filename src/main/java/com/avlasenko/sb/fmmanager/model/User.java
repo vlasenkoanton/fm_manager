@@ -12,9 +12,6 @@ import java.util.Set;
 public class User extends BaseEntity {
     public static final String GET_BY_LOGIN = "User.getByLogin";
 
-    @OneToMany(mappedBy = "responsible")
-    private Set<Individual> individuals;
-
     @Column(name = "login")
     private String login;
 
@@ -42,7 +39,36 @@ public class User extends BaseEntity {
     @Column(name = "role")
     private Set<UserRole> userRoles;
 
+    @OneToMany(mappedBy = "responsible")
+    private Set<Individual> individuals;
+
     public User() {
+    }
+
+    public User(Integer id, String login, String password, String firstName, String lastName, String middleName, String officeTelNumber, String position, Set<UserRole> userRoles) {
+        super(id);
+        this.login = login;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.middleName = middleName;
+        this.officeTelNumber = officeTelNumber;
+        this.position = position;
+        this.userRoles = userRoles;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", middleName='" + middleName + '\'' +
+                ", officeTelNumber='" + officeTelNumber + '\'' +
+                ", position='" + position + '\'' +
+                ", userRoles=" + userRoles +
+                "} " + super.toString();
     }
 
     public String getLogin() {

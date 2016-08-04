@@ -14,7 +14,7 @@ public class EntrepreneurInfo extends BaseEntity {
     public static final String GET_BY_OWNER = "EntrepreneurInfo.getByOwner";
 
     @Column(name = "registration_number", nullable = false)
-    private int regNumber;
+    private Integer regNumber;
 
     @Column(name = "authority", nullable = false)
     private String authority;
@@ -28,11 +28,29 @@ public class EntrepreneurInfo extends BaseEntity {
     public EntrepreneurInfo() {
     }
 
-    public int getRegNumber() {
+    public EntrepreneurInfo(Integer id, Integer regNumber, String authority, LocalDate regDate, String activity) {
+        super(id);
+        this.regNumber = regNumber;
+        this.authority = authority;
+        this.regDate = regDate;
+        this.activity = activity;
+    }
+
+    @Override
+    public String toString() {
+        return "EntrepreneurInfo{" +
+                "regNumber=" + regNumber +
+                ", authority='" + authority + '\'' +
+                ", regDate=" + regDate +
+                ", activity='" + activity + '\'' +
+                "} " + super.toString();
+    }
+
+    public Integer getRegNumber() {
         return regNumber;
     }
 
-    public void setRegNumber(int regNumber) {
+    public void setRegNumber(Integer regNumber) {
         this.regNumber = regNumber;
     }
 

@@ -15,12 +15,12 @@ public class Address extends BaseEntity {
     public static final String GET_BY_OWNER = "Address.getByOwner";
 
     @Column(name = "postal_code")
-    private int postCode;
+    private Integer postCode;
 
     @Column(name = "country", nullable = false)
     @Max(999)
     @Min(1)
-    private int country;
+    private Integer country;
 
     @Column(name = "region")
     @Length(max = 25)
@@ -44,28 +44,53 @@ public class Address extends BaseEntity {
 
     @Column(name = "house", nullable = false)
     @Min(1)
-    private int house;
+    private Integer house;
 
     @Column(name = "apartment")
-    private int apartment;
+    private Integer apartment;
 
     public Address() {
-
     }
 
-    public int getPostCode() {
+    public Address(Integer id, Integer postCode, Integer country, String region, String district, String city, String street, Integer house, Integer apartment) {
+        super(id);
+        this.postCode = postCode;
+        this.country = country;
+        this.region = region;
+        this.district = district;
+        this.city = city;
+        this.street = street;
+        this.house = house;
+        this.apartment = apartment;
+    }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "postCode=" + postCode +
+                ", country=" + country +
+                ", region='" + region + '\'' +
+                ", district='" + district + '\'' +
+                ", city='" + city + '\'' +
+                ", street='" + street + '\'' +
+                ", house=" + house +
+                ", apartment=" + apartment +
+                "} " + super.toString();
+    }
+
+    public Integer getPostCode() {
         return postCode;
     }
 
-    public void setPostCode(int postCode) {
+    public void setPostCode(Integer postCode) {
         this.postCode = postCode;
     }
 
-    public int getCountry() {
+    public Integer getCountry() {
         return country;
     }
 
-    public void setCountry(int country) {
+    public void setCountry(Integer country) {
         this.country = country;
     }
 
@@ -101,19 +126,19 @@ public class Address extends BaseEntity {
         this.street = street;
     }
 
-    public int getHouse() {
+    public Integer getHouse() {
         return house;
     }
 
-    public void setHouse(int house) {
+    public void setHouse(Integer house) {
         this.house = house;
     }
 
-    public int getApartment() {
+    public Integer getApartment() {
         return apartment;
     }
 
-    public void setApartment(int apartment) {
+    public void setApartment(Integer apartment) {
         this.apartment = apartment;
     }
 }

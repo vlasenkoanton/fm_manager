@@ -14,7 +14,6 @@ import java.util.Map;
  * Created by A. Vlasenko on 15.06.2016.
  */
 @Repository
-@Transactional(readOnly = true)
 public class IndividualJpaRepositoryImpl extends GenericJpaRepository<Individual> implements IndividualJpaRepository {
 
     public IndividualJpaRepositoryImpl() {

@@ -10,7 +10,7 @@ DROP TABLE IF EXISTS fm_manager.user_roles;
 DROP TABLE IF EXISTS fm_manager.user;
 
 
-CREATE TABLE fm_manager.individual (
+CREATE TABLE individual (
   id                   INTEGER UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
   `client`             BIT(0)                          NOT NULL,
   first_name           VARCHAR(50)                     NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE fm_manager.individual (
   resident             BIT(1)                          NOT NULL,
   citizenship          INTEGER(3),
   pep                  BIT(0),
-  initial_profile_fill DATE                            NOT NULL,
+  initial_profile_fill DATE,
   responsible_id       INTEGER UNSIGNED,
   address_id           INTEGER UNSIGNED,
   work_id              INTEGER UNSIGNED,

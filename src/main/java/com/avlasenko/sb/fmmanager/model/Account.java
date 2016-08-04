@@ -12,18 +12,14 @@ import java.time.LocalDateTime;
 @Table(name = "account")
 public class Account extends BaseEntity {
 
-	@ManyToOne
-	@JoinColumn(name = "owner_id")
-	private Individual owner;
-
 	@Column(name = "name")
 	private String name;
 
 	@Column(name = "number")
-	private long number;
+	private Long number;
 
 	@Column(name = "balance")
-	private long balance;
+	private Long balance;
 
 	@Column(name = "opened")
 	private LocalDateTime opened;
@@ -34,34 +30,48 @@ public class Account extends BaseEntity {
 	@Column(name = "closed")
 	private LocalDateTime closed;
 
+	@ManyToOne
+	@JoinColumn(name = "owner_id")
+	private Individual owner;
+
 	public Account() {
+	}
+
+	public Account(Integer id, String name, Long number, Long balance, LocalDateTime opened, LocalDateTime lastUpdate, LocalDateTime closed) {
+		super(id);
+		this.name = name;
+		this.number = number;
+		this.balance = balance;
+		this.opened = opened;
+		this.lastUpdate = lastUpdate;
+		this.closed = closed;
 	}
 
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
-		if (!super.equals(o)) return false;
 
 		Account account = (Account) o;
 
-		return getNumber() == account.getNumber();
+		return getNumber().equals(account.getNumber());
+	}
 
+	@Override
+	public String toString() {
+		return "Account{" +
+				"name='" + name + '\'' +
+				", number=" + number +
+				", balance=" + balance +
+				", opened=" + opened +
+				", lastUpdate=" + lastUpdate +
+				", closed=" + closed +
+				"} " + super.toString();
 	}
 
 	@Override
 	public int hashCode() {
-		int result = super.hashCode();
-		result = 31 * result + (int) (number ^ (number >>> 32));
-		return result;
-	}
-
-	public Individual getOwner() {
-		return owner;
-	}
-
-	public void setOwner(Individual owner) {
-		this.owner = owner;
+		return getNumber().hashCode();
 	}
 
 	public String getName() {
@@ -72,19 +82,19 @@ public class Account extends BaseEntity {
 		this.name = name;
 	}
 
-	public long getNumber() {
+	public Long getNumber() {
 		return number;
 	}
 
-	public void setNumber(long number) {
+	public void setNumber(Long number) {
 		this.number = number;
 	}
 
-	public long getBalance() {
+	public Long getBalance() {
 		return balance;
 	}
 
-	public void setBalance(long balance) {
+	public void setBalance(Long balance) {
 		this.balance = balance;
 	}
 
@@ -110,5 +120,13 @@ public class Account extends BaseEntity {
 
 	public void setClosed(LocalDateTime closed) {
 		this.closed = closed;
+	}
+
+	public Individual getOwner() {
+		return owner;
+	}
+
+	public void setOwner(Individual owner) {
+		this.owner = owner;
 	}
 }

@@ -6,8 +6,16 @@
     <display-name>FM Manager</display-name>
 
     <context-param>
+        <param-name>spring.profiles.default</param-name>
+        <param-value>prod</param-value>
+    </context-param>
+
+    <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:/spring/appCtx.xml</param-value>
+        <param-value>
+            classpath:/spring/appCtx.xml
+            classpath:/spring/dbCtx.xml
+        </param-value>
     </context-param>
 
     <listener>

@@ -26,6 +26,26 @@ public class Contact extends BaseEntity {
 	public Contact() {
 	}
 
+	public Contact(Integer id, String homeTel, String workTel, String mobileTel, String fax, String email) {
+		super(id);
+		this.homeTel = homeTel;
+		this.workTel = workTel;
+		this.mobileTel = mobileTel;
+		this.fax = fax;
+		this.email = email;
+	}
+
+	@Override
+	public String toString() {
+		return "Contact{" +
+				"homeTel='" + homeTel + '\'' +
+				", workTel='" + workTel + '\'' +
+				", mobileTel='" + mobileTel + '\'' +
+				", fax='" + fax + '\'' +
+				", email='" + email + '\'' +
+				"} " + super.toString();
+	}
+
 	public String getHomeTel() {
 		return homeTel;
 	}
