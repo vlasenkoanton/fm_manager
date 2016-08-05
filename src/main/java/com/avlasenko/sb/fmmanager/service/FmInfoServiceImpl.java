@@ -19,7 +19,7 @@ public class FmInfoServiceImpl implements FmInfoService {
     @Override
     @Transactional
     public void save(FmInfo fmInfo, int ownerId) throws EntryNotFoundException {
-        repository.save(fmInfo, ownerId);
+        repository.saveByOwner(fmInfo, ownerId);
     }
 
     @Override
@@ -30,6 +30,6 @@ public class FmInfoServiceImpl implements FmInfoService {
     @Override
     @Transactional
     public void delete(int ownerId) throws EntryNotFoundException {
-        repository.delete(ownerId);
+        repository.deleteByOwner(ownerId);
     }
 }

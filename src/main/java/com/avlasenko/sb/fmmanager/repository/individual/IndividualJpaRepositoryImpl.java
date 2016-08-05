@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityGraph;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +31,7 @@ public class IndividualJpaRepositoryImpl extends GenericJpaRepository<Individual
 
     @Override
     public Individual updateWithoutRelations(Individual individual, int id) {
-        if (individual.getId() != id) {
+        if (individual.isNew() || individual.getId() != id) {
             return null;
         }
 
@@ -52,24 +53,38 @@ public class IndividualJpaRepositoryImpl extends GenericJpaRepository<Individual
 
     @Override
     public Individual saveAccOpener(Individual proxy, int ownerId) {
-        Individual individual = entityManager.getReference(Individual.class, ownerId);
-        individual.setAccOpener(proxy);
+        if (!proxy.isNew()) {
+            return null;
+        }
+        try {
+            Individual individual = entityManager.getReference(Individual.class, ownerId);
+            individual.setAccOpener(proxy);
+        } catch (EntityNotFoundException e) {
+            return null;
+        }
         return proxy;
     }
 
     @Override
     public Individual saveRepresentative(Individual proxy, int ownerId) {
-        Individual individual = entityManager.getReference(Individual.class, ownerId);
-        individual.setRepresentative(proxy);
+        if (!proxy.isNew()) {
+            return null;
+        }
+        try {
+            Individual individual = entityManager.getReference(Individual.class, ownerId);
+            individual.setRepresentative(proxy);
+        } catch (EntityNotFoundException e) {
+            return null;
+        }
         return proxy;
     }
 
     @Override
     public boolean delete(int id) {
-        Individual individual = entityManager.getReference(Individual.class, id);
         try {
+            Individual individual = entityManager.getReference(Individual.class, id);
             delete(individual);
-        } catch (IllegalArgumentException e) {
+        } catch (EntityNotFoundException | IllegalArgumentException e) {
             return false;
         }
         return true;

@@ -5,7 +5,6 @@ import com.avlasenko.sb.fmmanager.model.Individual;
 import com.avlasenko.sb.fmmanager.repository.GenericJpaRepository;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -14,15 +13,14 @@ import javax.persistence.TypedQuery;
  * Created by A. Vlasenko on 26.06.2016.
  */
 @Repository
-@Transactional(readOnly = true)
 public class DocumentJpaRepositoryImpl extends GenericJpaRepository<Document> implements DocumentJpaRepository {
     public DocumentJpaRepositoryImpl() {
         super(Document.class);
     }
 
     @Override
-    public Document save(Document document, int ownerId) {
-        if (!document.isNew() && get(document.getId(), ownerId) == null) {
+    public Document saveByOwner(Document document, int ownerId) {
+        if (!document.isNew() && getByOwner(document.getId(), ownerId) == null) {
             return null;
         }
 
@@ -32,7 +30,7 @@ public class DocumentJpaRepositoryImpl extends GenericJpaRepository<Document> im
     }
 
     @Override
-    public Document get(int id, int ownerId) {
+    public Document getByOwner(int id, int ownerId) {
         TypedQuery<Document> query = entityManager.createNamedQuery(Document.GET_BY_CLIENT, Document.class);
         query.setParameter("id", id);
         query.setParameter("ownerId", ownerId);
@@ -40,7 +38,7 @@ public class DocumentJpaRepositoryImpl extends GenericJpaRepository<Document> im
     }
 
     @Override
-    public boolean delete(int id, int ownerId) {
+    public boolean deleteByOwner(int id, int ownerId) {
         Query query = entityManager.createNamedQuery(Document.DELETE_BY_CLIENT);
         query.setParameter("id", id)
                 .setParameter("ownerId", ownerId);

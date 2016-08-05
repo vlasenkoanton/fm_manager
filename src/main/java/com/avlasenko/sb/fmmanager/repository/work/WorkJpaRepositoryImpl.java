@@ -5,7 +5,6 @@ import com.avlasenko.sb.fmmanager.model.Work;
 import com.avlasenko.sb.fmmanager.repository.GenericJpaRepository;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.TypedQuery;
 
@@ -13,7 +12,6 @@ import javax.persistence.TypedQuery;
  * Created by A. Vlasenko on 14.07.2016.
  */
 @Repository
-@Transactional(readOnly = true)
 public class WorkJpaRepositoryImpl extends GenericJpaRepository<Work> implements WorkJpaRepository {
 
     public WorkJpaRepositoryImpl() {
@@ -21,8 +19,8 @@ public class WorkJpaRepositoryImpl extends GenericJpaRepository<Work> implements
     }
 
     @Override
-    public Work save(Work work, int ownerId) {
-        if (!work.isNew() && getByOwner(ownerId) == null) {
+    public Work saveByOwner(Work work, int ownerId) {
+        if (!work.isNew() && (getByOwner(ownerId) == null || !getByOwner(ownerId).getId().equals(work.getId()))) {
             return null;
         }
         if(work.isNew()) {
@@ -41,7 +39,7 @@ public class WorkJpaRepositoryImpl extends GenericJpaRepository<Work> implements
     }
 
     @Override
-    public boolean delete(int ownerId) {
+    public boolean deleteByOwner(int ownerId) {
         Work work = getByOwner(ownerId);
         if (work == null) {
             return false;

@@ -13,15 +13,14 @@ import javax.persistence.TypedQuery;
  * Created by A. Vlasenko on 19.07.2016.
  */
 @Repository
-@Transactional(readOnly = true)
 public class FmInfoJpaRepositoryImpl extends GenericJpaRepository<FmInfo> implements FmInfoJpaRepository {
     public FmInfoJpaRepositoryImpl() {
         super(FmInfo.class);
     }
 
     @Override
-    public FmInfo save(FmInfo fmInfo, int ownerId) {
-        if (!fmInfo.isNew() && getByOwner(ownerId) == null) {
+    public FmInfo saveByOwner(FmInfo fmInfo, int ownerId) {
+        if (!fmInfo.isNew() && (getByOwner(ownerId) == null || !getByOwner(ownerId).getId().equals(fmInfo.getId()))) {
             return null;
         }
         if (fmInfo.isNew()) {
@@ -40,7 +39,7 @@ public class FmInfoJpaRepositoryImpl extends GenericJpaRepository<FmInfo> implem
     }
 
     @Override
-    public boolean delete(int ownerId) {
+    public boolean deleteByOwner(int ownerId) {
         FmInfo fmInfo = getByOwner(ownerId);
         if (fmInfo == null) {
             return false;

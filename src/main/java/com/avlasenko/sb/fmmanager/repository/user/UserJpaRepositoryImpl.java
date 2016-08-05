@@ -12,7 +12,6 @@ import javax.persistence.TypedQuery;
  * Created by A. Vlasenko on 27.07.2016.
  */
 @Repository
-@Transactional(readOnly = true)
 public class UserJpaRepositoryImpl extends GenericJpaRepository<User> implements UserJpaRepository {
     public UserJpaRepositoryImpl() {
         super(User.class);

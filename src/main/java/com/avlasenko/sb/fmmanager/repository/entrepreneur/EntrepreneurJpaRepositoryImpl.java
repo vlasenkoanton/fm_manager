@@ -13,15 +13,15 @@ import javax.persistence.TypedQuery;
  * Created by A. Vlasenko on 14.07.2016.
  */
 @Repository
-@Transactional(readOnly = true)
 public class EntrepreneurJpaRepositoryImpl extends GenericJpaRepository<EntrepreneurInfo> implements EntrepreneurJpaRepository {
     public EntrepreneurJpaRepositoryImpl() {
         super(EntrepreneurInfo.class);
     }
 
     @Override
-    public EntrepreneurInfo save(EntrepreneurInfo entrepreneurInfo, int ownerId) {
-        if (!entrepreneurInfo.isNew() && getByOwner(ownerId) == null) {
+    public EntrepreneurInfo saveByOwner(EntrepreneurInfo entrepreneurInfo, int ownerId) {
+        if (!entrepreneurInfo.isNew() &&
+                (getByOwner(ownerId) == null || !getByOwner(ownerId).getId().equals(entrepreneurInfo.getId()))) {
             return null;
         }
         if(entrepreneurInfo.isNew()) {
@@ -41,7 +41,7 @@ public class EntrepreneurJpaRepositoryImpl extends GenericJpaRepository<Entrepre
     }
 
     @Override
-    public boolean delete(int ownerId) {
+    public boolean deleteByOwner(int ownerId) {
         EntrepreneurInfo entrepreneurInfo = getByOwner(ownerId);
         if (entrepreneurInfo == null) {
             return false;

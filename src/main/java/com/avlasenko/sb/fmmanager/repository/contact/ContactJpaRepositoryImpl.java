@@ -7,22 +7,20 @@ import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 /**
  * Created by A. Vlasenko on 14.07.2016.
  */
 @Repository
-@Transactional(readOnly = true)
 public class ContactJpaRepositoryImpl extends GenericJpaRepository<Contact> implements ContactJpaRepository {
     public ContactJpaRepositoryImpl() {
         super(Contact.class);
     }
 
     @Override
-    public Contact save(Contact contact, int ownerId) {
-        if (!contact.isNew() && getByOwner(ownerId) == null) {
+    public Contact saveByOwner(Contact contact, int ownerId) {
+        if (!contact.isNew() && (getByOwner(ownerId) == null || !getByOwner(ownerId).getId().equals(contact.getId()))) {
             return null;
         }
         if (contact.isNew()) {
@@ -41,7 +39,7 @@ public class ContactJpaRepositoryImpl extends GenericJpaRepository<Contact> impl
     }
 
     @Override
-    public boolean delete(int ownerId) {
+    public boolean deleteByOwner(int ownerId) {
         Contact contact = getByOwner(ownerId);
         if (contact == null) {
             return false;

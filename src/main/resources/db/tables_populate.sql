@@ -35,7 +35,8 @@ INSERT INTO fm_manager.contact (home_telephone, work_telephone, mobile_telephone
   ('044-325-32-47', '044-889-02-31', '073-564-22-13', NULL, 'petr_petrenko@e.mail');
 
 INSERT INTO fm_manager.fop_info (registration_number, authority, registration_date, activity) VALUES
-  (123654789, 'fop registration', '2006-3-26', 'legal activity');
+  (123654789, 'fop registration', '2006-3-26', 'legal activity'),
+  (456213048, 'authority', '2008-9-9', 'second activity');
 
 INSERT INTO fm_manager.fm_info (service_history, month_income, financial_help, securities, assignment, loans, term_contracts) VALUES
   ('normal client', 1200000, 200000, 0, 0, 100000, 900000),
@@ -49,9 +50,10 @@ INSERT INTO fm_manager.user_roles (role, user_id) VALUES
   ('ROLE_USER', 1);
 
 INSERT INTO fm_manager.individual (`client`, first_name, last_name, middle_name, ident_number, date_birth, place_birth, resident, citizenship, pep, initial_profile_fill, responsible_id, address_id, work_id, contact_id, fop_info_id, fm_info_id, account_opener_id, representative_id) VALUES
-  (TRUE,'Anton', 'Antonenko', 'Antonovych', '12365474', '1988-5-5', 'Cherkassy', TRUE, 980, FALSE, '2016-6-18', 1, 1, 1, 1, NULL, 1, NULL, NULL),
-  (TRUE,'Ivan', 'Ivanenko', 'Ivanovych', '25412548', '1994-7-24', 'Cherkassy', TRUE, 980, FALSE, '2016-6-22', 1, 2, 2, 2, 1, 2, NULL, NULL),
-  (TRUE,'Petr', 'Petrenko', 'Petrovych', '45216', '1986-2-15', 'Chernigov', TRUE, 980, FALSE, '2016-7-21', 1, 3, 3, 3, NULL, 3, 1, 2);
+  (TRUE,'Anton', 'Antonenko', 'Antonovych', '12365474', '1988-5-5', 'Cherkassy', TRUE, 980, FALSE, '2016-6-18', 1, 1, 1, 1, 1, 1, NULL, NULL),
+  (TRUE,'Ivan', 'Ivanenko', 'Ivanovych', '25412548', '1994-7-24', 'Cherkassy', TRUE, 980, FALSE, '2016-6-22', 1, 2, 2, 2, 2, 2, NULL, NULL),
+  (TRUE,'Petr', 'Petrenko', 'Petrovych', '45216', '1986-2-15', 'Chernigov', TRUE, 980, FALSE, '2016-7-21', 1, 3, 3, 3, NULL, 3, 1, 2),
+  (TRUE, 'Carl', 'Johns', '', '1235789651', '1985-7-27', 'Alaska', FALSE, 840, FALSE, '2016-8-5', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 INSERT INTO fm_manager.document (type, main, name, series, number, authority, date_issue, date_expire, owner_id) VALUES
   (1, TRUE, 'National Passport', 'KK', 123654, 'some authority', '1996-5-8', NULL, 1),

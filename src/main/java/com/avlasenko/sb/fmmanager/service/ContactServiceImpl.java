@@ -3,7 +3,6 @@ package com.avlasenko.sb.fmmanager.service;
 import com.avlasenko.sb.fmmanager.model.Contact;
 import com.avlasenko.sb.fmmanager.repository.contact.ContactJpaRepository;
 import com.avlasenko.sb.fmmanager.util.exception.EntryNotFoundException;
-import com.avlasenko.sb.fmmanager.util.exception.ExceptionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +19,7 @@ public class ContactServiceImpl implements ContactService {
     @Override
     @Transactional
     public void save(Contact contact, int ownerId) throws EntryNotFoundException {
-        repository.save(contact, ownerId);
+        repository.saveByOwner(contact, ownerId);
     }
 
     @Override
@@ -31,6 +30,6 @@ public class ContactServiceImpl implements ContactService {
     @Override
     @Transactional
     public void delete(int ownerId) throws EntryNotFoundException {
-        repository.delete(ownerId);
+        repository.deleteByOwner(ownerId);
     }
 }

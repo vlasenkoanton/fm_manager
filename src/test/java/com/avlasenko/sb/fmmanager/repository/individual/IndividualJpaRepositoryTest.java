@@ -1,14 +1,9 @@
 package com.avlasenko.sb.fmmanager.repository.individual;
 
 import com.avlasenko.sb.fmmanager.model.Individual;
+import com.avlasenko.sb.fmmanager.repository.AbstractJpaRepositoryTest;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,17 +11,14 @@ import java.util.Collection;
 
 import static com.avlasenko.sb.fmmanager.TestData.*;
 import static com.avlasenko.sb.fmmanager.util.TestUtils.*;
+import static org.junit.Assert.*;
 
 /**
  * Created by A. Vlasenko on 03.08.2016.
  */
-@ActiveProfiles("test")
-@ContextConfiguration({"classpath:spring/appCtx.xml", "classpath:spring/dbCtx.xml"})
-@Sql(scripts = "classpath:db/tables_populate.sql", config = @SqlConfig(encoding = "UTF-8"),
-        executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-@RunWith(SpringJUnit4ClassRunner.class)
-public class IndividualJpaRepositoryTest {
+public class IndividualJpaRepositoryTest extends AbstractJpaRepositoryTest {
 
+    @SuppressWarnings("SpringJavaAutowiredMembersInspection")
     @Autowired
     private IndividualJpaRepository repository;
 
@@ -68,21 +60,35 @@ public class IndividualJpaRepositoryTest {
     @Test
     public void testGetWithAllProperties() throws Exception {
         Individual individual = repository.getWithAllProperties(1);
-        System.out.println(individual.getAddress().getId());
         assertDeepEquals(INDIVIDUAL_1, individual);
     }
 
     @Test
+    public void testGetWithAllPropertiesNull() throws Exception {
+        assertNull(repository.getWithAllProperties(NONEXISTENT_ID));
+    }
+
+    @Test
     public void testUpdateWithoutRelations() throws Exception {
-        Individual ind_4 = new Individual(4, "", "", "", "", LocalDate.now(), "", false, 0, false);
-        repository.save(ind_4);
+        Individual ind_5 = new Individual(5, "", "", "", "", LocalDate.now(), "", false, 0, false);
+        repository.save(ind_5);
         //need for avoiding violation test data
         Integer id_saved = INDIVIDUAL_1.getId();
-        INDIVIDUAL_1.setId(ind_4.getId());
+        INDIVIDUAL_1.setId(ind_5.getId());
         repository.updateWithoutRelations(INDIVIDUAL_1, INDIVIDUAL_1_UPDATED.getId());
         INDIVIDUAL_1.setId(id_saved);
 
         assertEntityEquals(INDIVIDUAL_1_UPDATED, repository.get(INDIVIDUAL_1_UPDATED.getId()));
+    }
+
+    @Test
+    public void testUpdateWithoutRelationsNull() throws Exception {
+        Integer id_saved = INDIVIDUAL_1.getId();
+        INDIVIDUAL_1.setId(null);
+        assertNull(repository.updateWithoutRelations(INDIVIDUAL_1, 1));
+        INDIVIDUAL_1.setId(id_saved);
+
+        assertNull(repository.updateWithoutRelations(INDIVIDUAL_1, NONEXISTENT_ID));
     }
 
     @Test
@@ -91,6 +97,17 @@ public class IndividualJpaRepositoryTest {
         Individual withAllProperties = repository.getWithAllProperties(INDIVIDUAL_1.getId());
         assertEntityEquals(accOpener, withAllProperties.getAccOpener());
         PROXY.setId(null);
+    }
+
+    @Test
+    public void testSaveAccOpenerNull() throws Exception {
+        PROXY.setId(4);
+        assertNull(repository.saveAccOpener(PROXY, INDIVIDUAL_1.getId()));
+        assertNull(repository.saveRepresentative(PROXY, INDIVIDUAL_1.getId()));
+
+        PROXY.setId(null);
+        assertNull(repository.saveAccOpener(PROXY, NONEXISTENT_ID));
+        assertNull(repository.saveRepresentative(PROXY, NONEXISTENT_ID));
     }
 
     @Test

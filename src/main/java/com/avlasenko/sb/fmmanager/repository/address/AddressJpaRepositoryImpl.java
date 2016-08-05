@@ -5,7 +5,6 @@ import com.avlasenko.sb.fmmanager.model.Individual;
 import com.avlasenko.sb.fmmanager.repository.GenericJpaRepository;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.TypedQuery;
 
@@ -13,15 +12,14 @@ import javax.persistence.TypedQuery;
  * Created by A. Vlasenko on 06.07.2016.
  */
 @Repository
-@Transactional(readOnly = true)
 public class AddressJpaRepositoryImpl extends GenericJpaRepository<Address> implements AddressJpaRepository {
     public AddressJpaRepositoryImpl() {
         super(Address.class);
     }
 
     @Override
-    public Address save(Address address, int ownerId) {
-        if (!address.isNew() && getByOwner(ownerId) == null) {
+    public Address saveByOwner(Address address, int ownerId) {
+        if (!address.isNew() && (getByOwner(ownerId) == null || !getByOwner(ownerId).getId().equals(address.getId()))) {
             return null;
         }
         if (address.isNew()) {
@@ -40,7 +38,7 @@ public class AddressJpaRepositoryImpl extends GenericJpaRepository<Address> impl
     }
 
     @Override
-    public boolean delete(int ownerId) {
+    public boolean deleteByOwner(int ownerId) {
         Address address = getByOwner(ownerId);
         if (address == null) {
             return false;

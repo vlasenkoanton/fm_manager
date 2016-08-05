@@ -3,7 +3,6 @@ package com.avlasenko.sb.fmmanager.service;
 import com.avlasenko.sb.fmmanager.model.Work;
 import com.avlasenko.sb.fmmanager.repository.work.WorkJpaRepository;
 import com.avlasenko.sb.fmmanager.util.exception.EntryNotFoundException;
-import com.avlasenko.sb.fmmanager.util.exception.ExceptionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +20,7 @@ public class WorkServiceImpl implements WorkService {
     @Override
     @Transactional
     public void save(Work work, int ownerId) throws EntryNotFoundException {
-        repository.save(work, ownerId);
+        repository.saveByOwner(work, ownerId);
     }
 
     @Override
@@ -32,6 +31,6 @@ public class WorkServiceImpl implements WorkService {
     @Override
     @Transactional
     public void delete(int ownerId) throws EntryNotFoundException {
-        repository.delete(ownerId);
+        repository.deleteByOwner(ownerId);
     }
 }

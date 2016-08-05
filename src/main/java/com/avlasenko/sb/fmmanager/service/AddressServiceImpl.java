@@ -19,7 +19,7 @@ public class AddressServiceImpl implements AddressService {
     @Override
     @Transactional
     public void save(Address address, int ownerId) {
-        repository.save(address, ownerId);
+        repository.saveByOwner(address, ownerId);
     }
 
     @Override
@@ -30,6 +30,6 @@ public class AddressServiceImpl implements AddressService {
     @Override
     @Transactional
     public void delete(int ownerId) {
-        repository.delete(ownerId);
+        repository.deleteByOwner(ownerId);
     }
 }

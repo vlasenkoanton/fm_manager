@@ -3,7 +3,6 @@ package com.avlasenko.sb.fmmanager.service;
 import com.avlasenko.sb.fmmanager.model.EntrepreneurInfo;
 import com.avlasenko.sb.fmmanager.repository.entrepreneur.EntrepreneurJpaRepository;
 import com.avlasenko.sb.fmmanager.util.exception.EntryNotFoundException;
-import com.avlasenko.sb.fmmanager.util.exception.ExceptionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +19,7 @@ public class EntrepreneurServiceImpl implements EntrepreneurService {
     @Override
     @Transactional
     public void save(EntrepreneurInfo entrepreneurInfo, int ownerId) throws EntryNotFoundException {
-        repository.save(entrepreneurInfo, ownerId);
+        repository.saveByOwner(entrepreneurInfo, ownerId);
     }
 
     @Override
@@ -31,6 +30,6 @@ public class EntrepreneurServiceImpl implements EntrepreneurService {
     @Override
     @Transactional
     public void delete(int ownerId) throws EntryNotFoundException {
-        repository.delete(ownerId);
+        repository.deleteByOwner(ownerId);
     }
 }
