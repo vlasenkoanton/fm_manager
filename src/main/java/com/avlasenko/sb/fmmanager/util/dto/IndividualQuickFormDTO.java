@@ -44,6 +44,18 @@ public class IndividualQuickFormDTO implements DTO {
     public IndividualQuickFormDTO() {
     }
 
+    public IndividualQuickFormDTO(String identNumber, String firstName, String lastName, String middleName,
+                                  LocalDate dateBirth, boolean resident, Address address, Document document) {
+        this.identNumber = identNumber;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.middleName = middleName;
+        this.dateBirth = dateBirth;
+        this.resident = resident;
+        this.address = address;
+        this.document = document;
+    }
+
     public String getIdentNumber() {
         return identNumber;
     }

@@ -5,6 +5,7 @@ import com.avlasenko.sb.fmmanager.service.IndividualService;
 import com.avlasenko.sb.fmmanager.util.LocalDateTimePropertyConverter;
 import com.avlasenko.sb.fmmanager.util.LocalDatePropertyConverter;
 import com.avlasenko.sb.fmmanager.util.dto.IndividualQuickFormDTO;
+import com.avlasenko.sb.fmmanager.util.dto.converter.DTOConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -66,7 +67,7 @@ public class IndividualController {
         if (result.hasErrors()) {
             return "individualQuickForm";
         }
-        Integer id = service.save(quickFormDTO);
+        Integer id = service.saveClient(DTOConverter.convertToEntity(quickFormDTO));
         return "redirect:individuals/" + id;
     }
 

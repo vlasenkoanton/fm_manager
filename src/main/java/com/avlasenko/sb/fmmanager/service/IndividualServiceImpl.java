@@ -6,6 +6,8 @@ import com.avlasenko.sb.fmmanager.repository.individual.IndividualJpaRepository;
 import com.avlasenko.sb.fmmanager.repository.user.UserJpaRepository;
 import com.avlasenko.sb.fmmanager.util.dto.IndividualQuickFormDTO;
 import com.avlasenko.sb.fmmanager.util.dto.converter.DTOConverter;
+import com.avlasenko.sb.fmmanager.util.exception.EntryNotFoundException;
+import com.avlasenko.sb.fmmanager.util.exception.ExceptionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -22,14 +24,11 @@ import java.util.List;
 public class IndividualServiceImpl implements IndividualService {
 
     private IndividualJpaRepository individualRepository;
-    private DocumentJpaRepository documentRepository;
     private UserJpaRepository userRepository;
 
     @Autowired
-    public IndividualServiceImpl(IndividualJpaRepository individualRepository,
-                                 DocumentJpaRepository documentRepository, UserJpaRepository userRepository) {
+    public IndividualServiceImpl(IndividualJpaRepository individualRepository, UserJpaRepository userRepository) {
         this.individualRepository = individualRepository;
-        this.documentRepository = documentRepository;
         this.userRepository = userRepository;
     }
 
@@ -40,56 +39,60 @@ public class IndividualServiceImpl implements IndividualService {
 
     @Override
     public Individual getWithAllProperties(int id) {
-        return individualRepository.getWithAllProperties(id);
+        return ExceptionUtil.checkNotFound(individualRepository.getWithAllProperties(id), "with id=" + id);
     }
 
     @Override
     @Transactional
-    public Integer save(IndividualQuickFormDTO dto) {
-        Document document = dto.getDocument();
-        Individual individual = DTOConverter.convertToEntity(dto);
+    public Integer saveClient(Individual individual) {
+        if (individual.getDocuments() != null && !individual.getDocuments().isEmpty()) {
+            Document document = individual.getDocuments().stream().findFirst().orElse(null);
+            document.setOwner(individual);
+        }
 
         //purpose of this method creating only clients. Non-clients(related persons) is creating in "saveProxy" method.
         individual.setClient(true);
         setResponsible(individual);
         individual.setInitialProfileFill(LocalDate.now());
-        individualRepository.save(individual);
 
-        //if document field had included into DTO, would have a problems with lost foreign key for "document"
-        // when trying to persist individual
-        document.setOwner(individual);
-        documentRepository.save(document);
+        individualRepository.save(individual);
         return individual.getId();
     }
 
     @Override
     @Transactional
     public void updateWithoutRelations(Individual individual, int id) {
-        individualRepository.updateWithoutRelations(individual, id);
+        ExceptionUtil.checkNotFound(individualRepository.updateWithoutRelations(individual, id), "with id=" + id);
     }
 
     @Override
     @Transactional
-    public void saveProxy(IndividualQuickFormDTO dto, int ownerId, String type) {
-        Document document = dto.getDocument();
-        Individual proxy = DTOConverter.convertToEntity(dto);
+    public void saveProxy(Individual proxy, int ownerId, String type) {
+        if (proxy.getDocuments() != null && !proxy.getDocuments().isEmpty()) {
+            Document document = proxy.getDocuments().stream().findFirst().orElse(null);
+            document.setOwner(proxy);
+        }
+
         proxy.setClient(false);
         setResponsible(proxy);
         proxy.setInitialProfileFill(LocalDate.now());
         switch (type) {
-            case "accOpener": individualRepository.saveAccOpener(proxy, ownerId);
+            case "accOpener":
+                ExceptionUtil.checkNotFoundByOwner(individualRepository.saveAccOpener(proxy, ownerId), ownerId);
                 break;
-            case "representative": individualRepository.saveRepresentative(proxy, ownerId);
+            case "representative":
+                ExceptionUtil.checkNotFoundByOwner(individualRepository.saveRepresentative(proxy, ownerId), ownerId);
                 break;
+            default:
+                throw new IllegalArgumentException("Unexpected method argument \"type\". " +
+                        "Should be \"accOpener\" or \"representative\" but was \"" + type + "\"");
         }
-        document.setOwner(proxy);
-        documentRepository.save(document);
     }
 
     @Override
     @Transactional
     public void delete(int id) {
-        individualRepository.delete(id);
+        ExceptionUtil.checkNotFound(individualRepository.delete(id), "with id=" + id);
     }
 
     //When creating new individual automatically set responsible to current authenticated user

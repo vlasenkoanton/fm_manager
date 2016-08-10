@@ -3,6 +3,7 @@ package com.avlasenko.sb.fmmanager.web;
 import com.avlasenko.sb.fmmanager.service.IndividualService;
 import com.avlasenko.sb.fmmanager.util.LocalDatePropertyConverter;
 import com.avlasenko.sb.fmmanager.util.dto.IndividualQuickFormDTO;
+import com.avlasenko.sb.fmmanager.util.dto.converter.DTOConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,7 +41,7 @@ public class IndividualProxyController {
         if (result.hasErrors()) {
             return "individualQuickForm";
         }
-        service.saveProxy(dto, id, type);
+        service.saveProxy(DTOConverter.convertToEntity(dto), id, type);
         return "redirect:/profiles/individuals/" + id;
     }
 }

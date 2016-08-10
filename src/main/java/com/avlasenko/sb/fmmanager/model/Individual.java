@@ -95,7 +95,7 @@ public class Individual extends BaseEntity {
     @JoinColumn(name = "representative_id")
     private Individual representative;
 
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private Set<Document> documents;
 
     @OneToMany(mappedBy = "owner")

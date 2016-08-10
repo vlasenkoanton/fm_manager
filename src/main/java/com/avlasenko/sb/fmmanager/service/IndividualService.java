@@ -13,11 +13,11 @@ public interface IndividualService {
 
     Individual getWithAllProperties(int id);
 
-    Integer save(IndividualQuickFormDTO quickFormDTO);
+    Integer saveClient(Individual individual);
 
     void updateWithoutRelations(Individual individual, int id);
 
-    void saveProxy(IndividualQuickFormDTO proxy, int ownerId, String type);
+    void saveProxy(Individual proxy, int ownerId, String type);
 
     void delete(int id);
 }
