@@ -33,13 +33,13 @@ public class ContactController {
 
     @RequestMapping(method = RequestMethod.POST)
     public String saveContact(@ModelAttribute Contact contact, @PathVariable Integer id) {
-        service.save(contact, id);
+        service.saveByOwner(contact, id);
         return "redirect:/profiles/individuals/" + id;
     }
 
     @RequestMapping(params = "action=delete", method = RequestMethod.GET)
     public String deleteContact(@PathVariable Integer id) {
-        service.delete(id);
+        service.deleteByOwner(id);
         return "redirect:/profiles/individuals/" + id;
     }
 

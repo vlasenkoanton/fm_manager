@@ -2,7 +2,7 @@ package com.avlasenko.sb.fmmanager.service;
 
 import com.avlasenko.sb.fmmanager.model.Work;
 import com.avlasenko.sb.fmmanager.repository.work.WorkJpaRepository;
-import com.avlasenko.sb.fmmanager.util.exception.EntryNotFoundException;
+import com.avlasenko.sb.fmmanager.util.exception.ExceptionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,21 +16,20 @@ public class WorkServiceImpl implements WorkService {
     @Autowired
     private WorkJpaRepository repository;
 
-
     @Override
     @Transactional
-    public void save(Work work, int ownerId) throws EntryNotFoundException {
-        repository.saveByOwner(work, ownerId);
+    public void saveByOwner(Work work, int ownerId) {
+        ExceptionUtil.checkNotFoundByOwner(repository.saveByOwner(work, ownerId), ownerId);
     }
 
     @Override
-    public Work getByOwner(int ownerId) throws EntryNotFoundException {
-        return repository.getByOwner(ownerId);
+    public Work getByOwner(int ownerId) {
+        return ExceptionUtil.checkNotFoundByOwner(repository.getByOwner(ownerId), ownerId);
     }
 
     @Override
     @Transactional
-    public void delete(int ownerId) throws EntryNotFoundException {
-        repository.deleteByOwner(ownerId);
+    public void deleteByOwner(int ownerId) {
+        ExceptionUtil.checkNotFoundByOwner(repository.deleteByOwner(ownerId), ownerId);
     }
 }

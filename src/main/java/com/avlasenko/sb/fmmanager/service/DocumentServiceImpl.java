@@ -18,18 +18,18 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     @Transactional
-    public void save(Document document, int ownerId) {
+    public void saveByOwner(Document document, int ownerId) {
         ExceptionUtil.checkNotFoundByOwner(repository.saveByOwner(document, ownerId), ownerId);
     }
 
     @Override
-    public Document get(int id, int ownerId) {
-        return ExceptionUtil.checkNotFoundByOwner(repository.get(ownerId), ownerId);
+    public Document getByOwner(int id, int ownerId) {
+        return ExceptionUtil.checkNotFoundByOwner(repository.getByOwner(id, ownerId), ownerId);
     }
 
     @Override
     @Transactional
-    public void delete(int id, int ownerId) {
+    public void deleteByOwner(int id, int ownerId) {
         ExceptionUtil.checkNotFoundByOwner(repository.deleteByOwner(id, ownerId), ownerId);
     }
 }

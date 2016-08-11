@@ -35,7 +35,7 @@ public class IndividualServiceSaveTest extends IndividualServiceTest {
     private User user;
 
     @Override
-    public void setUp() {
+    public void setUp() throws Exception {
         super.setUp();
 
         user = new User();

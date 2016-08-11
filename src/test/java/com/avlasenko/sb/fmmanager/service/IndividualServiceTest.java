@@ -27,7 +27,7 @@ public class IndividualServiceTest {
     UserJpaRepository userRepositoryMock;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         individual = new Individual();
         individualRepositoryMock = mock(IndividualJpaRepositoryImpl.class);
         userRepositoryMock = mock(UserJpaRepositoryImpl.class);

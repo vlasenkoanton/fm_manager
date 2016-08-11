@@ -40,13 +40,13 @@ public class EntrepreneurInfoController {
 
     @RequestMapping(method = RequestMethod.POST)
     public String saveEntrepreneur(@ModelAttribute EntrepreneurInfo entrepreneurInfo, @PathVariable Integer id) {
-        service.save(entrepreneurInfo, id);
+        service.saveByOwner(entrepreneurInfo, id);
         return "redirect:/profiles/individuals/" + id;
     }
 
     @RequestMapping(params = "action=delete", method = RequestMethod.GET)
     public String deleteEntrepreneur(@PathVariable Integer id) {
-        service.delete(id);
+        service.deleteByOwner(id);
         return "redirect:/profiles/individuals/" + id;
     }
 }

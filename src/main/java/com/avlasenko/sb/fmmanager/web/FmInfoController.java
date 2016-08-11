@@ -33,13 +33,13 @@ public class FmInfoController {
 
     @RequestMapping(method = RequestMethod.POST)
     public String saveFmInfo(@ModelAttribute FmInfo fmInfo, @PathVariable Integer id) {
-        service.save(fmInfo, id);
+        service.saveByOwner(fmInfo, id);
         return "redirect:/profiles/individuals/" + id;
     }
 
     @RequestMapping(params = "action=delete", method = RequestMethod.GET)
     public String deleteFmInfo(@PathVariable Integer id) {
-        service.delete(id);
+        service.deleteByOwner(id);
         return "redirect:/profiles/individuals/" + id;
     }
 }

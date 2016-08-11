@@ -30,13 +30,13 @@ public class AddressController {
 
     @RequestMapping(method = RequestMethod.POST)
     public String saveAddress(@ModelAttribute Address address, @PathVariable Integer id) {
-        service.save(address, id);
+        service.saveByOwner(address, id);
         return "redirect:/profiles/individuals/" + id;
     }
 
     @RequestMapping(params = "action=delete", method = RequestMethod.GET)
     public String deleteAddress(@PathVariable Integer id) {
-        service.delete(id);
+        service.deleteByOwner(id);
         return "redirect:/profiles/individuals/" + id;
     }
 

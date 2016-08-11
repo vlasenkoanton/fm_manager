@@ -7,9 +7,9 @@ import com.avlasenko.sb.fmmanager.util.exception.EntryNotFoundException;
  * Created by A. Vlasenko on 14.07.2016.
  */
 public interface EntrepreneurService {
-    void save(EntrepreneurInfo entrepreneurInfo, int ownerId) throws EntryNotFoundException;
+    void saveByOwner(EntrepreneurInfo entrepreneurInfo, int ownerId) throws EntryNotFoundException;
 
-    EntrepreneurInfo getByOwner(int ownerId) throws EntryNotFoundException;
+    EntrepreneurInfo getByOwner(int ownerId);
 
-    void delete(int ownerId) throws EntryNotFoundException;
+    void deleteByOwner(int ownerId);
 }

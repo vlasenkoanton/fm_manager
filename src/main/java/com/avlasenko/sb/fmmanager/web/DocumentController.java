@@ -35,7 +35,7 @@ public class DocumentController {
 
     @RequestMapping(params = "action=create", method = RequestMethod.POST)
     public String saveNewDocument(@ModelAttribute Document document, @PathVariable Integer id) {
-        service.save(document, id);
+        service.saveByOwner(document, id);
         return "redirect:/profiles/individuals/"+id;
     }
 
@@ -43,19 +43,19 @@ public class DocumentController {
     public String editDocument(@PathVariable Integer id,
                                @PathVariable Integer docId,
                                Model model) {
-        model.addAttribute("document", service.get(docId, id));
+        model.addAttribute("document", service.getByOwner(docId, id));
         return "document";
     }
 
     @RequestMapping(value = "{docId}", method = RequestMethod.POST)
     public String saveDocument(@ModelAttribute Document document, @PathVariable Integer id) {
-        service.save(document, id);
+        service.saveByOwner(document, id);
         return "redirect:/profiles/individuals/"+id;
     }
 
     @RequestMapping(value = "{docId}", params = "action=delete", method = RequestMethod.GET)
     public String deleteDocument(@PathVariable Integer id, @PathVariable Integer docId) {
-        service.delete(docId, id);
+        service.deleteByOwner(docId, id);
         return "redirect:/profiles/individuals/"+id;
     }
 

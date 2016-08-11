@@ -33,13 +33,13 @@ public class WorkController {
 
     @RequestMapping(method = RequestMethod.POST)
     public String saveWork(@ModelAttribute Work work, @PathVariable Integer id) {
-        service.save(work, id);
+        service.saveByOwner(work, id);
         return "redirect:/profiles/individuals/"+id;
     }
 
     @RequestMapping(params = "action=delete", method = RequestMethod.GET)
     public String deleteWork(@PathVariable Integer id) {
-        service.delete(id);
+        service.deleteByOwner(id);
         return "redirect:/profiles/individuals/"+id;
     }
 }
