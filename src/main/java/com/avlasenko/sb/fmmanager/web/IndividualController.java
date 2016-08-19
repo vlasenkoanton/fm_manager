@@ -68,7 +68,7 @@ public class IndividualController {
             return "individualQuickForm";
         }
         Integer id = service.saveClient(DTOConverter.convertToEntity(quickFormDTO));
-        return "redirect:individuals/" + id;
+        return "redirect:/profiles/individuals/" + id;
     }
 
     @RequestMapping(params = "action=delete", value = "{id}", method = RequestMethod.GET)

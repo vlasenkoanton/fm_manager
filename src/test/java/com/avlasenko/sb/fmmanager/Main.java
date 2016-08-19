@@ -1,22 +1,12 @@
 package com.avlasenko.sb.fmmanager;
 
-import com.avlasenko.sb.fmmanager.config.SecurityConfig;
-import com.avlasenko.sb.fmmanager.model.Document;
-import com.avlasenko.sb.fmmanager.model.Individual;
-import com.avlasenko.sb.fmmanager.repository.address.AddressJpaRepository;
-import com.avlasenko.sb.fmmanager.repository.individual.IndividualJpaRepository;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-
-import java.util.Arrays;
-import java.util.Set;
+import java.util.List;
+import java.util.Map;
 
 public class Main {
 
     public static void main(String[] args) {
-        try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/webCtx.xml", "spring/appCtx.xml")) {
+        /*try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/webCtx.xml", "spring/appCtx.xml")) {
 
 
             System.out.println(Arrays.toString(appCtx.getBeanDefinitionNames()));
@@ -31,6 +21,11 @@ public class Main {
             System.out.println(withAllProperties);
 
 
+
+
+        }*/
+        for (Map.Entry<String, List<String>> entry : WebTestData.NEW_CLIENT_PARAMS.entrySet()) {
+            System.out.println(entry.getKey()+" "+entry.getValue().get(0));
         }
 
     }
