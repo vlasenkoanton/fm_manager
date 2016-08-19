@@ -6,18 +6,10 @@ import com.avlasenko.sb.fmmanager.service.IndividualService;
 import com.avlasenko.sb.fmmanager.util.dto.IndividualQuickFormDTO;
 import com.avlasenko.sb.fmmanager.util.dto.converter.DTOConverter;
 import com.avlasenko.sb.fmmanager.util.exception.EntryNotFoundException;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
 
@@ -32,23 +24,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Created by A. Vlasenko on 11.08.2016.
  */
-@ContextConfiguration({"classpath:spring/webCtx.xml", "classpath:spring/testCtx.xml"})
-@WebAppConfiguration
-@RunWith(SpringJUnit4ClassRunner.class)
-public class IndividualControllerTest {
+public class IndividualControllerTest extends AbstractControllerTest {
 
-    private MockMvc mockMvc;
-
+    @SuppressWarnings("SpringJavaAutowiredMembersInspection")
     @Autowired
     private IndividualService serviceMock;
 
-    @Autowired
-    private WebApplicationContext webApplicationContext;
-
-    @Before
+    @Override
     public void setUp() throws Exception {
+        super.setUp();
         reset(serviceMock);
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
     @Test
@@ -124,7 +109,7 @@ public class IndividualControllerTest {
 
     @Test
     public void testSaveIndividualNotFound() throws Exception {
-        doThrow(new EntryNotFoundException("")).when(serviceMock).updateWithoutRelations(any(), anyInt());
+        doThrow(EntryNotFoundException.class).when(serviceMock).updateWithoutRelations(any(), anyInt());
 
         mockMvc.perform(post("/profiles/individuals/{id}", 2)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -192,7 +177,7 @@ public class IndividualControllerTest {
 
     @Test
     public void testDeleteIndividualNotFound() throws Exception {
-        doThrow(new EntryNotFoundException("")).when(serviceMock).delete(anyInt());
+        doThrow(EntryNotFoundException.class).when(serviceMock).delete(anyInt());
 
         mockMvc.perform(get("/profiles/individuals/{id}", anyInt())
                 .param("action", "delete")

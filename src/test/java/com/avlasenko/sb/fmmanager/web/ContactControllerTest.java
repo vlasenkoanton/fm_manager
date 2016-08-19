@@ -1,7 +1,7 @@
 package com.avlasenko.sb.fmmanager.web;
 
-import com.avlasenko.sb.fmmanager.model.Address;
-import com.avlasenko.sb.fmmanager.service.AddressService;
+import com.avlasenko.sb.fmmanager.model.Contact;
+import com.avlasenko.sb.fmmanager.service.ContactService;
 import com.avlasenko.sb.fmmanager.util.exception.EntryNotFoundException;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -17,13 +17,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Created by A. Vlasenko on 11.08.2016.
+ * Created by A. Vlasenko on 19.08.2016.
  */
-public class AddressControllerTest extends AbstractControllerTest {
+public class ContactControllerTest extends AbstractControllerTest{
 
     @SuppressWarnings("SpringJavaAutowiredMembersInspection")
     @Autowired
-    private AddressService serviceMock;
+    private ContactService serviceMock;
 
     @Override
     public void setUp() throws Exception {
@@ -32,67 +32,67 @@ public class AddressControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void testEditAddress() throws Exception {
+    public void testEditContact() throws Exception {
         int ownerId = INDIVIDUAL_1.getId();
-        Address address = INDIVIDUAL_1.getAddress();
+        Contact contact = INDIVIDUAL_1.getContact();
 
-        when(serviceMock.getByOwner(ownerId)).thenReturn(address);
+        when(serviceMock.getByOwner(ownerId)).thenReturn(contact);
 
-        mockMvc.perform(get("/profiles/individuals/{id}/address", ownerId))
+        mockMvc.perform(get("/profiles/individuals/{id}/contact", ownerId))
                 .andExpect(status().isOk())
-                .andExpect(view().name("address"))
-                .andExpect(forwardedUrl("/WEB-INF/views/address.jsp"))
-                .andExpect(model().attribute("address", address));
+                .andExpect(view().name("contact"))
+                .andExpect(forwardedUrl("/WEB-INF/views/contact.jsp"))
+                .andExpect(model().attribute("contact", contact));
 
         verify(serviceMock, only()).getByOwner(ownerId);
         verifyNoMoreInteractions(serviceMock);
     }
 
     @Test
-    public void testNewAddress() throws Exception {
+    public void testNewContact() throws Exception {
         when(serviceMock.getByOwner(anyInt())).thenReturn(null);
 
-        mockMvc.perform(get("/profiles/individuals/{id}/address", anyInt()))
+        mockMvc.perform(get("/profiles/individuals/{id}/contact", anyInt()))
                 .andExpect(status().isOk())
-                .andExpect(view().name("address"))
-                .andExpect(forwardedUrl("/WEB-INF/views/address.jsp"))
-                .andExpect(model().attribute("address", instanceOf(Address.class)));
+                .andExpect(view().name("contact"))
+                .andExpect(forwardedUrl("/WEB-INF/views/contact.jsp"))
+                .andExpect(model().attribute("contact", instanceOf(Contact.class)));
 
         verify(serviceMock, only()).getByOwner(anyInt());
         verifyNoMoreInteractions(serviceMock);
     }
 
     @Test
-    public void testSaveAddress() throws Exception {
+    public void testSaveContact() throws Exception {
         int ownerId = 2;
         int id = 1;
-        String city = "city";
-        Address expected = new Address();
+        String mob = "45698521";
+        Contact expected = new Contact();
         expected.setId(id);
-        expected.setCity(city);
+        expected.setMobileTel(mob);
 
-        mockMvc.perform(post("/profiles/individuals/{id}/address", ownerId)
+        mockMvc.perform(post("/profiles/individuals/{id}/contact", ownerId)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("id", String.valueOf(id))
-                .param("city", city)
+                .param("mobileTel", mob)
         )
                 .andExpect(status().isFound())
                 .andExpect(view().name("redirect:/profiles/individuals/" + ownerId))
                 .andExpect(redirectedUrl("/profiles/individuals/" + ownerId));
 
-        ArgumentCaptor<Address> captor = ArgumentCaptor.forClass(Address.class);
+        ArgumentCaptor<Contact> captor = ArgumentCaptor.forClass(Contact.class);
         verify(serviceMock, only()).saveByOwner(captor.capture(), eq(ownerId));
         verifyNoMoreInteractions(serviceMock);
 
-        Address actual = captor.getValue();
+        Contact actual = captor.getValue();
         assertEntityEquals(expected, actual);
     }
 
     @Test
-    public void testSaveAddressNotFound() throws Exception {
+    public void testSaveContactNotFound() throws Exception {
         doThrow(EntryNotFoundException.class).when(serviceMock).saveByOwner(any(), anyInt());
 
-        mockMvc.perform(post("/profiles/individuals/{id}/address", 1)
+        mockMvc.perform(post("/profiles/individuals/{id}/contact", 1)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
         )
                 .andExpect(status().isNotFound())
@@ -105,10 +105,10 @@ public class AddressControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void testDeleteAddress() throws Exception {
+    public void testDeleteContact() throws Exception {
         int ownerId = 1;
 
-        mockMvc.perform(get("/profiles/individuals/{id}/address", ownerId)
+        mockMvc.perform(get("/profiles/individuals/{id}/contact", ownerId)
                 .param("action", "delete")
         )
                 .andExpect(status().isFound())
@@ -120,10 +120,10 @@ public class AddressControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void testDeleteAddressNotFound() throws Exception {
+    public void testDeleteContactNotFound() throws Exception {
         doThrow(EntryNotFoundException.class).when(serviceMock).deleteByOwner(anyInt());
 
-        mockMvc.perform(get("/profiles/individuals/{id}/address", anyInt())
+        mockMvc.perform(get("/profiles/individuals/{id}/contact", anyInt())
                 .param("action", "delete")
         )
                 .andExpect(status().isNotFound())

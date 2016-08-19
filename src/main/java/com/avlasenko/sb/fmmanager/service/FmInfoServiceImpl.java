@@ -24,7 +24,7 @@ public class FmInfoServiceImpl implements FmInfoService {
 
     @Override
     public FmInfo getByOwner(int ownerId) {
-        return ExceptionUtil.checkNotFoundByOwner(repository.getByOwner(ownerId), ownerId);
+        return repository.getByOwner(ownerId);
     }
 
     @Override

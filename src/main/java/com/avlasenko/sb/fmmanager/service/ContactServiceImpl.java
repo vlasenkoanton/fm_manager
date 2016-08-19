@@ -24,7 +24,7 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public Contact getByOwner(int ownerId) {
-        return ExceptionUtil.checkNotFoundByOwner(repository.getByOwner(ownerId), ownerId);
+        return repository.getByOwner(ownerId);
     }
 
     @Override

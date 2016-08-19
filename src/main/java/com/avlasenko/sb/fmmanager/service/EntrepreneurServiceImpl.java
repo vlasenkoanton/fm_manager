@@ -2,7 +2,6 @@ package com.avlasenko.sb.fmmanager.service;
 
 import com.avlasenko.sb.fmmanager.model.EntrepreneurInfo;
 import com.avlasenko.sb.fmmanager.repository.entrepreneur.EntrepreneurJpaRepository;
-import com.avlasenko.sb.fmmanager.util.exception.EntryNotFoundException;
 import com.avlasenko.sb.fmmanager.util.exception.ExceptionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +24,7 @@ public class EntrepreneurServiceImpl implements EntrepreneurService {
 
     @Override
     public EntrepreneurInfo getByOwner(int ownerId) {
-        return ExceptionUtil.checkNotFoundByOwner(repository.getByOwner(ownerId), ownerId);
+        return repository.getByOwner(ownerId);
     }
 
     @Override

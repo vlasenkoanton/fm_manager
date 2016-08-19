@@ -25,7 +25,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public Address getByOwner(int ownerId) {
-        return ExceptionUtil.checkNotFoundByOwner(repository.getByOwner(ownerId), ownerId);
+        return repository.getByOwner(ownerId);
     }
 
     @Override

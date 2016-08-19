@@ -49,12 +49,6 @@ public class EntrepreneurServiceTest {
         verify(repositoryMock, only()).getByOwner(ownerId);
     }
 
-    @Test(expected = EntryNotFoundException.class)
-    public void testGetByOwnerException() throws Exception {
-        when(repositoryMock.getByOwner(anyInt())).thenReturn(null);
-        service.getByOwner(anyInt());
-    }
-
     @Test
     public void testDeleteByOwner() throws Exception {
         when(repositoryMock.deleteByOwner(anyInt())).thenReturn(true);

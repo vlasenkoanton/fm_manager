@@ -24,7 +24,7 @@ public class WorkServiceImpl implements WorkService {
 
     @Override
     public Work getByOwner(int ownerId) {
-        return ExceptionUtil.checkNotFoundByOwner(repository.getByOwner(ownerId), ownerId);
+        return repository.getByOwner(ownerId);
     }
 
     @Override

@@ -39,5 +39,4 @@ public class AddressController {
         service.deleteByOwner(id);
         return "redirect:/profiles/individuals/" + id;
     }
-
 }
