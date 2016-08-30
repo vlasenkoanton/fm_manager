@@ -70,15 +70,24 @@ public class IndividualJpaRepositoryTest extends AbstractJpaRepositoryTest {
 
     @Test
     public void testUpdateWithoutRelations() throws Exception {
-        Individual ind_5 = new Individual(5, "", "", "", "", LocalDate.now(), "", false, 0, false);
-        repository.save(ind_5);
-        //need for avoiding violation test data
-        Integer id_saved = INDIVIDUAL_1.getId();
-        INDIVIDUAL_1.setId(ind_5.getId());
-        repository.updateWithoutRelations(INDIVIDUAL_1, INDIVIDUAL_1_UPDATED.getId());
-        INDIVIDUAL_1.setId(id_saved);
+        repository.save(INDIVIDUAL_NEW);
 
-        assertEntityEquals(INDIVIDUAL_1_UPDATED, repository.get(INDIVIDUAL_1_UPDATED.getId()));
+        //fields that are not updated by method IndividualRepository.updateWithoutRelations
+        boolean client = INDIVIDUAL_1.isClient();
+        LocalDate initialProfileFill = INDIVIDUAL_1.getInitialProfileFill();
+
+        //save id for avoiding violation test data
+        Integer id_saved = INDIVIDUAL_1.getId();
+        INDIVIDUAL_1.setId(INDIVIDUAL_NEW.getId());
+
+        repository.updateWithoutRelations(INDIVIDUAL_1, INDIVIDUAL_1.getId());
+
+        Individual actual = repository.get(INDIVIDUAL_1.getId());
+        actual.setClient(client);
+        actual.setInitialProfileFill(initialProfileFill);
+
+        assertEntityEquals(INDIVIDUAL_1, actual);
+        INDIVIDUAL_1.setId(id_saved);
     }
 
     @Test

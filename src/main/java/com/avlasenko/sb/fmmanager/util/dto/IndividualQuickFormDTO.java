@@ -2,9 +2,9 @@ package com.avlasenko.sb.fmmanager.util.dto;
 
 import com.avlasenko.sb.fmmanager.model.Address;
 import com.avlasenko.sb.fmmanager.model.Document;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotBlank;
 
+import javax.persistence.Column;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
@@ -14,30 +14,35 @@ import java.time.LocalDate;
  */
 public class IndividualQuickFormDTO implements DTO {
 
-    @NotEmpty
+    @Pattern(regexp = "[0-9a-zA-Z]*", message = "{validation.string.pattern.identNumber}")
+    @Size(max = 25, message = "{validation.string.size.max}")
+    @NotBlank(message = "{validation.string.notBlank}")
     private String identNumber;
 
-    @Length(max = 25)
-    @NotEmpty
+    @Size(max = 25, message = "{validation.string.size.max}")
+    @NotBlank(message = "{validation.string.notBlank}")
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Length(max = 25)
-    @NotEmpty
+    @Size(max = 25, message = "{validation.string.size.max}")
+    @NotBlank(message = "{validation.string.notBlank}")
+    @Column(name = "first_name", nullable = false)
     private String lastName;
 
-    @Length(max = 25)
+    @Size(max = 25, message = "{validation.string.size.max}")
+    @NotBlank(message = "{validation.string.notBlank}")
     private String middleName;
 
-    @NotNull
+    @NotNull(message = "{validation.any.notNull}")
     private LocalDate dateBirth;
 
     private boolean resident;
 
-    @NotNull
+    @NotNull(message = "{validation.any.notNull}")
     @Valid
     private Address address;
 
-    @NotNull
+    @NotNull(message = "{validation.any.notNull}")
     @Valid
     private Document document;
 

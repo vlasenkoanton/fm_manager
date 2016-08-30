@@ -21,11 +21,11 @@ public class TestData {
     public static final Address ADDRESS_NEW = new Address(null, 444444, 333, "New region", "New district", "New city", "New street", 7, 7);
     public static final Address ADDRESS_1_UPDATED = new Address(1, 444444, 444, "Upd region", "Upd district", "Upd city", "Upd street", 8, 8);
 
-    public static final Work WORK_1 = new Work(1, "First Corporation", 236589, "Programmer");
-    public static final Work WORK_2 = new Work(2, "Second Company", 158421, "Lawyer");
-    public static final Work WORK_3 = new Work(3, "Commercial Bank", 256348, "Client service specialist");
-    public static final Work WORK_NEW = new Work(null, "New Corporation", 23654, "New Programmer");
-    public static final Work WORK_1_UPDATED = new Work(1, "Upd First Corporation", 85236, "Upd Programmer");
+    public static final Work WORK_1 = new Work(1, "First Corporation", 236589L, "Programmer");
+    public static final Work WORK_2 = new Work(2, "Second Company", 158421L, "Lawyer");
+    public static final Work WORK_3 = new Work(3, "Commercial Bank", 256348L, "Client service specialist");
+    public static final Work WORK_NEW = new Work(null, "New Corporation", 23654L, "New Programmer");
+    public static final Work WORK_1_UPDATED = new Work(1, "Upd First Corporation", 85236L, "Upd Programmer");
 
     public static final Contact CONTACT_1 = new Contact(1, "044-254-44-55", "044-125-52-63", "063-562-32-52", null, "anton_antonenko@e.mail");
     public static final Contact CONTACT_2 = new Contact(2, "044-222-20-39", "044-564-99-21", "050-503-78-87", null, "ivan_ivanenko@e.mail");
@@ -33,10 +33,10 @@ public class TestData {
     public static final Contact CONTACT_NEW = new Contact(null, "044-444-44-44", "033-333-33-33", "063-663-63-63", "fax", "new@e.mail");
     public static final Contact CONTACT_1_UPDATED = new Contact(1, "782872", "36872", "68752578", null, "5875");
 
-    public static final EntrepreneurInfo ENTREPRENEUR_INFO_1 = new EntrepreneurInfo(1, 123654789, "fop registration", DateTimeUtils.toLocalDate("2006-3-26"), "legal activity");
-    public static final EntrepreneurInfo ENTREPRENEUR_INFO_2 = new EntrepreneurInfo(2, 456213048, "authority", DateTimeUtils.toLocalDate("2008-9-9"), "second activity");
-    public static final EntrepreneurInfo ENTREPRENEUR_INFO_NEW = new EntrepreneurInfo(null, 89658521, "new registration", DateTimeUtils.toLocalDate("2014-8-26"), "new activity");
-    public static final EntrepreneurInfo ENTREPRENEUR_INFO_1_UPDATED = new EntrepreneurInfo(1, 9658965, "upd registration", DateTimeUtils.toLocalDate("2008-3-10"), "upd activity");
+    public static final EntrepreneurInfo ENTREPRENEUR_INFO_1 = new EntrepreneurInfo(1, 123654789L, "fop registration", DateTimeUtils.toLocalDate("2006-3-26"), "legal activity");
+    public static final EntrepreneurInfo ENTREPRENEUR_INFO_2 = new EntrepreneurInfo(2, 456213048L, "authority", DateTimeUtils.toLocalDate("2008-9-9"), "second activity");
+    public static final EntrepreneurInfo ENTREPRENEUR_INFO_NEW = new EntrepreneurInfo(null, 89658521L, "new registration", DateTimeUtils.toLocalDate("2014-8-26"), "new activity");
+    public static final EntrepreneurInfo ENTREPRENEUR_INFO_1_UPDATED = new EntrepreneurInfo(1, 9658965L, "upd registration", DateTimeUtils.toLocalDate("2008-3-10"), "upd activity");
 
     public static final FmInfo FM_INFO_1 = new FmInfo(1, "normal client", new IncomeSources(1200000L, 200000L, 0L, 0L, 100000L, 900000L));
     public static final FmInfo FM_INFO_2 = new FmInfo(2, "all right", new IncomeSources(1500000L, 0L, 500000L, 0L, 0L, 700000L));
@@ -56,11 +56,11 @@ public class TestData {
 
     public static final Individual PROXY = new Individual(null, false, "proxy", "prox", "pro", "1233211478", LocalDate.now(), "proxyland", true, 999, false, LocalDate.now());
 
-    public static final Document DOCUMENT_1 = new Document(1, 1, true, "National Passport", "KK", 123654, "some authority", DateTimeUtils.toLocalDate("1996-5-8"), null);
-    public static final Document DOCUMENT_2 = new Document(2, 1, true, "National Passport", "FF", 456932, "some another authority", DateTimeUtils.toLocalDate("2005-8-28"), null);
-    public static final Document DOCUMENT_3 = new Document(3, 2, false, "Foreign Passport", "GR", 1254874, "foreign embassy", DateTimeUtils.toLocalDate("2010-2-1"), DateTimeUtils.toLocalDate("2020-1-31"));
-    public static final Document DOCUMENT_NEW = new Document(null, 1, true, "New Passport", "NN", 123654, "New authority", DateTimeUtils.toLocalDate("1997-5-18"), null);
-    public static final Document DOCUMENT_1_UPDATED = new Document(1, 1, true, "Upd Passport", "UP", 888874, "Upd authority", DateTimeUtils.toLocalDate("2004-11-3"), null);
+    public static final Document DOCUMENT_1 = new Document(1, 1, true, "National Passport", "KK", 123654L, "some authority", DateTimeUtils.toLocalDate("1996-5-8"), null);
+    public static final Document DOCUMENT_2 = new Document(2, 1, true, "National Passport", "FF", 456932L, "some another authority", DateTimeUtils.toLocalDate("2005-8-28"), null);
+    public static final Document DOCUMENT_3 = new Document(3, 2, false, "Foreign Passport", "GR", 1254874L, "foreign embassy", DateTimeUtils.toLocalDate("2010-2-1"), DateTimeUtils.toLocalDate("2020-1-31"));
+    public static final Document DOCUMENT_NEW = new Document(null, 1, true, "New Passport", "NN", 123654L, "New authority", DateTimeUtils.toLocalDate("1997-5-18"), null);
+    public static final Document DOCUMENT_1_UPDATED = new Document(1, 1, true, "Upd Passport", "UP", 888874L, "Upd authority", DateTimeUtils.toLocalDate("2004-11-3"), null);
 
     public static final Account ACCOUNT_1 = new Account(1, "current account", 26200000000001L, 5000L, DateTimeUtils.toLocalDateTime("2016-7-27 15:53:45"), DateTimeUtils.toLocalDateTime("2016-7-27 15:53:45"), null);
     public static final Account ACCOUNT_2 = new Account(2, "deposit account", 26300000000001L, 700000L, DateTimeUtils.toLocalDateTime("2016-7-27 15:56:23"), DateTimeUtils.toLocalDateTime("2016-7-27 15:56:23"), null);

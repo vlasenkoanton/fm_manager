@@ -2,6 +2,9 @@ package com.avlasenko.sb.fmmanager.model;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by A. Vlasenko on 19.07.2016.
@@ -9,21 +12,33 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class IncomeSources {
 
+    @Max(value = 9999999999999999L, message = "{validation.number.max}")
+    @Digits(integer = 16, fraction = 0, message = "{validation.number.digits}")
     @Column(name = "month_income")
     private Long monthIncome;
 
+    @Max(value = 9999999999999999L, message = "{validation.number.max}")
+    @Digits(integer = 16, fraction = 0, message = "{validation.number.digits}")
     @Column(name = "financial_help")
     private Long financialHelp;
 
+    @Max(value = 9999999999999999L, message = "{validation.number.max}")
+    @Digits(integer = 16, fraction = 0, message = "{validation.number.digits}")
     @Column(name = "securities")
     private Long securities;
 
+    @Max(value = 9999999999999999L, message = "{validation.number.max}")
+    @Digits(integer = 16, fraction = 0, message = "{validation.number.digits}")
     @Column(name = "assignment")
     private Long assignment;
 
+    @Max(value = 9999999999999999L, message = "{validation.number.max}")
+    @Digits(integer = 16, fraction = 0, message = "{validation.number.digits}")
     @Column(name = "loans")
     private Long loans;
 
+    @Max(value = 9999999999999999L, message = "{validation.number.max}")
+    @Digits(integer = 16, fraction = 0, message = "{validation.number.digits}")
     @Column(name = "term_contracts")
     private Long termContracts;
 

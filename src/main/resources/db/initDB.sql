@@ -38,7 +38,7 @@ CREATE TABLE fm_manager.document (
   main        BIT(0)                          NOT NULL,
   name        VARCHAR(25)                     NOT NULL,
   series      VARCHAR(8),
-  number      INTEGER                         NOT NULL,
+  number      BIGINT                          NOT NULL,
   authority   VARCHAR(50)                     NOT NULL,
   date_issue  DATE                            NOT NULL,
   date_expire DATE,
@@ -58,7 +58,7 @@ CREATE TABLE fm_manager.address (
 CREATE TABLE fm_manager.work (
   id                  INTEGER UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
   name                VARCHAR(50)                     NOT NULL,
-  identification_code INTEGER,
+  identification_code BIGINT,
   position            VARCHAR(50)
 );
 CREATE TABLE fm_manager.contact (
@@ -71,7 +71,7 @@ CREATE TABLE fm_manager.contact (
 );
 CREATE TABLE fm_manager.fop_info (
   id                  INTEGER UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
-  registration_number INTEGER                         NOT NULL,
+  registration_number BIGINT                          NOT NULL,
   authority           VARCHAR(50)                     NOT NULL,
   registration_date   DATE                            NOT NULL,
   activity            VARCHAR(50)                     NOT NULL

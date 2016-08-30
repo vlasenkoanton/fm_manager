@@ -1,12 +1,9 @@
 package com.avlasenko.sb.fmmanager.model;
 
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
 @Entity
 @Table(name = "address")
@@ -14,38 +11,44 @@ import javax.validation.constraints.NotNull;
 public class Address extends BaseEntity {
     public static final String GET_BY_OWNER = "Address.getByOwner";
 
+    @Max(value = 999999, message = "{validation.number.max}")
+    @Digits(integer = 6, fraction = 0, message = "{validation.number.digits}")
     @Column(name = "postal_code")
     private Integer postCode;
 
+    @Min(value = 100, message = "{validation.number.min}")
+    @Max(value = 999, message = "{validation.number.max}")
+    @Digits(integer = 3, fraction = 0, message = "{validation.number.digits}")
+    @NotNull(message = "{validation.any.notNull}")
     @Column(name = "country", nullable = false)
-    @Max(999)
-    @Min(1)
     private Integer country;
 
+    @Size(max = 25, message = "{validation.string.size.max}")
     @Column(name = "region")
-    @Length(max = 25)
     private String region;
 
+    @Size(max = 25, message = "{validation.string.size.max}")
     @Column(name = "district")
-    @Length(max = 25)
     private String district;
 
+    @Size(max = 25, message = "{validation.string.size.max}")
+    @NotBlank(message = "{validation.string.notBlank}")
     @Column(name = "city", nullable = false)
-    @NotNull
-    @NotEmpty
-    @Length(max = 25)
     private String city;
 
+    @Size(max = 25, message = "{validation.string.size.max}")
+    @NotBlank(message = "{validation.string.notBlank}")
     @Column(name = "street", nullable = false)
-    @NotNull
-    @NotEmpty
-    @Length(max = 25)
     private String street;
 
+    @Max(value = 999999, message = "{validation.number.max}")
+    @Digits(integer = 6, fraction = 0, message = "{validation.number.digits}")
+    @NotNull(message = "{validation.any.notNull}")
     @Column(name = "house", nullable = false)
-    @Min(1)
     private Integer house;
 
+    @Max(value = 999999, message = "{validation.number.max}")
+    @Digits(integer = 6, fraction = 0, message = "{validation.number.digits}")
     @Column(name = "apartment")
     private Integer apartment;
 

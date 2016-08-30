@@ -25,7 +25,7 @@ public class DTOConverterTest {
         LocalDate dateBirth = LocalDate.of(2001, 5, 15);
         boolean resident = true;
         Document document =
-                new Document(null, 1, true, "passport", "KK", 123654, "authority", LocalDate.of(2000, 7, 2), null);
+                new Document(null, 1, true, "passport", "KK", 123654L, "authority", LocalDate.of(2000, 7, 2), null);
         Address address = new Address(null, 125487, 980, "region", "district", "city", "street", 5, 6);
 
         IndividualQuickFormDTO dto = new IndividualQuickFormDTO(

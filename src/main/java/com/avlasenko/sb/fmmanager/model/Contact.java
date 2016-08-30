@@ -1,6 +1,10 @@
 package com.avlasenko.sb.fmmanager.model;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "contact")
@@ -8,18 +12,24 @@ import javax.persistence.*;
 public class Contact extends BaseEntity {
 	public static final String GET_BY_OWNER = "Contact.getByOwner";
 
+	@Size(max = 25, message = "{validation.string.size.max}")
 	@Column(name = "home_telephone")
 	private String homeTel;
 
+	@Size(max = 25, message = "{validation.string.size.max}")
 	@Column(name = "work_telephone")
 	private String workTel;
 
+	@Size(max = 25, message = "{validation.string.size.max}")
+	@NotBlank(message = "{validation.string.notBlank}")
 	@Column(name = "mobile_telephone", nullable = false)
 	private String mobileTel;
 
+	@Size(max = 25, message = "{validation.string.size.max}")
 	@Column(name = "fax")
 	private String fax;
 
+	@Email
 	@Column(name = "email")
 	private String email;
 

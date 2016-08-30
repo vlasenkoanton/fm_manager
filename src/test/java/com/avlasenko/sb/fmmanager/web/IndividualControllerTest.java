@@ -1,6 +1,5 @@
 package com.avlasenko.sb.fmmanager.web;
 
-import com.avlasenko.sb.fmmanager.WebTestData;
 import com.avlasenko.sb.fmmanager.model.Individual;
 import com.avlasenko.sb.fmmanager.service.IndividualService;
 import com.avlasenko.sb.fmmanager.util.dto.IndividualQuickFormDTO;
@@ -14,6 +13,7 @@ import org.springframework.http.MediaType;
 import java.util.List;
 
 import static com.avlasenko.sb.fmmanager.TestData.*;
+import static com.avlasenko.sb.fmmanager.WebTestData.*;
 import static com.avlasenko.sb.fmmanager.util.TestUtils.*;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
@@ -81,19 +81,11 @@ public class IndividualControllerTest extends AbstractControllerTest {
 
     @Test
     public void testSaveIndividual() throws Exception {
-        Integer id = 1;
-        String firstName = "firstName";
-        String lastName = "lastName";
-        Individual expected = new Individual();
-        expected.setId(id);
-        expected.setFirstName(firstName);
-        expected.setLastName(lastName);
+        Integer id = VALID_INDIVIDUAL.getId();
 
         mockMvc.perform(post("/profiles/individuals/{id}", id)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .param("id", "1")
-                .param("firstName", "firstName")
-                .param("lastName", "lastName")
+                .params(VALID_INDIVIDUAL_PARAMS)
         )
                 .andExpect(status().isFound())
                 .andExpect(view().name("redirect:/profiles/individuals"))
@@ -104,7 +96,7 @@ public class IndividualControllerTest extends AbstractControllerTest {
         verifyNoMoreInteractions(serviceMock);
 
         Individual actual = captor.getValue();
-        assertEntityEquals(expected, actual);
+        assertEntityEquals(VALID_INDIVIDUAL, actual);
     }
 
     @Test
@@ -113,8 +105,7 @@ public class IndividualControllerTest extends AbstractControllerTest {
 
         mockMvc.perform(post("/profiles/individuals/{id}", 2)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .param("firstName", "firstName")
-                .param("lastName", "lastName")
+                .params(VALID_INDIVIDUAL_PARAMS)
         )
                 .andExpect(status().isNotFound())
                 .andExpect(view().name("errors/notFound"))
@@ -139,14 +130,14 @@ public class IndividualControllerTest extends AbstractControllerTest {
     @Test
     public void testSaveNewClient() throws Exception {
         int id = 1;
-        Individual expected = DTOConverter.convertToEntity(WebTestData.DTO);
+        Individual expected = DTOConverter.convertToEntity(DTO);
 
         when(serviceMock.saveClient(any())).thenReturn(id);
 
         mockMvc.perform(post("/profiles/individuals")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("action", "create")
-                .params(WebTestData.NEW_CLIENT_PARAMS)
+                .params(NEW_CLIENT_PARAMS)
         )
                 .andExpect(status().isFound())
                 .andExpect(view().name("redirect:/profiles/individuals/"+id))

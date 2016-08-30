@@ -1,6 +1,12 @@
 package com.avlasenko.sb.fmmanager.model;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 /**
@@ -13,22 +19,30 @@ import java.time.LocalDate;
 public class EntrepreneurInfo extends BaseEntity {
     public static final String GET_BY_OWNER = "EntrepreneurInfo.getByOwner";
 
+    @Max(value = 9999999999L, message = "{validation.number.max}")
+    @Digits(integer = 10, fraction = 0, message = "{validation.number.digits}")
+    @NotNull(message = "{validation.any.notNull}")
     @Column(name = "registration_number", nullable = false)
-    private Integer regNumber;
+    private Long regNumber;
 
+    @Size(max = 50, message = "{validation.string.size.max}")
+    @NotBlank(message = "{validation.string.notBlank}")
     @Column(name = "authority", nullable = false)
     private String authority;
 
+    @NotNull(message = "{validation.any.notNull}")
     @Column(name = "registration_date", nullable = false)
     private LocalDate regDate;
 
+    @Size(max = 50, message = "{validation.string.size.max}")
+    @NotBlank(message = "{validation.string.notBlank}")
     @Column(name = "activity", nullable = false)
     private String activity;
 
     public EntrepreneurInfo() {
     }
 
-    public EntrepreneurInfo(Integer id, Integer regNumber, String authority, LocalDate regDate, String activity) {
+    public EntrepreneurInfo(Integer id, Long regNumber, String authority, LocalDate regDate, String activity) {
         super(id);
         this.regNumber = regNumber;
         this.authority = authority;
@@ -46,11 +60,11 @@ public class EntrepreneurInfo extends BaseEntity {
                 "} " + super.toString();
     }
 
-    public Integer getRegNumber() {
+    public Long getRegNumber() {
         return regNumber;
     }
 
-    public void setRegNumber(Integer regNumber) {
+    public void setRegNumber(Long regNumber) {
         this.regNumber = regNumber;
     }
 

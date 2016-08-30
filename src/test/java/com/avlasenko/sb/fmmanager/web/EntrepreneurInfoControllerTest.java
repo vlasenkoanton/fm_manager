@@ -66,7 +66,7 @@ public class EntrepreneurInfoControllerTest extends AbstractControllerTest {
     public void testSaveEntrepreneur() throws Exception {
         int ownerId = 2;
         int id = 1;
-        int regNumber = 12534;
+        long regNumber = 12534L;
         EntrepreneurInfo expected = new EntrepreneurInfo();
         expected.setId(id);
         expected.setRegNumber(regNumber);

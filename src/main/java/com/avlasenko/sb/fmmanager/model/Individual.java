@@ -1,11 +1,13 @@
 package com.avlasenko.sb.fmmanager.model;
 
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 @Entity
 @Table(name = "individual")
@@ -33,27 +35,42 @@ public class Individual extends BaseEntity {
     @Column(name = "client")
     private boolean client;
 
+    @Size(max = 25, message = "{validation.string.size.max}")
+    @NotBlank(message = "{validation.string.notBlank}")
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
+    @Size(max = 25, message = "{validation.string.size.max}")
+    @NotBlank(message = "{validation.string.notBlank}")
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    @Size(max = 25, message = "{validation.string.size.max}")
     @Column(name = "middle_name")
     private String middleName;
 
+    @Pattern(regexp = "[0-9a-zA-Z]*", message = "{validation.string.pattern.identNumber}")
+    @Size(max = 25, message = "{validation.string.size.max}")
+    @NotBlank(message = "{validation.string.notBlank}")
     @Column(name = "ident_number", nullable = false)
     private String identNumber;
 
+    @NotNull(message = "{validation.any.notNull}")
     @Column(name = "date_birth", nullable = false)
     private LocalDate dateBirth;
 
+    @Size(max = 50, message = "{validation.string.size.max}")
+    @NotBlank(message = "{validation.string.notBlank}")
     @Column(name = "place_birth", nullable = false)
     private String placeBirth;
 
     @Column(name = "resident", nullable = false)
     private boolean resident;
 
+    @Min(value = 100, message = "{validation.number.min}")
+    @Max(value = 999, message = "{validation.number.max}")
+    @Digits(integer = 3, fraction = 0, message = "{validation.number.digits}")
+    @NotNull(message = "{validation.any.notNull}")
     @Column(name = "citizenship", nullable = false)
     private Integer citizenship;
 

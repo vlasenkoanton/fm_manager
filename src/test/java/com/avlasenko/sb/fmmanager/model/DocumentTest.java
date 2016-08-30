@@ -15,16 +15,16 @@ public class DocumentTest {
     private static final Object[] getDocument() {
         return new Object[]{
                 new Object[]{
-                        new Document(1, "passport", "hg", 125874),
-                        new Document(1, "passport", "hg", 125874)
+                        new Document(1, "passport", "hg", 125874L),
+                        new Document(1, "passport", "hg", 125874L)
                 },
                 new Object[]{
-                        new Document(1, null, "hg", 125874),
-                        new Document(1, null, "hg", 125874)
+                        new Document(1, null, "hg", 125874L),
+                        new Document(1, null, "hg", 125874L)
                 },
                 new Object[]{
-                        new Document(1, "passport", null, 125874),
-                        new Document(1, "passport", null, 125874)
+                        new Document(1, "passport", null, 125874L),
+                        new Document(1, "passport", null, 125874L)
                 }
         };
     }

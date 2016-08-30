@@ -1,16 +1,11 @@
 package com.avlasenko.sb.fmmanager.model;
 
-
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotBlank;
 
 import java.time.LocalDate;
 
 import javax.persistence.*;
-import javax.validation.constraints.Future;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
+import javax.validation.constraints.*;
 
 @Entity
 @Table(name = "document")
@@ -24,35 +19,37 @@ public class Document extends BaseEntity {
     public static final String GET_BY_CLIENT = "Document.getByOwner";
     public static final String DELETE_BY_CLIENT = "Document.deleteByClient";
 
+    @Max(value = 99, message = "{validation.number.max}")
+    @Digits(integer = 2, fraction = 0, message = "{validation.number.digits}")
+    @NotNull(message = "{validation.any.notNull}")
     @Column(name = "type", nullable = false)
-    @Min(1)
     private Integer type;
 
     @Column(name = "main", nullable = false)
     private boolean main;
 
+    @Size(max = 25, message = "{validation.string.size.max}")
+    @NotBlank(message = "{validation.string.notBlank}")
     @Column(name = "name", nullable = false)
-    @Length(max = 25)
-    @NotNull
-    @NotEmpty
     private String name;
 
+    @Size(max = 10, message = "{validation.string.size.max}")
     @Column(name = "series")
-    @Length(max = 25)
     private String series;
 
+    @Max(value = 9999999999L, message = "{validation.number.max}")
+    @Digits(integer = 10, fraction = 0, message = "{validation.number.digits}")
+    @NotNull(message = "{validation.any.notNull}")
     @Column(name = "number", nullable = false)
-    @Min(1)
-    private Integer number;
+    private Long number;
 
+    @Size(max = 50, message = "{validation.string.size.max}")
+    @NotBlank(message = "{validation.string.notBlank}")
     @Column(name = "authority", nullable = false)
-    @Length(max = 50)
-    @NotNull
-    @NotEmpty
     private String authority;
 
+    @NotNull(message = "{validation.any.notNull}")
     @Column(name = "date_issue", nullable = false)
-    @NotNull
     private LocalDate dateIssue;
 
     @Column(name = "date_expire")
@@ -65,14 +62,14 @@ public class Document extends BaseEntity {
     public Document() {
     }
 
-    public Document(Integer type, String name, String series, Integer number) {
+    public Document(Integer type, String name, String series, Long number) {
         this.type = type;
         this.name = name;
         this.series = series;
         this.number = number;
     }
 
-    public Document(Integer id, Integer type, boolean main, String name, String series, Integer number,
+    public Document(Integer id, Integer type, boolean main, String name, String series, Long number,
                     String authority, LocalDate dateIssue, LocalDate dateExpire) {
         super(id);
         this.type = type;
@@ -155,11 +152,11 @@ public class Document extends BaseEntity {
         this.series = series;
     }
 
-    public Integer getNumber() {
+    public Long getNumber() {
         return number;
     }
 
-    public void setNumber(Integer number) {
+    public void setNumber(Long number) {
         this.number = number;
     }
 

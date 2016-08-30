@@ -1,6 +1,10 @@
 package com.avlasenko.sb.fmmanager.model;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.Size;
 
 /**
  * Created by A. Vlasenko on 19.07.2016.
@@ -11,9 +15,12 @@ import javax.persistence.*;
 public class FmInfo extends BaseEntity {
     public static final String GET_BY_OWNER = "FmInfo.getByOwner";
 
+    @Size(max = 255, message = "{validation.string.size.max}")
+    @NotBlank(message = "{validation.string.notBlank}")
     @Column(name = "service_history")
     private String serviceHistory;
 
+    @Valid
     @Embedded
     private IncomeSources incomeSources;
 
