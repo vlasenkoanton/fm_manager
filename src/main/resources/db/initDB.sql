@@ -11,17 +11,17 @@ DROP TABLE IF EXISTS fm_manager.user;
 
 
 CREATE TABLE individual (
-  id                   INTEGER UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
-  `client`             BIT(0)                          NOT NULL,
-  first_name           VARCHAR(50)                     NOT NULL,
-  last_name            VARCHAR(50)                     NOT NULL,
+  id                   INTEGER UNSIGNED AUTO_INCREMENT            NOT NULL PRIMARY KEY,
+  `client`             BIT DEFAULT FALSE                          NOT NULL,
+  first_name           VARCHAR(50)                                NOT NULL,
+  last_name            VARCHAR(50)                                NOT NULL,
   middle_name          VARCHAR(50),
   ident_number         VARCHAR(50),
-  date_birth           DATE                            NOT NULL,
+  date_birth           DATE                                       NOT NULL,
   place_birth          VARCHAR(50),
-  resident             BIT(1)                          NOT NULL,
+  resident             BIT DEFAULT TRUE                           NOT NULL,
   citizenship          INTEGER(3),
-  pep                  BIT(0),
+  pep                  BIT DEFAULT FALSE,
   initial_profile_fill DATE,
   responsible_id       INTEGER UNSIGNED,
   address_id           INTEGER UNSIGNED,
@@ -33,14 +33,14 @@ CREATE TABLE individual (
   representative_id    INTEGER UNSIGNED
 );
 CREATE TABLE fm_manager.document (
-  id          INTEGER UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
-  type        INTEGER(1)                      NOT NULL,
-  main        BIT(0)                          NOT NULL,
-  name        VARCHAR(25)                     NOT NULL,
+  id          INTEGER UNSIGNED AUTO_INCREMENT            NOT NULL PRIMARY KEY,
+  type        INTEGER(1)                                 NOT NULL,
+  main        BIT DEFAULT FALSE                          NOT NULL,
+  name        VARCHAR(25)                                NOT NULL,
   series      VARCHAR(8),
-  number      BIGINT                          NOT NULL,
-  authority   VARCHAR(50)                     NOT NULL,
-  date_issue  DATE                            NOT NULL,
+  number      BIGINT                                     NOT NULL,
+  authority   VARCHAR(50)                                NOT NULL,
+  date_issue  DATE                                       NOT NULL,
   date_expire DATE,
   owner_id    INTEGER UNSIGNED
 );
